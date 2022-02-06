@@ -1,0 +1,32 @@
+\documentclass[10pt, letterpaper, twocolumn]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+
+\usepackage[square,numbers]{natbib}
+\bibliographystyle{abbrvnat}
+
+\title{
+	Computer Vision and Robotic Learning \\
+	\large{MAE 340 Junior Independent Work Proposal}
+}
+\author{Matthew Coleman}
+\date{February 2022}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+In computer vision, it is common for researchers to provide data to a model in the form of labeled or annotated images or videos. While this works well in practice for accomplishing tasks such as image classification, detection, segmentation, etc., such datasets may contain human bias in image selection or annotation, leading to models that perpetuate that bias in their real-world implementations.\cite{olga_biases} In order to combat this drawback, some computer vision tasks focus instead on learning directly from the world, rather than from humans. An example could be a model which is meant to predict the next frame of a video, being trained by the actual next frame of the video as the ground truth. While this setting represents an improvement over feeding in labeled data, such models also suffer in that they are unable to compute predictions in real-time or predict images too far into the future.
+
+\section{Abstract}
+
+\section{Procedure}
+
+\bibliography{proposal}
+
+\end{document}
