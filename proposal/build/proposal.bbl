@@ -1,0 +1,62 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Catalin~Ionescu(2011)]{humans3_6}
+C.~S. Catalin~Ionescu, Fuxin~Li.
+\newblock Latent structured models for human pose estimation.
+\newblock In \emph{International Conference on Computer Vision}, 2011.
+
+\bibitem[Ji et~al.(2021)Ji, Yu, Wu, Ma, Bian, Bi, Li, Liu, Cheng, and
+  Zheng]{labeling_disagreement}
+W.~Ji, S.~Yu, J.~Wu, K.~Ma, C.~Bian, Q.~Bi, J.~Li, H.~Liu, L.~Cheng, and
+  Y.~Zheng.
+\newblock Learning calibrated medical image segmentation via multi-rater
+  agreement modeling.
+\newblock In \emph{2021 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 12336--12346, 2021.
+\newblock \doi{10.1109/CVPR46437.2021.01216}.
+
+\bibitem[Lee et~al.(2018)Lee, Zhang, Ebert, Abbeel, Finn, and Levine]{savp}
+A.~X. Lee, R.~Zhang, F.~Ebert, P.~Abbeel, C.~Finn, and S.~Levine.
+\newblock Stochastic adversarial video prediction.
+\newblock \emph{CoRR}, abs/1804.01523, 2018.
+\newblock URL \url{http://arxiv.org/abs/1804.01523}.
+
+\bibitem[{Oprea} et~al.(2020){Oprea}, {Martinez-Gonzalez}, {Garcia-Garcia},
+  {Castro-Vargas}, {Orts-Escolano}, {Garcia-Rodriguez}, and
+  {Argyros}]{video_prediction_survey}
+S.~{Oprea}, P.~{Martinez-Gonzalez}, A.~{Garcia-Garcia}, J.~A. {Castro-Vargas},
+  S.~{Orts-Escolano}, J.~{Garcia-Rodriguez}, and A.~{Argyros}.
+\newblock A review on deep learning techniques for video prediction.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, page 1–1, 2020.
+\newblock ISSN 1939-3539.
+\newblock \doi{10.1109/tpami.2020.3045007}.
+\newblock URL \url{http://dx.doi.org/10.1109/TPAMI.2020.3045007}.
+
+\bibitem[Russakovsky et~al.(2015)Russakovsky, Deng, Su, Krause, Satheesh, Ma,
+  Huang, Karpathy, Khosla, Bernstein, Berg, and Fei-Fei]{imagenet}
+O.~Russakovsky, J.~Deng, H.~Su, J.~Krause, S.~Satheesh, S.~Ma, Z.~Huang,
+  A.~Karpathy, A.~Khosla, M.~Bernstein, A.~C. Berg, and L.~Fei-Fei.
+\newblock {ImageNet Large Scale Visual Recognition Challenge}.
+\newblock \emph{International Journal of Computer Vision (IJCV)}, 115\penalty0
+  (3):\penalty0 211--252, 2015.
+\newblock \doi{10.1007/s11263-015-0816-y}.
+
+\bibitem[Schuldt et~al.(2004)Schuldt, Laptev, and Caputo]{kth}
+C.~Schuldt, I.~Laptev, and B.~Caputo.
+\newblock Recognizing human actions: a local svm approach.
+\newblock In \emph{Proceedings of the 17th International Conference on Pattern
+  Recognition, 2004. ICPR 2004.}, volume~3, pages 32--36 Vol.3, 2004.
+\newblock \doi{10.1109/ICPR.2004.1334462}.
+
+\bibitem[{Zhao} et~al.(2021){Zhao}, {Wang}, and {Russakovsky}]{olga_biases}
+D.~{Zhao}, A.~{Wang}, and O.~{Russakovsky}.
+\newblock {Understanding and Evaluating Racial Biases in Image Captioning}.
+\newblock \emph{arXiv e-prints}, art. arXiv:2106.08503, June 2021.
+
+\end{thebibliography}

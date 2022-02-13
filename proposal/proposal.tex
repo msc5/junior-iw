@@ -1,31 +1,114 @@
-\documentclass[10pt, letterpaper, twocolumn]{article}
+\documentclass[10pt, letterpaper]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[none]{hyphenat}
 \usepackage{graphicx}
 \usepackage[margin=1in]{geometry}
+\usepackage[square, numbers]{natbib}
+\usepackage{hyperref}
 
-\usepackage[square,numbers]{natbib}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=magenta,
+	urlcolor=cyan,
+	citecolor=cyan,
+	pdftitle={Matthew Coleman Junior IW Proposal},
+	pdfpagemode=FullScreen,
+}
+
 \bibliographystyle{abbrvnat}
 
-\title{
-	Computer Vision and Robotic Learning \\
-	\large{MAE 340 Junior Independent Work Proposal}
-}
-\author{Matthew Coleman}
-\date{February 2022}
+\title{\vspace{-2em}
+	Video Prediction in Robotics
+\vspace{-2em}}
+\date{February 16, 2022}
 
 \begin{document}
 
 \maketitle
+\begin{center}
+	\begin{tabular}{ c c }
+		Matthew Coleman 23' & MAE 340
+	\end{tabular} \\
+	\textbf{Advisor:} Professor Olga Russakovsky
+\end{center}
 
-\section{Introduction}
+\section{Background}
 
-In computer vision, it is common for researchers to provide data to a model in the form of labeled or annotated images or videos. While this works well in practice for accomplishing tasks such as image classification, detection, segmentation, etc., such datasets may contain human bias in image selection or annotation, leading to models that perpetuate that bias in their real-world implementations.\cite{olga_biases} In order to combat this drawback, some computer vision tasks focus instead on learning directly from the world, rather than from humans. An example could be a model which is meant to predict the next frame of a video, being trained by the actual next frame of the video as the ground truth. While this setting represents an improvement over feeding in labeled data, such models also suffer in that they are unable to compute predictions in real-time or predict images too far into the future.
+In many machine learning fields, it is common practice to provide data to a
+model in the form of media labeled by large groups of people, for example the
+popular ImageNet dataset was put together in part by Amazon's Mechanical Turk
+program, a crowdsourcing website that employs thousands of on-demand workers to
+contribute to data validation and research tasks. \cite{imagenet}
 
-\section{Abstract}
+While this method works well for practical tasks like image classification,
+detection, segmentation, etc., datasets collected in such a way naturally
+reflect human biases, and this directly drives the training of models that
+perpetuate that bias in their real-world implementations. \cite{olga_biases}
+Among these human biases are the most egregious: race, gender, sexuality, etc.,
+but also the most innocuous, for example in classification tasks, niche,
+cultural, or otherwise ``nonconforming" items may be labeled incorrectly or
+miscategorized as belonging to a more well-known group. In labeling
+segmentation tasks, researchers must make countless ``judgement calls" about
+whether something should be considered part of something else or an object in
+its own right, and of course, it is notoriously difficult to get thousands of
+researchers to agree on one way of doing things. \cite{labeling_disagreement}
 
-\section{Procedure}
+The goal of teaching a machine everything about the world---all the while
+pretending to know everything about the world---presents a unique challenge. On
+one hand, it is desirable and necessary to produce high-classification-accuracy
+models to carry out tasks as soon as possible, but on the other hand it is also
+wise to seek out machine learning paradigms that don't suffer as much from
+human biases, even if they don't yet yield high percentages in classical tasks.
+
+In order to combat this drawback, some computer vision tasks focus instead on
+learning directly from the world, rather than from humans, for example, by
+using only real-world observations as ground-truths. An example is the task of
+video prediction, in which the goal is to predict a future frame of a video
+stream given only the sequence of preceding frames.
+\cite{video_prediction_survey}
+
+\section{Research Goals}
+
+\subsection{Video Prediction}
+
+Implement and evaluate different RNN architectures (LSTM, SAVP, etc.) for video
+prediction tasks. Datasets may include KTH \cite{kth} (human actions), BAIR
+action-free and action-conditioned (robotic movements with and without robot
+state), \cite{savp}, and Human 3.6m (human poses and actions) \cite{humans3_6}.
+
+\section{Methodology}
+
+\subsection{Physical Setting}
+
+\subsubsection{Robotic Arm} The robotic arm must
+be simple enough to construct easily and must be capable of interacting with
+the enclosure subjects. Additionally, it must be controllable by both a human
+controller as well as adaptable for autonomous control by the output of the
+combined visual model design. \subsubsection{Enclosure} The enclosure will be
+constructed from white foam board or similar material in the shape of an open
+box, and will serve as a clear background to simplify video tasks and reduce
+the required resolution for computations. Subjects of the model will include
+baby blocks and objects with simple shapes of varying weights (Soda cans, Mugs,
+Balls, etc.).
+
+\section{Timeline}
+
+\begin{center}
+	\begin{tabular}{ l l l }
+		Week & School & Todo \\ \hline
+		Feb. 14 & & Submit proposal and apply for funds \\
+		Feb. 21 & & Video prediction implementation and experimentation \\
+		Feb. 28 & Midterm Week & Complete physical setting plan and design \\
+		Mar. 7 & Spring Break &  \\
+		Mar. 14 & & Continue construction of physical setting \\
+		Mar. 21 & & Complete construction of physical setting \\
+		Mar. 28 & & Experiment with model augmentation \\
+		Apr. 4 & & Experiment with model augmentation \\
+		Apr. 11 & & \\
+		Apr. 18 & Last Week of Classes & Write-up results and poster\\
+	\end{tabular}
+\end{center}
 
 \bibliography{proposal}
 
