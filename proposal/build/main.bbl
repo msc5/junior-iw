@@ -54,11 +54,12 @@ C.~Schuldt, I.~Laptev, and B.~Caputo.
   Recognition, 2004. ICPR 2004.}, volume~3, pages 32--36 Vol.3, 2004.
 \newblock \doi{10.1109/ICPR.2004.1334462}.
 
-\bibitem[Snell et~al.(2017)Snell, Swersky, and Zemel]{prototypical}
-J.~Snell, K.~Swersky, and R.~S. Zemel.
-\newblock Prototypical networks for few-shot learning.
-\newblock \emph{CoRR}, abs/1703.05175, 2017.
-\newblock URL \url{http://arxiv.org/abs/1703.05175}.
+\bibitem[Staudemeyer and Morris(2019)]{lstm}
+R.~C. Staudemeyer and E.~R. Morris.
+\newblock Understanding {LSTM} - a tutorial into long short-term memory
+  recurrent neural networks.
+\newblock \emph{CoRR}, abs/1909.09586, 2019.
+\newblock URL \url{http://arxiv.org/abs/1909.09586}.
 
 \bibitem[{Zhao} et~al.(2021){Zhao}, {Wang}, and {Russakovsky}]{olga_biases}
 D.~{Zhao}, A.~{Wang}, and O.~{Russakovsky}.

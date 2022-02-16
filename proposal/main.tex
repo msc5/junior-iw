@@ -19,7 +19,7 @@
 \bibliographystyle{abbrvnat}
 
 \title{\vspace{-2em}
-	Real-World Learning in Computer Vision
+	Video Prediction
 \vspace{-2em}}
 \date{February 16, 2022}
 
@@ -61,48 +61,50 @@ models to carry out tasks as soon as possible, but on the other hand it is also
 wise to seek out machine learning paradigms that don't suffer as much from
 human biases, even if they don't yet yield high percentages in classical tasks.
 
-In order to combat this drawback, some computer vision tasks focus instead on
-learning directly from the world, rather than from humans, for example, by
-using only real-world observations as ground-truths. An example is the task of
-video prediction, in which the goal is to predict a future frame of a video
-stream given only the sequence of preceding frames.
-\cite{video_prediction_survey} This project will focus on computer vision
-paradigms which follow this motivation.
+To combat this drawback, some computer vision tasks focus instead on learning
+directly from the world, rather than from humans, for example, by using only
+real-world observations as ground-truths. An example is the task of video
+prediction, in which the goal is to predict a future frame of a video stream
+given only the sequence of preceding frames. \cite{video_prediction_survey}
+This project will focus on implementing and experimenting on video prediction
+tasks with different model architectures.
 
 \section{Research Goals}
 
-The goals for this project are primarily exploratory: to survey existing
-computer vision tasks which learn from the ``real world", try to adapt them to
-remove human bias through labels or other means, and make meaningful
-conclusions from the results.
+The goals for this project are primarily exploratory: to survey video
+prediction models by implementing the most notable architectures, experimenting
+on different datasets, and making meaningful conclusions from the results.
+Also, if applicable, to label and determine sources of bias in models and
+datasets used.
 
-\subsection{Survey}
+\subsection{Datasets}
 
-Implement and evaluate different RNN architectures (LSTM, SAVP, etc.) for video
-prediction tasks. Datasets may include KTH \cite{kth} (human actions), BAIR
+Datasets may include KTH \cite{kth} (human actions), BAIR
 action-free and action-conditioned (robotic pushing movements with and without
 robot state), \cite{savp}, and Human 3.6m (human poses and actions)
 \cite{humans3_6}, among others.
 
-In addition to video prediction, some other computer vision tasks and models
-show promise for real-world learning, such as Prototypical Networks
-\cite{prototypical}, which ``is based on the idea that there exists an
-embedding in which points cluster around a single prototype representation for
-each class." In order to evaluate the capability and extent to which these
-other models perform real-world learning, they may be implemented or researched
-thoroughly.
+\subsection{Architectures}
 
-In addition, also survey existing task metrics which evaluate the effectiveness
-of real-world learning paradigms, and qualitatively discuss the philosophical
-and psychological meaning of such metrics.
+\subsubsection{Convolutional RNN}
 
-\subsection{Adaptation}
+A Convolutional RNN is the absolute most basic model architecture capable of
+performing video prediction as well as the easiest to implement. Therefore, it
+is the natural choice for a baseline model with which to compare proceeding
+models on the same datasets.
 
-Design and test modifications or additions to above models such that they can learn as
-directly as possible from the real world.
+\subsubsection{LSTM}
 
-Also, propose alterations or entirely new metrics which may be able to better
-represent real-world learning effectiveness.
+An LSTM (Long-Short-Term-Memory) is a modification to the convolutional RNN
+which will likely perform better by being able to make use of data over longer
+time periods \cite{lstm}, however it is more difficult to implement, and may
+suffer from classical video prediction errors such as blurring.
+
+\subsubsection{SAVP}
+
+SAVP (Stochastic Adversarial Video Prediction) is one of the most advanced
+methods of video prediction, involving a GAN (Generative Adversarial Network)
+as well as a probabilistic model. \cite{savp}
 
 \subsection{Methodology}
 
@@ -115,6 +117,10 @@ direction to continue exploration. In order to make sure that something
 substantive is accomplished even if exploration fails, it will be necessary to
 code as much as possible so that finished pipelines are completed and results
 can be discussed in the final report.
+
+Also, while I plan to implement all aforementioned architectures, it may be
+necessary to use researched components either in part or in their entirety for
+implementing SAVP, as it is the most difficult architecture to implement.
 
 \section{Timeline}
 

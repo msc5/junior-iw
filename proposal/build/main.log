@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.2.6)  13 FEB 2022 23:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.2.6)  16 FEB 2022 11:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -307,22 +307,23 @@ Underfull \hbox (badness 1478) in paragraph at lines 43--49
 []\OT1/cmr/m/n/10 O. Rus-sakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, Z. Huang, A. Karpa-thy,
  []
 
-) [2] (build/main.aux)
+[2]) [3] (build/main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F241E23CE01CEB98235133425B2EA34A;1028.
+(rerunfilecheck)             Checksum: 973866C23F2D31C87FF82AB777BC5A74;952.
  ) 
 Here is how much of TeX's memory you used:
- 9141 strings out of 478353
- 142640 string characters out of 5854636
- 458798 words of memory out of 5000000
- 27150 multiletter control sequences out of 15000+600000
+ 9148 strings out of 478353
+ 142751 string characters out of 5854636
+ 457826 words of memory out of 5000000
+ 27154 multiletter control sequences out of 15000+600000
  408199 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,6n,63p,252b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><
-!pdfTeX error: pdflatex (file /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb): fflush() failed (Connection reset by peer)
- ==> Fatal error occurred, no output PDF file produced!
-sed objects within 1 object stream
- 19 named destinations out of 1000 (max. 500000)
- 49 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 60i,6n,63p,234b,443s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on build/main.pdf (3 pages, 115261 bytes).
+PDF statistics:
+ 118 PDF objects out of 1000 (max. 8388607)
+ 98 compressed objects within 1 object stream
+ 22 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
