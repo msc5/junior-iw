@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{8}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -53,6 +53,12 @@ C.~Schuldt, I.~Laptev, and B.~Caputo.
 \newblock In \emph{Proceedings of the 17th International Conference on Pattern
   Recognition, 2004. ICPR 2004.}, volume~3, pages 32--36 Vol.3, 2004.
 \newblock \doi{10.1109/ICPR.2004.1334462}.
+
+\bibitem[Snell et~al.(2017)Snell, Swersky, and Zemel]{prototypical}
+J.~Snell, K.~Swersky, and R.~S. Zemel.
+\newblock Prototypical networks for few-shot learning.
+\newblock \emph{CoRR}, abs/1703.05175, 2017.
+\newblock URL \url{http://arxiv.org/abs/1703.05175}.
 
 \bibitem[{Zhao} et~al.(2021){Zhao}, {Wang}, and {Russakovsky}]{olga_biases}
 D.~{Zhao}, A.~{Wang}, and O.~{Russakovsky}.

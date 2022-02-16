@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.2.6)  13 FEB 2022 16:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.2.6)  13 FEB 2022 23:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**proposal.tex
-(./proposal.tex
+**main.tex
+(./main.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2021-11-22> (/usr/share/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -183,8 +183,8 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 17.
 File: l3backend-pdftex.def 2021-12-14 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count271
 \l__pdf_internal_box=\box50
-) (build/proposal.aux)
-\openout1 = `proposal.aux'.
+) (build/main.aux)
+\openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
 LaTeX Font Info:    ... okay on input line 26.
@@ -277,9 +277,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 26.
 LaTeX Info: Redefining \pageref on input line 26.
 LaTeX Info: Redefining \nameref on input line 26.
- (build/proposal.out) (build/proposal.out)
+ (build/main.out) (build/main.out)
 \@outlinefile=\write3
-\openout3 = `proposal.out'.
+\openout3 = `main.out'.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 29.
@@ -297,7 +297,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 30.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (build/proposal.bbl
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (build/main.bbl
 Underfull \hbox (badness 3471) in paragraph at lines 32--40
 []\OT1/cmr/m/n/10 S. Oprea, P. Martinez-Gonzalez, A. Garcia-Garcia, J. A. Castro-Vargas, S. Orts-Escolano,
  []
@@ -307,23 +307,22 @@ Underfull \hbox (badness 1478) in paragraph at lines 43--49
 []\OT1/cmr/m/n/10 O. Rus-sakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, Z. Huang, A. Karpa-thy,
  []
 
-) [2] (build/proposal.aux)
-Package rerunfilecheck Info: File `proposal.out' has not changed.
-(rerunfilecheck)             Checksum: 6F6E3FACAEA920A10A96382E1A00535C;907.
+) [2] (build/main.aux)
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: F241E23CE01CEB98235133425B2EA34A;1028.
  ) 
 Here is how much of TeX's memory you used:
  9141 strings out of 478353
- 142734 string characters out of 5854636
- 457820 words of memory out of 5000000
+ 142640 string characters out of 5854636
+ 458798 words of memory out of 5000000
  27150 multiletter control sequences out of 15000+600000
  408199 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,6n,63p,238b,322s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/proposal.pdf (2 pages, 113299 bytes).
-PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
+ 60i,6n,63p,252b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><
+!pdfTeX error: pdflatex (file /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb): fflush() failed (Connection reset by peer)
+ ==> Fatal error occurred, no output PDF file produced!
+sed objects within 1 object stream
  19 named destinations out of 1000 (max. 500000)
- 65 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 49 words of extra memory for PDF output out of 10000 (max. 10000000)
 

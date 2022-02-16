@@ -19,7 +19,7 @@
 \bibliographystyle{abbrvnat}
 
 \title{\vspace{-2em}
-	Video Prediction in Robotics
+	Real-World Learning in Computer Vision
 \vspace{-2em}}
 \date{February 16, 2022}
 
@@ -66,50 +66,75 @@ learning directly from the world, rather than from humans, for example, by
 using only real-world observations as ground-truths. An example is the task of
 video prediction, in which the goal is to predict a future frame of a video
 stream given only the sequence of preceding frames.
-\cite{video_prediction_survey}
+\cite{video_prediction_survey} This project will focus on computer vision
+paradigms which follow this motivation.
 
 \section{Research Goals}
 
-\subsection{Video Prediction}
+The goals for this project are primarily exploratory: to survey existing
+computer vision tasks which learn from the ``real world", try to adapt them to
+remove human bias through labels or other means, and make meaningful
+conclusions from the results.
+
+\subsection{Survey}
 
 Implement and evaluate different RNN architectures (LSTM, SAVP, etc.) for video
 prediction tasks. Datasets may include KTH \cite{kth} (human actions), BAIR
-action-free and action-conditioned (robotic movements with and without robot
-state), \cite{savp}, and Human 3.6m (human poses and actions) \cite{humans3_6}.
+action-free and action-conditioned (robotic pushing movements with and without
+robot state), \cite{savp}, and Human 3.6m (human poses and actions)
+\cite{humans3_6}, among others.
 
-\section{Methodology}
+In addition to video prediction, some other computer vision tasks and models
+show promise for real-world learning, such as Prototypical Networks
+\cite{prototypical}, which ``is based on the idea that there exists an
+embedding in which points cluster around a single prototype representation for
+each class." In order to evaluate the capability and extent to which these
+other models perform real-world learning, they may be implemented or researched
+thoroughly.
 
-\subsection{Physical Setting}
+In addition, also survey existing task metrics which evaluate the effectiveness
+of real-world learning paradigms, and qualitatively discuss the philosophical
+and psychological meaning of such metrics.
 
-\subsubsection{Robotic Arm} The robotic arm must
-be simple enough to construct easily and must be capable of interacting with
-the enclosure subjects. Additionally, it must be controllable by both a human
-controller as well as adaptable for autonomous control by the output of the
-combined visual model design. \subsubsection{Enclosure} The enclosure will be
-constructed from white foam board or similar material in the shape of an open
-box, and will serve as a clear background to simplify video tasks and reduce
-the required resolution for computations. Subjects of the model will include
-baby blocks and objects with simple shapes of varying weights (Soda cans, Mugs,
-Balls, etc.).
+\subsection{Adaptation}
+
+Design and test modifications or additions to above models such that they can learn as
+directly as possible from the real world.
+
+Also, propose alterations or entirely new metrics which may be able to better
+represent real-world learning effectiveness.
+
+\subsection{Methodology}
+
+Since the plan for this project involves a substantial amount of exploratory
+research and experimentation, the best way of accomplishing as much as possible
+will be to take an iterative approach: by first exploring a subject mentioned
+above, conferring with advisors such as Professor Russakovsky or Professor
+Majumdar to help draw meaningful conclusions, and then to choose a branching
+direction to continue exploration. In order to make sure that something
+substantive is accomplished even if exploration fails, it will be necessary to
+code as much as possible so that finished pipelines are completed and results
+can be discussed in the final report.
 
 \section{Timeline}
 
 \begin{center}
 	\begin{tabular}{ l l l }
-		Week & School & Todo \\ \hline
+		Week & School Events & Project Todo \\ \hline
 		Feb. 14 & & Submit proposal and apply for funds \\
-		Feb. 21 & & Video prediction implementation and experimentation \\
-		Feb. 28 & Midterm Week & Complete physical setting plan and design \\
-		Mar. 7 & Spring Break &  \\
-		Mar. 14 & & Continue construction of physical setting \\
-		Mar. 21 & & Complete construction of physical setting \\
-		Mar. 28 & & Experiment with model augmentation \\
-		Apr. 4 & & Experiment with model augmentation \\
+		Feb. 21 & & Research, implement, and test real-world learning methods \\
+		Feb. 28 & Midterm Week & \\
+		Mar. 7 & Spring Break & \\
+		Mar. 14 & & \\
+		Mar. 21 & & Design and plan adaptations to learning methods \\
+		Mar. 28 & & Implement adaptations and experiment \\
+		Apr. 4 & & \\
 		Apr. 11 & & \\
-		Apr. 18 & Last Week of Classes & Write-up results and poster\\
-	\end{tabular}
+		Apr. 18 & Last Week of Classes & Write-up results and make poster \\
+		Apr. 25 & & Written Report Deadline (Apr. 26) and Poster Session (Apr. 27)
+	\end{tabular} \\
 \end{center}
 
-\bibliography{proposal}
+\bibliography{main}
 
 \end{document}
