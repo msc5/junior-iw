@@ -40,7 +40,7 @@ class LSTMCell (nn.Module):
 
     def forward(self, x, h, c):
         bs, si = x.shape        # (batch size, input size)
-        C = self.f(x, h) * c + + self.i(x, h) * self.g(x, h)
+        C = self.f(x, h) * c + self.i(x, h) * self.g(x, h)
         H = self.o(x, h) * torch.tanh(C)
         return nn.Parameter(H), nn.Parameter(C)
 
@@ -53,7 +53,9 @@ class Seq2SeqLSTM (nn.Module):
         sl: int = 10,
         fl: int = 10,
         ne: int = 4,
+        de: int = 1,
         nd: int = 4,
+        dd: int = 1,
         si: int = 10,
         sh: int = 20,
     ):
@@ -61,23 +63,25 @@ class Seq2SeqLSTM (nn.Module):
         self.bs = bs
         self.sl = sl
         self.fl = fl
-        self.ne = ne
+        self.ne = ne        # Number of Cells in Encoder
+        self.de = de        # Depth of the Encoder
         self.nd = nd
+        self.dd = dd
         self.si = si
         self.sh = sh
 
-        self.enc = nn.ModuleList(
-            [LSTMCell(self.si, self.sh)] +
-            [LSTMCell(self.sh, self.sh) for _ in range(self.ne)]
-        )
-        self.dec = nn.ModuleList(
-            [LSTMCell(self.sh, self.sh)] +
-            [LSTMCell(self.sh, self.sh) for _ in range(self.nd)]
-        )
+        def init_layers(n: int, d: int):
+            return [nn.ModuleList(
+                    [LSTMCell(self.si, self.sh)] +
+                    [LSTMCell(self.sh, self.sh) for _ in range(n)]
+                ) for _ in range(d)]
+
+        self.enc = init_layers(self.ne, self.de)
+        self.dec = init_layers(self.nd, self.dd)
 
         self.fin = nn.Linear(self.sh, self.si)
 
-        def init_weights(name: str, n: int):
+        def init_weights(n: int):
             weights = []
             for i in range(n):
                 weight = torch.zeros((self.bs, self.sh))
@@ -85,11 +89,10 @@ class Seq2SeqLSTM (nn.Module):
                 weights += [weight]
             return nn.ParameterList(weights)
 
-        self.enc_h = init_weights('encoder_hidden', self.ne + 1)
-        self.enc_c = init_weights('encoder_central', self.ne + 1)
-
-        self.dec_h = init_weights('decoder_hidden', self.nd + 1)
-        self.dec_c = init_weights('decoder_central', self.nd + 1)
+        self.enc_h = init_weights(self.de + 1)
+        self.enc_c = init_weights(self.de + 1)
+        self.dec_h = init_weights(self.dd + 1)
+        self.dec_c = init_weights(self.dd + 1)
 
     def forward(self, x):
 
@@ -98,38 +101,44 @@ class Seq2SeqLSTM (nn.Module):
         output = []
 
         for t in range(T):
-            self.enc_h[0], self.enc_c[0] = self.enc[0](
-                x[:, t, :],
-                self.enc_h[0],
-                self.enc_c[0]
-            )
-            for e in range(1, self.ne):
-                self.enc_h[e], self.enc_c[e] = self.enc[e](
-                    self.enc_h[e - 1],
-                    self.enc_h[e],
-                    self.enc_c[e]
+            print(x[:, t, :].shape)
+            print(self.enc_h[0].shape)
+            print(self.enc_c[0].shape)
+            for n in self.enc:
+                self.enc_h[0], self.enc_c[0] = n[0](
+                    x[:, t, :],
+                    self.enc_h[0],
+                    self.enc_c[0]
                 )
+                for e in range(1, self.de):
+                    self.enc_h[e], self.enc_c[e] = n[e](
+                        self.enc_h[e - 1],
+                        self.enc_h[e],
+                        self.enc_c[e]
+                    )
 
         state = self.enc_h[-1]
 
         for t in range(self.fl):
-            self.dec_h[0], self.dec_c[0] = self.dec[0](
-                state,
-                self.dec_h[0],
-                self.dec_c[0]
-            )
-            for e in range(1, self.ne):
-                self.dec_h[e], self.dec_c[e] = self.dec[e](
-                    self.dec_h[e - 1],
-                    self.dec_h[e],
-                    self.dec_c[e]
+            for n in self.dec:
+                self.dec_h[0], self.dec_c[0] = n[0](
+                    state,
+                    self.dec_h[0],
+                    self.dec_c[0]
                 )
-            state = self.dec_h[-1]
-            output += [state]
+                for e in range(1, self.dd):
+                    self.dec_h[e], self.dec_c[e] = n[e](
+                        self.dec_h[e - 1],
+                        self.dec_h[e],
+                        self.dec_c[e]
+                    )
+                state = self.dec_h[-1]
+                output += [state]
 
-        output = torch.stack(output)        # --> (T, bs, sh)
-        output = output.permute(1, 0, 2)    # --> (bs, T, sh)
-        #  output = self.fin(output)           # --> (bs, T, si)
+        output = torch.stack(output)            # --> (T, bs, sh)
+        output = output.permute(1, 0, 2)        # --> (bs, T, sh)
+        output = self.fin(output)               # --> (bs, T, si)
+        output = torch.nn.Sigmoid()(output)
 
         return output
 
@@ -138,7 +147,7 @@ if __name__ == '__main__':
 
     from torchinfo import summary
 
-    device = torch.device('cuda')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # (bs, T, si)
     si = 10

@@ -27,8 +27,8 @@ if __name__ == '__main__':
     bs = 1
     T = 100
     si = 3
-    sh = 20
-    model = Seq2SeqLSTM(bs, T, T, 1, 1, si, si)
+    sh = 30
+    model = Seq2SeqLSTM(bs, T, T, 4, 1, 4, 1, si, sh)
 
     x_train, y_train = gen_data(T, si)
 
@@ -50,30 +50,34 @@ if __name__ == '__main__':
     plt.show()
 
     epochs = 100
-    loss_fn = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    # loss_fn = nn.MSELoss()
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.005)
 
-    x_train, y_train = gen_data(T, si)
-    x_train = torch.from_numpy(x_train).float()
-    y_train = torch.from_numpy(y_train).float()
+    # x_train, y_train = gen_data(T, si)
+    # x_train = torch.from_numpy(x_train).float()
+    # y_train = torch.from_numpy(y_train).float()
 
     for i in range(epochs):
 
         optimizer.zero_grad()
 
-        #  x_train, y_train = gen_data(T, si)
-        #  x_train = torch.from_numpy(x_train).float()
-        #  y_train = torch.from_numpy(y_train).float()
+        x_train, y_train = gen_data(T, si)
+        x_train = torch.from_numpy(x_train).float()
+        y_train = torch.from_numpy(y_train).float()
 
         output = model(x_train)
 
-        loss_it = loss_fn(output, y_train)
+        # print(output[0].shape)
+        # print(y_train[0].shape)
+
+        loss_it = loss_fn(output[0], y_train[0])
         loss_it.backward()
         loss = loss_it.item()
 
         optimizer.step()
 
-        print(loss)
+        print(f'[{i:<4}]{"Loss:":>10}{loss:>10.5f}')
 
     output = output.detach().numpy()
     print('Train: ', x_train.shape)
