@@ -38,11 +38,14 @@ class LSTMCell (nn.Module):
         self.g = LSTMGate(si, sh, nn.Linear, nn.Tanh)
         self.o = LSTMGate(si, sh, nn.Linear, nn.Sigmoid)
 
-    def forward(self, x, h, c):
+    def forward(self, x, hidden: tuple):
         bs, si = x.shape        # (batch size, input size)
-        C = self.f(x, h) * c + self.i(x, h) * self.g(x, h)
-        H = self.o(x, h) * torch.tanh(C)
-        return nn.Parameter(H), nn.Parameter(C)
+        h, c = hidden
+        c = self.f(x, h) * c + self.i(x, h) * self.g(x, h)
+        h = self.o(x, h) * torch.tanh(c)
+        c = nn.Parameter(c)
+        h = nn.Parameter(h)
+        return h, c
 
 
 class Seq2SeqLSTM (nn.Module):
@@ -50,95 +53,91 @@ class Seq2SeqLSTM (nn.Module):
     def __init__(
         self,
         bs: int = 1,
-        sl: int = 10,
-        fl: int = 10,
-        ne: int = 4,
-        de: int = 1,
-        nd: int = 4,
-        dd: int = 1,
-        si: int = 10,
-        sh: int = 20,
+        sizes: (int, int) = (10, 20),
+        depths: (int, int) = (1, 1),
     ):
         super(Seq2SeqLSTM, self).__init__()
         self.bs = bs
-        self.sl = sl
-        self.fl = fl
-        self.ne = ne        # Number of Cells in Encoder
-        self.de = de        # Depth of the Encoder
-        self.nd = nd
-        self.dd = dd
-        self.si = si
-        self.sh = sh
+        self.si, self.sh = sizes
+        self.de, self.dd = depths
+        self.init_layers()
+        self.init_params()
 
-        def init_layers(n: int, d: int):
-            return [nn.ModuleList(
-                    [LSTMCell(self.si, self.sh)] +
-                    [LSTMCell(self.sh, self.sh) for _ in range(n)]
-                ) for _ in range(d)]
-
-        self.enc = init_layers(self.ne, self.de)
-        self.dec = init_layers(self.nd, self.dd)
-
+    def init_layers(self) -> None:
+        def init_layer(si: int, d: int):
+            return nn.ModuleList(
+                #  [LSTMCell(si, self.sh)] +
+                #  [LSTMCell(self.sh, self.sh) for _ in range(d)]
+                [nn.LSTMCell(si, self.sh)] +
+                [nn.LSTMCell(self.sh, self.sh) for _ in range(d)]
+            )
+        self.enc = init_layer(self.si, self.de)
+        self.dec = init_layer(self.sh, self.dd)
         self.fin = nn.Linear(self.sh, self.si)
 
-        def init_weights(n: int):
-            weights = []
+    def init_params(self) -> None:
+        def init_param(n: int):
+            params = []
             for i in range(n):
-                weight = torch.zeros((self.bs, self.sh))
-                weight = nn.Parameter(weight)
-                weights += [weight]
-            return nn.ParameterList(weights)
+                param = torch.zeros(self.bs, self.sh)
+                #  param = torch.rand(self.bs, self.sh)
+                param = nn.Parameter(param)
+                params += [param]
+            #  return nn.ParameterList(params)
+            return params
+        self.enc_h = init_param(self.de + 1)
+        self.enc_c = init_param(self.de + 1)
+        self.dec_h = init_param(self.dd + 1)
+        self.dec_c = init_param(self.dd + 1)
 
-        self.enc_h = init_weights(self.de + 1)
-        self.enc_c = init_weights(self.de + 1)
-        self.dec_h = init_weights(self.dd + 1)
-        self.dec_c = init_weights(self.dd + 1)
+    def reset_params(self) -> None:
+        def reset_param(param):
+            for layer in param:
+                layer = layer * 0
+        reset_param(self.enc_h)
+        reset_param(self.enc_c)
+        reset_param(self.dec_h)
+        reset_param(self.dec_h)
 
-    def forward(self, x):
+    def forward(self, x, fl: int = None):
 
-        bs, T, si = x.shape     # (batch size, time step, input size)
+        bs, sl, si = x.shape     # (batch size, time step, input size)
+        fl = fl if fl is not None else sl
 
         output = []
+        self.reset_params()
 
-        for t in range(T):
-            print(x[:, t, :].shape)
-            print(self.enc_h[0].shape)
-            print(self.enc_c[0].shape)
-            for n in self.enc:
-                self.enc_h[0], self.enc_c[0] = n[0](
-                    x[:, t, :],
-                    self.enc_h[0],
-                    self.enc_c[0]
-                )
-                for e in range(1, self.de):
-                    self.enc_h[e], self.enc_c[e] = n[e](
-                        self.enc_h[e - 1],
-                        self.enc_h[e],
-                        self.enc_c[e]
-                    )
+        def pass_through(
+                layers: nn.ModuleList,
+                h: [nn.Parameter],
+                c: [nn.Parameter],
+                input: torch.Tensor
+        ):
+            assert len(h) == len(c)
+            assert h[0].shape == c[0].shape
+            depth = len(h) - 1
+            h[0], c[0] = layers[0](input, (h[0], c[0]))
+            for e in range(1, depth):
+                h[e], c[e] = layers[e](h[e - 1], (h[e], c[e]))
+            return h[depth]
 
-        state = self.enc_h[-1]
+        for t in range(sl):
+            state = pass_through(self.enc, self.enc_h, self.enc_c, x[:, t, :])
 
-        for t in range(self.fl):
-            for n in self.dec:
-                self.dec_h[0], self.dec_c[0] = n[0](
-                    state,
-                    self.dec_h[0],
-                    self.dec_c[0]
-                )
-                for e in range(1, self.dd):
-                    self.dec_h[e], self.dec_c[e] = n[e](
-                        self.dec_h[e - 1],
-                        self.dec_h[e],
-                        self.dec_c[e]
-                    )
-                state = self.dec_h[-1]
-                output += [state]
+        for t in range(fl):
+            #  start = [sum([torch.linalg.norm(H) for H in self.dec_h]),
+            #           sum([torch.linalg.norm(C) for C in self.dec_c])]
+            state = pass_through(self.dec, self.dec_h, self.dec_c, state)
+            #  stop = [sum([torch.linalg.norm(H) for H in self.dec_h]),
+            #          sum([torch.linalg.norm(C) for C in self.dec_c])]
+            #  dx = [b.item() - a.item() for a, b in zip(start, stop)]
+            #  print(dx)
+            output += [self.fin(state)]
 
-        output = torch.stack(output)            # --> (T, bs, sh)
-        output = output.permute(1, 0, 2)        # --> (bs, T, sh)
-        output = self.fin(output)               # --> (bs, T, si)
-        output = torch.nn.Sigmoid()(output)
+        output = torch.stack(output)            # --> (sl, bs, sh)
+        output = output.permute(1, 0, 2)        # --> (bs, sl, sh)
+        #  output = self.fin(output)               # --> (bs, sl, si)
+        output = torch.nn.Sigmoid()(output)     # --> range: (0, 1)
 
         return output
 
@@ -149,11 +148,16 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    # (bs, T, si)
+    bs = 16
+    sl = 30
+
+    # sizes
     si = 10
     sh = 20
-    bs = 16
-    T = 30
 
-    model = Seq2SeqLSTM(bs, T, T, 1, 1, si, sh).to(device)
-    summary(model, input_size=(bs, T * 2, si))
+    # depths
+    de = 3
+    dd = 3
+
+    model = Seq2SeqLSTM(bs, (si, sh), (de, dd)).to(device)
+    summary(model, input_size=(bs, sl, si))
