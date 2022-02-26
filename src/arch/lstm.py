@@ -43,7 +43,7 @@ class LSTMCell (nn.Module):
         h, c = hidden
         c = self.f(x, h) * c + self.i(x, h) * self.g(x, h)
         h = self.o(x, h) * torch.tanh(c)
-        return h, c
+        return nn.Parameter(h), nn.Parameter(c)
 
 
 class Seq2SeqLSTM (nn.Module):
@@ -77,11 +77,11 @@ class Seq2SeqLSTM (nn.Module):
         def init_param(n: int):
             params = []
             for i in range(n):
-                param = torch.zeros(self.bs, self.sh)
-                #  param = torch.rand(self.bs, self.sh)
+                #  param = torch.zeros(self.bs, self.sh)
+                param = torch.rand(self.bs, self.sh)
                 param = nn.Parameter(param)
                 params += [param]
-            return params
+            return nn.ParameterList(params)
         self.enc_h = init_param(self.de + 1)
         self.enc_c = init_param(self.de + 1)
         self.dec_h = init_param(self.dd + 1)
@@ -99,41 +99,40 @@ class Seq2SeqLSTM (nn.Module):
     def forward(self, x, fl: int = None):
 
         bs, sl, si = x.shape     # (batch size, time step, input size)
-        fl = fl if fl is not None else sl
+        fl = sl if fl is None else fl
 
         output = []
         self.reset_params()
 
         def pass_through(
                 layers: nn.ModuleList,
-                h: [nn.Parameter],
-                c: [nn.Parameter],
-                input: torch.Tensor
+                h: nn.ParameterList,
+                c: nn.ParameterList,
+                x: torch.Tensor
         ):
             assert len(h) == len(c)
             assert h[0].shape == c[0].shape
-            depth = len(h) - 1
-            h[0], c[0] = layers[0](input, (h[0], c[0]))
-            for e in range(1, depth):
+            h[0], c[0] = layers[0](x, (h[0], c[0]))
+            for e in range(1, len(h)):
                 h[e], c[e] = layers[e](h[e - 1], (h[e], c[e]))
-            return h[depth]
+            return h[len(h) - 1]
 
         for t in range(sl):
             state = pass_through(self.enc, self.enc_h, self.enc_c, x[:, t, :])
 
         for t in range(fl):
             #  start = [sum([torch.linalg.norm(H) for H in self.dec_h]),
-            #           sum([torch.linalg.norm(C) for C in self.dec_c])]
-            state = pass_through(self.dec, self.dec_h, self.dec_c, state)
+            #  sum([torch.linalg.norm(C) for C in self.dec_c])]
+            state = pass_through(self.dec, self.enc_h, self.enc_c, state)
+            output += [state]
             #  stop = [sum([torch.linalg.norm(H) for H in self.dec_h]),
-            #          sum([torch.linalg.norm(C) for C in self.dec_c])]
+            #  sum([torch.linalg.norm(C) for C in self.dec_c])]
             #  dx = [b.item() - a.item() for a, b in zip(start, stop)]
             #  print(dx)
-            output += [state]
 
         output = torch.stack(output)            # --> (sl, bs, sh)
         output = output.permute(1, 0, 2)        # --> (bs, sl, sh)
-        output = self.fin(output)               # --> (bs, sl, si)
+        output = self.fin(output)               # --> (bs, sl, si
         output = torch.nn.Sigmoid()(output)     # --> range: (0, 1)
 
         return output
