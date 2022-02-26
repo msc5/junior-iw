@@ -43,8 +43,6 @@ class LSTMCell (nn.Module):
         h, c = hidden
         c = self.f(x, h) * c + self.i(x, h) * self.g(x, h)
         h = self.o(x, h) * torch.tanh(c)
-        c = nn.Parameter(c)
-        h = nn.Parameter(h)
         return h, c
 
 
@@ -66,10 +64,10 @@ class Seq2SeqLSTM (nn.Module):
     def init_layers(self) -> None:
         def init_layer(si: int, d: int):
             return nn.ModuleList(
-                #  [LSTMCell(si, self.sh)] +
-                #  [LSTMCell(self.sh, self.sh) for _ in range(d)]
-                [nn.LSTMCell(si, self.sh)] +
-                [nn.LSTMCell(self.sh, self.sh) for _ in range(d)]
+                [LSTMCell(si, self.sh)] +
+                [LSTMCell(self.sh, self.sh) for _ in range(d)]
+                #  [nn.LSTMCell(si, self.sh)] +
+                #  [nn.LSTMCell(self.sh, self.sh) for _ in range(d)]
             )
         self.enc = init_layer(self.si, self.de)
         self.dec = init_layer(self.sh, self.dd)
@@ -83,7 +81,6 @@ class Seq2SeqLSTM (nn.Module):
                 #  param = torch.rand(self.bs, self.sh)
                 param = nn.Parameter(param)
                 params += [param]
-            #  return nn.ParameterList(params)
             return params
         self.enc_h = init_param(self.de + 1)
         self.enc_c = init_param(self.de + 1)
@@ -132,11 +129,11 @@ class Seq2SeqLSTM (nn.Module):
             #          sum([torch.linalg.norm(C) for C in self.dec_c])]
             #  dx = [b.item() - a.item() for a, b in zip(start, stop)]
             #  print(dx)
-            output += [self.fin(state)]
+            output += [state]
 
         output = torch.stack(output)            # --> (sl, bs, sh)
         output = output.permute(1, 0, 2)        # --> (bs, sl, sh)
-        #  output = self.fin(output)               # --> (bs, sl, si)
+        output = self.fin(output)               # --> (bs, sl, si)
         output = torch.nn.Sigmoid()(output)     # --> range: (0, 1)
 
         return output
