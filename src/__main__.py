@@ -20,14 +20,14 @@ if __name__ == '__main__':
 
     bs = 1
     sl = 50
-    fl = 50
-    si = 10
+    fl = 10
+    si = 50
     sh = 50
     de = 1
     dd = 1
     model = Seq2SeqLSTM(bs, (si, sh), (de, dd)).to(device)
 
-    epochs = 1000
+    epochs = 500
     loss_fn = nn.MSELoss()
     #  loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.01)
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     output = model(x_train, fl)
 
     fig, lines = plot_seq(x_train, y_train, output.detach().cpu().numpy())
-    plt.show()
+    #  plt.show()
 
     def forward(i):
         #  x_train, y_train = gen_lins(si, sl, fl)
@@ -55,26 +55,26 @@ if __name__ == '__main__':
         print(f'[{i:<4}]{"Loss:":>10}{loss:>15.10f}')
         return output.detach().cpu().numpy()
 
-    #  def animate(i):
-    #      o = forward(i)
-    #      for j in range(len(lines)):
-    #          lines[j].set_ydata(o[0, :, j])
-    #      return lines
+    def animate(i):
+        o = forward(i)
+        for j in range(len(lines)):
+            lines[j].set_ydata(o[0, :, j])
+        return lines
 
-    for i in range(epochs):
-        output = forward(i)
+    #  for i in range(epochs):
+    #      output = forward(i)
 
-    #  ani = animation.FuncAnimation(
-    #      fig,
-    #      animate,
-    #      frames=epochs,
-    #      interval=1,
-    #  )
-    #  plt.show()
-
-    plot_seq(
-        x_train.detach().cpu().numpy(),
-        y_train.detach().cpu().numpy(),
-        output
+    ani = animation.FuncAnimation(
+        fig,
+        animate,
+        frames=epochs,
+        interval=1,
     )
     plt.show()
+
+    #  plot_seq(
+    #      x_train.detach().cpu().numpy(),
+    #      y_train.detach().cpu().numpy(),
+    #      output
+    #  )
+    #  plt.show()
