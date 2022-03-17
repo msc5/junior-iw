@@ -1,6 +1,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 
 def gen_lin(sl: int = 100):
@@ -59,15 +60,19 @@ def plot_seq(x_train, y_train, output):
     ax1.set_ylim([0, 1])
     ax2.set_xlim([0, 1])
     ax2.set_ylim([0, 1])
-    #  plt.show()
     return fig, lines
+
+
+def plot_seq_img(x_train, y_train, output):
+    pass
 
 
 if __name__ == '__main__':
 
-    si = 3
-    sl = 25
-    fl = 15
+    bs = 1
+    si = 10
+    sl = 100
+    fl = sl
 
     print(f'{"Input Size":15}{si:5}')
     print(f'{"Sequence Length":15}{sl:5}')
@@ -75,16 +80,38 @@ if __name__ == '__main__':
     print(f'{"-->":15}({1:3}, {sl:3}, {si:3})')
     print(f'{"-->":15}({1:3}, {fl:3}, {si:3})')
 
-    x = gen_sin(sl)
-    a, b = gen_sins(si, sl, fl)
-    print('gen_sins()')
-    print(x.shape)
-    print(a.shape, b.shape)
-    plot_sins(a, b, b)
+    # x = gen_sin(sl)
+    # a, b = gen_sins(si, sl, fl)
+    # print('gen_sins()')
+    # print(x.shape)
+    # print(a.shape, b.shape)
+    # plot_seq(a, b, b)
+    # plt.show()
 
-    x = gen_lin(sl)
-    a, b = gen_lins(si, sl, fl)
-    print('gen_lins()')
-    print(x.shape)
+    # x = gen_lin(sl)
+    # a, b = gen_lins(si, sl, fl)
+    # print('gen_lins()')
+    # print(x.shape)
+    # print(a.shape, b.shape)
+    # plot_seq(a, b, b)
+    # plt.show()
+
+    a, b = gen_sins(si**2, sl, fl)
+    print('gen_sins()')
     print(a.shape, b.shape)
-    plot_lins(a, b, b)
+    a = a.reshape((bs, sl, si, si))
+    b = b.reshape((bs, fl, si, si))
+
+    fig, ax = plt.subplots()
+    frame = ax.imshow(a[0, 0])
+
+    def video(i):
+        frame.set_data(a[0, i])
+        return frame
+
+    ani = animation.FuncAnimation(
+        fig,
+        video,
+        interval=1,
+    )
+    plt.show()

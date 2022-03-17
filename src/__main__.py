@@ -1,4 +1,7 @@
 
+from rich import print
+from tests.sequences import gen_sins, gen_lins, plot_seq
+from arch.lstm import Seq2SeqLSTM
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -6,24 +9,25 @@ from torch.nn.utils import clip_grad_norm_
 
 import numpy as np
 
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-from arch.lstm import Seq2SeqLSTM
-from tests.sequences import gen_sins, gen_lins, plot_seq
+matplotlib.use('tkagg')
 
-from rich import print
 
 if __name__ == '__main__':
+
+    print('Initializing Model...')
 
     #  device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     device = torch.device('cpu')
 
     bs = 1
-    sl = 50
+    sl = 20
     fl = 10
-    si = 50
-    sh = 50
+    si = 10
+    sh = 20
     de = 1
     dd = 1
     model = Seq2SeqLSTM(bs, (si, sh), (de, dd)).to(device)
@@ -33,8 +37,8 @@ if __name__ == '__main__':
     #  loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-    x_train, y_train = gen_lins(si, sl, fl)
-    #  x_train, y_train = gen_sins(si, sl, fl)
+    # x_train, y_train = gen_lins(si, sl, fl)
+    x_train, y_train = gen_sins(si, sl, fl)
     x_train = torch.from_numpy(x_train).float().to(device)
     y_train = torch.from_numpy(y_train).float().to(device)
 
@@ -42,6 +46,8 @@ if __name__ == '__main__':
 
     fig, lines = plot_seq(x_train, y_train, output.detach().cpu().numpy())
     #  plt.show()
+
+    print('Training Model...')
 
     def forward(i):
         #  x_train, y_train = gen_lins(si, sl, fl)
@@ -62,20 +68,20 @@ if __name__ == '__main__':
             lines[j].set_ydata(o[0, :, j])
         return lines
 
-    #  for i in range(epochs):
-    #      output = forward(i)
+    for i in range(epochs):
+        output = forward(i)
 
-    ani = animation.FuncAnimation(
-        fig,
-        animate,
-        frames=epochs,
-        interval=1,
+    # ani = animation.FuncAnimation(
+    #     fig,
+    #     animate,
+    #     # frames=epochs,
+    #     interval=1,
+    # )
+    # plt.show()
+
+    plot_seq(
+        x_train.detach().cpu().numpy(),
+        y_train.detach().cpu().numpy(),
+        output
     )
     plt.show()
-
-    #  plot_seq(
-    #      x_train.detach().cpu().numpy(),
-    #      y_train.detach().cpu().numpy(),
-    #      output
-    #  )
-    #  plt.show()
