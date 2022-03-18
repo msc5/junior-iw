@@ -5,20 +5,20 @@ import torch.nn as nn
 from collections.abc import Callable
 
 
-class LSTMGate (nn.Module):
+class ConvLSTMGate (nn.Module):
 
     def __init__(
             self,
-            inp_size: int,
-            out_size: int,
+            inp_chan: int,
+            out_chan: int,
             activation: Callable = nn.Sigmoid,
             cell_state: bool = True,
     ):
-        super(LSTMGate, self).__init__()
-        self.W_x = nn.Linear(inp_size, out_size, bias=False)
-        self.W_h = nn.Linear(out_size, out_size, bias=False)
-        self.W_c = nn.Parameter(torch.rand(out_size))
-        self.bias = nn.Parameter(torch.rand(out_size))
+        super(ConvLSTMGate, self).__init__()
+        self.W_x = nn.Conv2d(inp_chan, out_chan, 3, padding='same', bias=False)
+        self.W_h = nn.Conv2d(out_chan, out_chan, 3, padding='same', bias=False)
+        self.W_c = nn.Parameter(torch.rand(out_chan, img_h, img_w))
+        self.bias = nn.Parameter(torch.rand(out_chan, img_h, img_w))
         self.activation = activation()
 
     def forward(self, x, hidden: tuple):
@@ -28,14 +28,14 @@ class LSTMGate (nn.Module):
             self.W_c * c + self.bias)
 
 
-class LSTMCell (nn.Module):
+class ConvLSTMCell (nn.Module):
 
-    def __init__(self, inp_size: int, out_size: int):
-        super(LSTMCell, self).__init__()
-        self.f = LSTMGate(inp_size, out_size, nn.Sigmoid)
-        self.i = LSTMGate(inp_size, out_size, nn.Sigmoid)
-        self.g = LSTMGate(inp_size, out_size, nn.Tanh, cell_state=False)
-        self.o = LSTMGate(inp_size, out_size, nn.Sigmoid)
+    def __init__(self, inp_chan: int, out_chan: int):
+        super(ConvLSTMCell, self).__init__()
+        self.f = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
+        self.i = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
+        self.g = ConvLSTMGate(inp_chan, out_chan, nn.Tanh, cell_state=False)
+        self.o = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
 
     def forward(self, x, hidden: tuple):
         h, c = hidden
@@ -44,21 +44,21 @@ class LSTMCell (nn.Module):
         return nn.Parameter(h), nn.Parameter(c)
 
 
-class Seq2SeqLSTM (nn.Module):
+class ConvLSTMSeq2Seq (nn.Module):
 
     def __init__(
         self,
-        data_size: int,
-        hidden_size: int,
-        model_depth: int,
+        hidden_channels: int,
+        img_shape: (int, int, int),         # (img_chan, img_h, img_w)
+        model_depth: int = 1
     ):
-        super(Seq2SeqLSTM, self).__init__()
+        super(ConvLSTMSeq2Seq, self).__init__()
 
         # Define global Variables
-        global hid_size
-        hid_size = hidden_size
-        global dat_size
-        dat_size = data_size
+        global hid_chan
+        hid_chan = hidden_channels
+        global img_chan, img_h, img_w
+        img_chan, img_h, img_w = img_shape
         global model_dep
         model_dep = model_depth
 
@@ -66,20 +66,20 @@ class Seq2SeqLSTM (nn.Module):
         self.init_params()
 
     def init_layers(self) -> None:
-        def init_layer(inp_size: int, d: int):
+        def init_layer(inp_chan: int, depth: int):
             return nn.ModuleList(
-                [LSTMCell(inp_size, hid_size)] +
-                [LSTMCell(hid_size, hid_size) for _ in range(d)]
+                [ConvLSTMCell(inp_chan, hid_chan)] +
+                [ConvLSTMCell(hid_chan, hid_chan) for _ in range(depth)]
             )
-        self.enc = init_layer(dat_size, model_dep)
-        self.dec = init_layer(hid_size, model_dep)
-        self.fin = nn.Linear(hid_size, dat_size)
+        self.enc = init_layer(img_chan, model_dep)
+        self.dec = init_layer(hid_chan, model_dep)
+        self.fin = nn.Conv2d(hid_chan, img_chan, 3, padding='same')
 
     def init_params(self) -> None:
         def init_param(n: int):
             params = []
             for i in range(n):
-                param = torch.rand(1, hid_size)
+                param = torch.rand(1, hid_chan, img_h, img_w)
                 params += [nn.Parameter(param)]
             return nn.ParameterList(params)
         self.enc_h = init_param(model_dep + 1)
@@ -99,13 +99,13 @@ class Seq2SeqLSTM (nn.Module):
         pred_len = seq_len if pred_len is None else pred_len
 
         output = []
-        self.reset_params()
+        self.reset_params()  # ?
 
         def pass_through(
-                layers: nn.ModuleList,
-                h: nn.ParameterList,
-                c: nn.ParameterList,
-                x: torch.Tensor
+                layers: nn.ModuleList,      # Encoder or Decoder for each depth
+                h: nn.ParameterList,        # hidden layer for each depth
+                c: nn.ParameterList,        # cell state for each depth
+                x: torch.Tensor             # Input data
         ):
             h[0], c[0] = layers[0](x, (h[0], c[0]))
             for e in range(1, len(h)):
@@ -119,8 +119,8 @@ class Seq2SeqLSTM (nn.Module):
             state = pass_through(self.dec, self.enc_h, self.enc_c, state)
             output += [state.squeeze(0)]
 
-        output = torch.stack(output)        # --> (pred_len, hid_size)
-        output = self.fin(output)           # --> (pred_len, dat_size)
+        output = torch.stack(output)  # --> (pred_len, hid_chan, img_h, img_w)
+        output = self.fin(output)     # --> (pred_len, img_chan, img_h, img_w)
         output = torch.sigmoid(output)      # --> range: (0, 1)
 
         return output.unsqueeze(0)
@@ -133,11 +133,10 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     seq_len = 30
-
-    dat_size = 10
-    hid_size = 20
+    x_shape = (3, 50, 100)
 
     model_dep = 3
+    hid_chan = 20
 
-    model = Seq2SeqLSTM(dat_size, hid_size, model_dep).to(device)
-    summary(model, input_size=(1, seq_len, dat_size))
+    model = ConvLSTMSeq2Seq(hid_chan, x_shape, model_dep).to(device)
+    summary(model, input_size=(1, seq_len, *x_shape))
