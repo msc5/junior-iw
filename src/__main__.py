@@ -2,6 +2,7 @@
 from rich import print
 # from tests.sequences import gen_sins, gen_lins, plot_seq
 from .arch.lstm import Seq2SeqLSTM
+from .arch.convlstm_ref_1 import EncoderDecoderConvLSTM as ConvLSTM_REF_1
 from .arch.convlstm import ConvLSTMSeq2Seq
 import torch
 import torch.nn as nn
@@ -99,40 +100,46 @@ if __name__ == '__main__':
     data = np.load('datasets/MovingMNIST/mnist_test_seq.npy')
     print('Loaded Data: ', data.shape)
 
-    x_train = torch.tensor(data[:10, 0, :, :]).unsqueeze(
-        0).unsqueeze(2).float()
-    y_train = torch.tensor(data[10:, 0, :, :]).unsqueeze(
-        0).unsqueeze(2).float()
-    print(x_train.shape, y_train.shape)
-    print(x_train.max(), x_train.min())
+    n_vid = 5
+    seq_len = 10
+    x_train = torch.tensor(data[:10, n_vid, :, :]).unsqueeze(
+        0).unsqueeze(2).float() / 255
+    y_train = torch.tensor(data[10:, n_vid, :, :]).unsqueeze(
+        0).unsqueeze(2).float() / 255
 
-    model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
+    # model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
+    model = ConvLSTM_REF_1(64, 1)
 
-    epochs = 500
+    epochs = 100
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.005)
 
-    output = model(x_train, 5)
-    print(output.shape)
-
-    prediction_video(x_train.squeeze(0), y_train.squeeze(0), output.squeeze(0))
+    output = model(x_train, seq_len)
+    # prediction_video(x_train.squeeze(0), y_train.squeeze(0), output.squeeze(0))
+    prediction_video(
+        x_train.squeeze(0),
+        y_train.squeeze(0),
+        output.squeeze(0).permute(1, 0, 2, 3))
 
     def forward(i):
-        x_train = torch.tensor(data[:10, 0, :, :]).unsqueeze(
-            0).unsqueeze(2).float()
-        y_train = torch.tensor(data[10:, 0, :, :]).unsqueeze(
-            0).unsqueeze(2).float()
+        x_train = torch.tensor(data[:10, n_vid, :, :]).unsqueeze(
+            0).unsqueeze(2).float() / 255
+        y_train = torch.tensor(data[10:, n_vid, :, :]).unsqueeze(
+            0).unsqueeze(2).float() / 255
         optimizer.zero_grad()
-        output = model(x_train, pred_len) * 255
-        loss_it = loss_fn(output[0], y_train[0])
+        output = model(x_train, seq_len)
+        loss_it = loss_fn(output.permute(0, 2, 1, 3, 4), y_train)
         loss_it.backward()
         loss = loss_it.item()
         optimizer.step()
         print(f'[{i:<4}]{"Loss:":>10}{loss:>15.10f}')
-        print(output.max(), output.min())
         return output.detach().cpu().numpy()
 
     for i in range(epochs):
         forward(i)
 
-    prediction_video(x_train.squeeze(0), y_train.squeeze(0), output.squeeze(0))
+    output = model(x_train, seq_len)
+    prediction_video(
+        x_train.squeeze(0),
+        y_train.squeeze(0),
+        output.squeeze(0).permute(1, 0, 2, 3))

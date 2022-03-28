@@ -117,11 +117,13 @@ class ConvLSTMSeq2Seq (nn.Module):
 
         for t in range(pred_len):
             state = pass_through(self.dec, self.enc_h, self.enc_c, state)
+            print(state.detach().min(), state.detach().max())
             output += [state.squeeze(0)]
 
         output = torch.stack(output)  # --> (pred_len, hid_chan, img_h, img_w)
         output = self.fin(output)     # --> (pred_len, img_chan, img_h, img_w)
         output = torch.sigmoid(output)      # --> range: (0, 1)
+        print(output.detach().min(), output.detach().max())
 
         return output.unsqueeze(0)
 
