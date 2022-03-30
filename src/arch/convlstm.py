@@ -73,7 +73,9 @@ class ConvLSTMSeq2Seq (nn.Module):
             )
         self.enc = init_layer(img_chan, model_dep)
         self.dec = init_layer(hid_chan, model_dep)
-        self.fin = nn.Conv2d(hid_chan, img_chan, 3, padding='same')
+        # self.fin = nn.Conv2d(hid_chan, img_chan, 3, padding='same')
+        self.fin = nn.Conv3d(hid_chan, 1, (1, 3, 3), padding=(0, 1, 1))
+        self.norm = nn.BatchNorm2d(1)
 
     def init_params(self) -> None:
         def init_param(n: int):
@@ -115,17 +117,23 @@ class ConvLSTMSeq2Seq (nn.Module):
         for t in range(seq_len):
             state = pass_through(self.enc, self.enc_h, self.enc_c, x[:, t])
 
+        # state range (-1, 1)
+
         for t in range(pred_len):
             state = pass_through(self.dec, self.enc_h, self.enc_c, state)
-            print(state.detach().min(), state.detach().max())
             output += [state.squeeze(0)]
 
-        output = torch.stack(output)  # --> (pred_len, hid_chan, img_h, img_w)
-        output = self.fin(output)     # --> (pred_len, img_chan, img_h, img_w)
-        output = torch.sigmoid(output)      # --> range: (0, 1)
-        print(output.detach().min(), output.detach().max())
+        output = torch.stack(output)
+        # (pred_len, hid_chan, img_h, img_w)
+        output = output.unsqueeze(2)
+        # (pred_len, hid_chan, 1, img_h, img_w)
+        output = self.fin(output).squeeze(1)
+        # (pred_len, img_chan, img_h, img_w)
+        # output = self.norm(output)
+        output = torch.sigmoid(output)
+        # --> range: (0, 1)
 
-        return output.unsqueeze(0)
+        return output
 
 
 if __name__ == '__main__':

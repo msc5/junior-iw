@@ -10,6 +10,8 @@ import torch.optim as optim
 from torch.nn.utils import clip_grad_norm_
 from torchvision.io import read_video
 
+from .analysis.plots import compare_prediction
+
 import numpy as np
 
 import matplotlib
@@ -100,46 +102,56 @@ if __name__ == '__main__':
     data = np.load('datasets/MovingMNIST/mnist_test_seq.npy')
     print('Loaded Data: ', data.shape)
 
+    def load(n: int):
+        x_train = torch.tensor(data[:10, n, :, :]).unsqueeze(
+            0).unsqueeze(2).float() / 255
+        y_train = torch.tensor(data[10:, n, :, :]).unsqueeze(
+            0).unsqueeze(2).float() / 255
+        return x_train, y_train
+
+    def range_tensor(x):
+        return (x.min().item(), x.max().item())
+
     n_vid = 5
     seq_len = 10
-    x_train = torch.tensor(data[:10, n_vid, :, :]).unsqueeze(
-        0).unsqueeze(2).float() / 255
-    y_train = torch.tensor(data[10:, n_vid, :, :]).unsqueeze(
-        0).unsqueeze(2).float() / 255
+    x_train, y_train = load(n_vid)
 
-    # model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
+    # model = ConvLSTMSeq2Seq(64, (1, 64, 64), 3)
     model = ConvLSTM_REF_1(64, 1)
 
-    epochs = 100
+    epochs = 10
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.005)
 
     output = model(x_train, seq_len)
-    # prediction_video(x_train.squeeze(0), y_train.squeeze(0), output.squeeze(0))
-    prediction_video(
-        x_train.squeeze(0),
-        y_train.squeeze(0),
-        output.squeeze(0).permute(1, 0, 2, 3))
+    output_normalized = (output - output.mean()) / output.std()
+    compare_prediction(output_normalized, y_train)
+
+    compare_prediction(output, y_train)
 
     def forward(i):
-        x_train = torch.tensor(data[:10, n_vid, :, :]).unsqueeze(
-            0).unsqueeze(2).float() / 255
-        y_train = torch.tensor(data[10:, n_vid, :, :]).unsqueeze(
-            0).unsqueeze(2).float() / 255
+        x_train, y_train = load(i)
         optimizer.zero_grad()
         output = model(x_train, seq_len)
-        loss_it = loss_fn(output.permute(0, 2, 1, 3, 4), y_train)
+        # compare_prediction(output, y_train)
+        loss_it = loss_fn(output.squeeze(), y_train.squeeze())
         loss_it.backward()
         loss = loss_it.item()
         optimizer.step()
-        print(f'[{i:<4}]{"Loss:":>10}{loss:>15.10f}')
-        return output.detach().cpu().numpy()
+        out_min, out_max = range_tensor(output)
+        true_min, true_max = range_tensor(y_train)
+        print((f'[{i:<4}]'
+               f'{"Loss:":>10}'
+               f'{loss:>15.10f}'
+               f'{"":>5}({out_min:<7.5f},{out_max:>8.5f})'))
 
     for i in range(epochs):
         forward(i)
 
     output = model(x_train, seq_len)
-    prediction_video(
-        x_train.squeeze(0),
-        y_train.squeeze(0),
-        output.squeeze(0).permute(1, 0, 2, 3))
+
+    print(range_tensor(output))
+    print(range_tensor(y_train))
+    compare_prediction(output, y_train)
+    output_normalized = (output - output.mean()) / output.std()
+    compare_prediction(output_normalized, y_train)
