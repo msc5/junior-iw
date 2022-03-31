@@ -97,40 +97,47 @@ if __name__ == '__main__':
     # )
     # plt.show()
 
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     pred_len = 10
 
     data = np.load('datasets/MovingMNIST/mnist_test_seq.npy')
     print('Loaded Data: ', data.shape)
 
-    def load(n: int):
-        x_train = torch.tensor(data[:10, n, :, :]).unsqueeze(
-            0).unsqueeze(2).float() / 255
-        y_train = torch.tensor(data[10:, n, :, :]).unsqueeze(
-            0).unsqueeze(2).float() / 255
-        return x_train, y_train
+    def load(n: int, batch_size: int = 1):
+        a = n % 10000
+        b = (n + batch_size) % 10000
+        x = torch.tensor(data[:10, a:b, :, :]).unsqueeze(2).float() / 255
+        x = x.permute(1, 0, 2, 3, 4)
+        y = torch.tensor(data[10:, a:b, :, :]).unsqueeze(2).float() / 255
+        y = y.permute(1, 0, 2, 3, 4)
+        # --> (batch_size, seq_len, img_chan, img_h, img_w)
+        return x.to(device), y.to(device)
 
     def range_tensor(x):
         return (x.min().item(), x.max().item())
 
-    n_vid = 5
+    n_vid = 55
+    batch_size = 20
     seq_len = 10
-    x_train, y_train = load(n_vid)
+    x_train, y_train = load(n_vid, batch_size)
 
-    # model = ConvLSTMSeq2Seq(64, (1, 64, 64), 3)
-    model = ConvLSTM_REF_1(64, 1)
+    model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2, batch_size).to(device)
+    # model = ConvLSTM_REF_1(64, 1).to(device)
 
-    epochs = 10
+    epochs = 5000
     loss_fn = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.005)
 
     output = model(x_train, seq_len)
-    output_normalized = (output - output.mean()) / output.std()
-    compare_prediction(output_normalized, y_train)
+    print(output.shape)
 
     compare_prediction(output, y_train)
 
+    results = np.zeros((epochs, 3))
+
     def forward(i):
-        x_train, y_train = load(i)
+        x_train, y_train = load(i, batch_size)
         optimizer.zero_grad()
         output = model(x_train, seq_len)
         # compare_prediction(output, y_train)
@@ -144,14 +151,15 @@ if __name__ == '__main__':
                f'{"Loss:":>10}'
                f'{loss:>15.10f}'
                f'{"":>5}({out_min:<7.5f},{out_max:>8.5f})'))
+        results[i, :] = np.array([loss, out_min, out_max])
 
     for i in range(epochs):
         forward(i)
+
+    np.save('results3', results)
 
     output = model(x_train, seq_len)
 
     print(range_tensor(output))
     print(range_tensor(y_train))
     compare_prediction(output, y_train)
-    output_normalized = (output - output.mean()) / output.std()
-    compare_prediction(output_normalized, y_train)
