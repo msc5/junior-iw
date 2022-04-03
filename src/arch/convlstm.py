@@ -22,7 +22,10 @@ class ConvLSTMGate (nn.Module):
         self.activation = activation()
 
     def forward(self, x, hidden: tuple):
+        # x : (bat_size, seq_len, img_chan, img_h, img_w)
+        # h, c : (1, img_chan, img_h, img_w)
         h, c = hidden
+        # print(x.shape, h.shape, c.shape)
         return self.activation(
             self.W_x(x) + self.W_h(h) +
             self.W_c * c + self.bias)
@@ -32,8 +35,8 @@ class ConvLSTMCell (nn.Module):
 
     def __init__(self, inp_chan: int, out_chan: int):
         super(ConvLSTMCell, self).__init__()
-        self.f = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
         self.i = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
+        self.f = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
         self.g = ConvLSTMGate(inp_chan, out_chan, nn.Tanh, cell_state=False)
         self.o = ConvLSTMGate(inp_chan, out_chan, nn.Sigmoid)
 
@@ -53,17 +56,13 @@ class ConvLSTMSeq2Seq (nn.Module):
         model_depth: int = 1,
     ):
         super(ConvLSTMSeq2Seq, self).__init__()
-
-        # Define global Variables
         global hid_chan
         hid_chan = hidden_channels
         global img_chan, img_h, img_w
         img_chan, img_h, img_w = img_shape
         global model_dep
         model_dep = model_depth
-
         self.init_layers()
-        self.init_params()
 
     def init_layers(self) -> None:
         def init_layer(inp_chan: int, depth: int):
@@ -73,16 +72,15 @@ class ConvLSTMSeq2Seq (nn.Module):
             )
         self.enc = init_layer(img_chan, model_dep)
         self.dec = init_layer(hid_chan, model_dep)
-        # self.fin = nn.Conv2d(hid_chan, img_chan, 3, padding='same')
         self.fin = nn.Conv3d(hid_chan, 1, (1, 3, 3), padding='same')
         self.norm = nn.BatchNorm2d(1)
         self.sigmoid = torch.nn.Sigmoid()
 
-    def init_params(self) -> None:
+    def init_params(self, batch_size: int) -> None:
         def init_param(n: int):
             params = []
             for i in range(n):
-                param = torch.zeros(1, hid_chan, img_h, img_w)
+                param = torch.zeros(batch_size, hid_chan, img_h, img_w)
                 params += [nn.Parameter(param)]
             return nn.ParameterList(params)
         self.enc_h = init_param(model_dep + 1)
@@ -102,12 +100,11 @@ class ConvLSTMSeq2Seq (nn.Module):
     def forward(self, x, prediction_len: int = None):
 
         # x --> (bat_size, seq_len, img_chan, img_h, img_w)
-        # assert x.shape[0] == bat_size
-        seq_len = x.shape[1]
+        batch_size, seq_len = x.shape[0], x.shape[1]
         fut_len = prediction_len or seq_len
 
         output = []
-        self.reset_params()
+        self.init_params(batch_size)
 
         def pass_through(
                 layers: nn.ModuleList,      # Encoder or Decoder for each depth
@@ -125,7 +122,7 @@ class ConvLSTMSeq2Seq (nn.Module):
 
         for t in range(fut_len):
             state = pass_through(self.dec, self.dec_h, self.dec_c, state)
-            output += [state.squeeze(0)]
+            output += [state]
 
         output = torch.stack(output)
         # (fut_len, batch_size, hid_chan, img_h, img_w)
@@ -147,11 +144,17 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    seq_len = 30
-    x_shape = (3, 50, 100)
+    batch_size = 8
+    seq_len = 10
+    x_shape = (1, 64, 64)
+    # x_shape = (1, 64, 64)
 
     model_dep = 3
-    hid_chan = 20
+    hid_chan = 15
 
     model = ConvLSTMSeq2Seq(hid_chan, x_shape, model_dep).to(device)
-    summary(model, input_size=(1, seq_len, *x_shape))
+
+    # summary(model, input_size=(1, seq_len, *x_shape))
+
+    x = torch.rand(batch_size, seq_len, *x_shape).to(device)
+    output = model(x)

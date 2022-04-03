@@ -1,5 +1,4 @@
 
-# from multiprocessing import Process
 import multiprocessing as mp
 
 from .arch.convlstm import ConvLSTMSeq2Seq
@@ -11,7 +10,7 @@ from .arch.convlstm_ref import EncoderDecoderConvLSTM
 if __name__ == "__main__":
     mp.set_start_method('spawn')
 
-    batch_size = 10
+    batch_size = 4
 
     model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
     # model = EncoderDecoderConvLSTM(64, 1)
@@ -19,6 +18,7 @@ if __name__ == "__main__":
         'batch_size': batch_size,
         'learning_rate': 0.001,
         'epochs': 300,
+        'device': 'cpu',
     }
     lightning = VideoPredictionLightning(model, opts)
 

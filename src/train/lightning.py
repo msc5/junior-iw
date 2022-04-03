@@ -49,7 +49,7 @@ class VideoPredictionLightning (pl.LightningModule):
         logger = TensorBoardLogger('tensorboard', name='ConvLSTM')
         trainer = pl.Trainer(
             logger=logger,
-            accelerator='gpu',
+            accelerator=self.device,
             devices=1,
             max_epochs=self.epochs)
         trainer.fit(self)
@@ -101,9 +101,9 @@ class VideoPredictionLightning (pl.LightningModule):
 
 if __name__ == "__main__":
 
-    batch_size = 20
+    batch_size = 8
 
-    model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
+    model = ConvLSTMSeq2Seq(64, (1, 64, 64), 1)
     opts = {
         'batch_size': batch_size,
         'learning_rate': 0.001,
