@@ -17,8 +17,8 @@ class ConvLSTMGate (nn.Module):
         super(ConvLSTMGate, self).__init__()
         self.W_x = nn.Conv2d(inp_chan, out_chan, 3, padding='same', bias=False)
         self.W_h = nn.Conv2d(out_chan, out_chan, 3, padding='same', bias=False)
-        self.W_c = nn.Parameter(torch.zeros(bat_size, out_chan, img_h, img_w))
-        self.bias = nn.Parameter(torch.zeros(bat_size, out_chan, img_h, img_w))
+        self.W_c = nn.Parameter(torch.zeros(1, out_chan, img_h, img_w))
+        self.bias = nn.Parameter(torch.zeros(1, out_chan, img_h, img_w))
         self.activation = activation()
 
     def forward(self, x, hidden: tuple):
@@ -51,7 +51,6 @@ class ConvLSTMSeq2Seq (nn.Module):
         hidden_channels: int,
         img_shape: (int, int, int),         # (img_chan, img_h, img_w)
         model_depth: int = 1,
-        batch_size: int = 1
     ):
         super(ConvLSTMSeq2Seq, self).__init__()
 
@@ -62,8 +61,6 @@ class ConvLSTMSeq2Seq (nn.Module):
         img_chan, img_h, img_w = img_shape
         global model_dep
         model_dep = model_depth
-        global bat_size
-        bat_size = batch_size
 
         self.init_layers()
         self.init_params()
@@ -77,7 +74,7 @@ class ConvLSTMSeq2Seq (nn.Module):
         self.enc = init_layer(img_chan, model_dep)
         self.dec = init_layer(hid_chan, model_dep)
         # self.fin = nn.Conv2d(hid_chan, img_chan, 3, padding='same')
-        self.fin = nn.Conv3d(hid_chan, 1, (1, 3, 3), padding=(0, 1, 1))
+        self.fin = nn.Conv3d(hid_chan, 1, (1, 3, 3), padding='same')
         self.norm = nn.BatchNorm2d(1)
         self.sigmoid = torch.nn.Sigmoid()
 
@@ -85,12 +82,13 @@ class ConvLSTMSeq2Seq (nn.Module):
         def init_param(n: int):
             params = []
             for i in range(n):
-                # param = torch.rand(1, hid_chan, img_h, img_w)
-                param = torch.zeros(bat_size, hid_chan, img_h, img_w)
+                param = torch.zeros(1, hid_chan, img_h, img_w)
                 params += [nn.Parameter(param)]
             return nn.ParameterList(params)
         self.enc_h = init_param(model_dep + 1)
         self.enc_c = init_param(model_dep + 1)
+        self.dec_h = init_param(model_dep + 1)
+        self.dec_c = init_param(model_dep + 1)
 
     def reset_params(self) -> None:
         def reset_param(param):
@@ -98,13 +96,15 @@ class ConvLSTMSeq2Seq (nn.Module):
                 layer = layer * 0
         reset_param(self.enc_h)
         reset_param(self.enc_c)
+        reset_param(self.dec_h)
+        reset_param(self.dec_c)
 
-    def forward(self, x, pred_len: int = None):
+    def forward(self, x, prediction_len: int = None):
 
         # x --> (bat_size, seq_len, img_chan, img_h, img_w)
-        assert x.shape[0] == bat_size
+        # assert x.shape[0] == bat_size
         seq_len = x.shape[1]
-        pred_len = seq_len if pred_len is None else pred_len
+        fut_len = prediction_len or seq_len
 
         output = []
         self.reset_params()
@@ -123,18 +123,18 @@ class ConvLSTMSeq2Seq (nn.Module):
         for t in range(seq_len):
             state = pass_through(self.enc, self.enc_h, self.enc_c, x[:, t])
 
-        for t in range(pred_len):
-            state = pass_through(self.dec, self.enc_h, self.enc_c, state)
+        for t in range(fut_len):
+            state = pass_through(self.dec, self.dec_h, self.dec_c, state)
             output += [state.squeeze(0)]
 
         output = torch.stack(output)
-        # (pred_len, batch_size, hid_chan, img_h, img_w)
+        # (fut_len, batch_size, hid_chan, img_h, img_w)
         output = output.permute(1, 2, 0, 3, 4)
-        # (batch_size, hid_chan, pred_len, img_h, img_w)
+        # (batch_size, hid_chan, fut_len, img_h, img_w)
         output = self.fin(output)
-        # (batch_size, img_chan, pred_len, img_h, img_w)
+        # (batch_size, img_chan, fut_len, img_h, img_w)
         output = output.permute(0, 2, 1, 3, 4)
-        # (batch_size, pred_len, img_chan, img_h, img_w)
+        # (batch_size, fut_len, img_chan, img_h, img_w)
         output = self.sigmoid(output)
         # --> range: (0, 1)
 
