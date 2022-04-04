@@ -12,6 +12,16 @@ from ..data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
 from ..arch.convlstm import ConvLSTMSeq2Seq
 
 
+class SequencePredictionLightning (pl.LightningModule):
+
+    def __init__(self, model, opts: object):
+        super(SequencePredictionLightning, self).__init__()
+
+        self.model = model
+
+        self.dev = opts.get('device', 'cpu')
+
+
 class VideoPredictionLightning (pl.LightningModule):
 
     def __init__(
@@ -22,7 +32,6 @@ class VideoPredictionLightning (pl.LightningModule):
         super(VideoPredictionLightning, self).__init__()
 
         self.model = model
-        self.path = os.path.join(os.getcwd(), 'results')
         self.dev = opts.get('device', 'cpu')
 
         self.criterion = torch.nn.MSELoss()
@@ -50,6 +59,17 @@ class VideoPredictionLightning (pl.LightningModule):
 
     def fit(self):
         logger = TensorBoardLogger('tensorboard', name='ConvLSTM')
+        layout = {
+            'Metrics': {
+                'loss':
+                ['Multiline',
+                 ['loss/train', 'loss/test']],
+                'output_range':
+                ['Multiline',
+                 ['output_range/max', 'output_range/min']]
+            }
+        }
+        logger.experiment.add_custom_scalars(layout)
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.dev,
@@ -68,7 +88,7 @@ class VideoPredictionLightning (pl.LightningModule):
         if step % self.image_interval == 0:
             writer.add_image(label, image, step)
         logs = {
-            'train_loss': loss,
+            'loss': {'train': loss},
             'output_range': {
                 'max': output.max(),
                 'min': output.min()
@@ -76,7 +96,8 @@ class VideoPredictionLightning (pl.LightningModule):
         }
         for key, val in logs.items():
             if isinstance(val, dict):
-                writer.add_scalars(key, val, step)
+                for k, v in val.items():
+                    writer.add_scalar(f'{key}/{k}', v, step)
             else:
                 writer.add_scalar(key, val, step)
         return {'loss': loss, 'log': logs}

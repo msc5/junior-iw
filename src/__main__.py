@@ -17,7 +17,8 @@ if __name__ == "__main__":
     # model = ConvLSTM_REF(64, 1)
 
     opts = {
-        'device': 'gpu',
+        # 'device': 'gpu',
+        'device': 'cpu',
         'batch_size': batch_size,
         'learning_rate': 0.001,
         'epochs': 300,
