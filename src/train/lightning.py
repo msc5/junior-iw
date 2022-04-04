@@ -63,7 +63,7 @@ class VideoPredictionLightning (pl.LightningModule):
             'Metrics': {
                 'loss':
                 ['Multiline',
-                 ['loss/train', 'loss/test']],
+                 ['loss/train', 'loss/validation']],
                 'output_range':
                 ['Multiline',
                  ['output_range/max', 'output_range/min']]
@@ -102,6 +102,15 @@ class VideoPredictionLightning (pl.LightningModule):
                 writer.add_scalar(key, val, step)
         return {'loss': loss, 'log': logs}
 
+    def validation_step(self, batch, i):
+        x = batch[:, :self.seq_len].permute(0, 1, 4, 2, 3)
+        y = batch[:, self.seq_len:].permute(0, 1, 4, 2, 3)
+        output = self.forward(x)
+        loss = self.criterion(output.squeeze(), y.squeeze())
+        writer = self.logger.experiment
+        writer.add_scalar('loss/validation', loss, self.global_step)
+        return {'loss', loss}
+
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(
             self.parameters(), lr=self.lr, betas=(0.9, 0.98))
@@ -110,6 +119,22 @@ class VideoPredictionLightning (pl.LightningModule):
     def train_dataloader(self):
         data = MovingMNIST(
             train=True,
+            seq_len=self.seq_len + self.fut_len,
+            image_size=64,
+            deterministic=True,
+            num_digits=2
+        )
+        loader = torch.utils.data.DataLoader(
+            dataset=data,
+            batch_size=self.batch_size,
+            shuffle=True,
+            num_workers=4
+        )
+        return loader
+
+    def test_dataloader(self):
+        data = MovingMNIST(
+            train=False,
             seq_len=self.seq_len + self.fut_len,
             image_size=64,
             deterministic=True,
