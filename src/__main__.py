@@ -1,27 +1,30 @@
 
+import torch
+
 import multiprocessing as mp
 
-from .arch.convlstm import ConvLSTMSeq2Seq
 from .train.lightning import VideoPredictionLightning
 from .train.tensorboard import start_tensorboard
 
-from .arch.convlstm_ref import EncoderDecoderConvLSTM
+from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
+from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
 
 if __name__ == "__main__":
-    mp.set_start_method('spawn')
 
     batch_size = 4
 
-    model = ConvLSTMSeq2Seq(64, (1, 64, 64), 2)
-    # model = EncoderDecoderConvLSTM(64, 1)
+    model = ConvLSTM(1, 64, 2)
+    # model = ConvLSTM_REF(64, 1)
+
     opts = {
+        'device': 'gpu',
         'batch_size': batch_size,
         'learning_rate': 0.001,
         'epochs': 300,
-        'device': 'cpu',
     }
     lightning = VideoPredictionLightning(model, opts)
 
+    mp.set_start_method('spawn')
     p1 = mp.Process(target=lightning.fit)
     p2 = mp.Process(target=start_tensorboard)
     p2.start()

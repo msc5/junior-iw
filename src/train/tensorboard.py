@@ -6,8 +6,8 @@ from tensorboard import program
 
 def start_tensorboard():
 
-    program.logger.setLevel('WARNING')
-    path = os.path.join(os.getcwd(), 'tensorboard', 'ConvLSTM')
+    program.logger.setLevel('FATAL')
+    path = os.path.join(os.getcwd(), 'tensorboard')
 
     tb = program.TensorBoard()
     tb.configure(argv=[None, '--logdir', path])
@@ -19,3 +19,8 @@ def start_tensorboard():
 
     while True:
         time.sleep(2)
+
+
+if __name__ == "__main__":
+
+    start_tensorboard()

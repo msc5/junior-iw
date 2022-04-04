@@ -6,8 +6,9 @@ import pytorch_lightning as pl
 from torchvision.utils import make_grid
 from torch.utils.data import DataLoader
 from pytorch_lightning.loggers import TensorBoardLogger
+from torch.utils.tensorboard import SummaryWriter
 
-from ..data.dataloaders import MovingMNIST
+from ..data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
 from ..arch.convlstm import ConvLSTMSeq2Seq
 
 
@@ -22,15 +23,17 @@ class VideoPredictionLightning (pl.LightningModule):
 
         self.model = model
         self.path = os.path.join(os.getcwd(), 'results')
+        self.dev = opts.get('device', 'cpu')
 
         self.criterion = torch.nn.MSELoss()
+        # self.criterion = torch.nn.CrossEntropyLoss()
         self.epochs = opts.get('epochs', 300)
         self.batch_size = opts.get('batch_size', 10)
         self.lr = opts.get('learning_rate', 0.001)
         self.seq_len = 10
         self.fut_len = 10
 
-        self.image_interval = 50
+        self.image_interval = 500
 
     def make_image(self, x, y, output):
         # (batch_size, seq_len, img_chan, img_h, img_w)
@@ -49,52 +52,53 @@ class VideoPredictionLightning (pl.LightningModule):
         logger = TensorBoardLogger('tensorboard', name='ConvLSTM')
         trainer = pl.Trainer(
             logger=logger,
-            accelerator=self.device,
+            accelerator=self.dev,
             devices=1,
             max_epochs=self.epochs)
         trainer.fit(self)
 
     def training_step(self, batch, i):
-        x = batch[:, :self.seq_len]
-        y = batch[:, self.seq_len:]
+        x = batch[:, :self.seq_len].permute(0, 1, 4, 2, 3)
+        y = batch[:, self.seq_len:].permute(0, 1, 4, 2, 3)
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
         image, label = self.make_image(x, y, output)
-        experiment = self.logger.experiment
-        if i % self.image_interval == 0:
-            experiment.add_image(label, image, i)
+        writer = self.logger.experiment
+        step = self.global_step
+        if step % self.image_interval == 0:
+            writer.add_image(label, image, step)
         logs = {
             'train_loss': loss,
             'output_range': {
-                'output_max': output.max(),
-                'output_min': output.min()
+                'max': output.max(),
+                'min': output.min()
             }
         }
         for key, val in logs.items():
             if isinstance(val, dict):
-                experiment.add_scalars(key, val, i)
+                writer.add_scalars(key, val, step)
             else:
-                experiment.add_scalar(key, val, i)
+                writer.add_scalar(key, val, step)
         return {'loss': loss, 'log': logs}
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(
-            self.parameters(), lr=self.lr)
+            self.parameters(), lr=self.lr, betas=(0.9, 0.98))
         return optimizer
 
     def train_dataloader(self):
-        path = os.path.join(
-            os.getcwd(),
-            'datasets',
-            'MovingMNIST',
-            'mnist_test_seq.npy'
+        data = MovingMNIST(
+            train=True,
+            seq_len=self.seq_len + self.fut_len,
+            image_size=64,
+            deterministic=True,
+            num_digits=2
         )
-        dataset = MovingMNIST(path, train=True)
-        loader = DataLoader(
-            dataset,
+        loader = torch.utils.data.DataLoader(
+            dataset=data,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=4,
+            num_workers=4
         )
         return loader
 
