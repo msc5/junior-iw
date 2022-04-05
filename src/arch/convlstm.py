@@ -16,7 +16,7 @@ class ConvLSTMGate (nn.Module):
         super(ConvLSTMGate, self).__init__()
         self.inp_chan = inp_chan
         self.out_chan = out_chan
-        self.conv = nn.Conv2d(
+        self.layer = nn.Conv2d(
             in_channels=(self.inp_chan + self.out_chan),
             out_channels=(4 * self.out_chan),
             kernel_size=(3, 3), padding='same', bias=True
@@ -29,10 +29,10 @@ class ConvLSTMGate (nn.Module):
         ])
 
     def forward(self, x, hidden: tuple):
-        # x : (bat_size, seq_len, img_chan, img_h, img_w)
+        # x : (batch_size, img_chan, img_h, img_w)
         # hidden : (batch_size, out_chan, img_h, img_w)
         h, c = hidden
-        combined = self.conv(torch.cat([x, h], dim=1))
+        combined = self.layer(torch.cat([x, h], dim=1))
         gates = torch.split(combined, self.out_chan, dim=1)
         i, f, g, o = [self.acts[j](G) for j, G in enumerate(gates)]
         return i, f, g, o
@@ -101,11 +101,10 @@ class ConvLSTMSeq2Seq (nn.Module):
 
     def forward(self, x, prediction_len: int = None):
 
-        # x : (bat_size, seq_len, img_chan, img_h, img_w)
-        batch_size, seq_len = x.shape[0], x.shape[1]
+        # x : (batch_size, seq_len, img_chan, img_h, img_w)
+        batch_size, seq_len, img_chan, img_h, img_w = x.shape
         fut_len = prediction_len or seq_len
 
-        output = []
         self.init_params(x)
 
         def pass_through(
@@ -119,14 +118,17 @@ class ConvLSTMSeq2Seq (nn.Module):
                 h[e], c[e] = layers[e](h[e - 1], (h[e], c[e]))
             return h[-1]
 
+        output = torch.zeros(
+            (fut_len, batch_size, self.hid_chan, img_h, img_w),
+            device=x.device)
+
         for t in range(seq_len):
             state = pass_through(self.enc, x[:, t], self.enc_h, self.enc_c)
 
         for t in range(fut_len):
             state = pass_through(self.dec, state, self.dec_h, self.dec_c)
-            output += [state]
+            output[t] = state
 
-        output = torch.stack(output)
         # (fut_len, batch_size, hid_chan, img_h, img_w)
         output = output.permute(1, 2, 0, 3, 4)
         # (batch_size, hid_chan, fut_len, img_h, img_w)
@@ -148,7 +150,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     x_shape = (4, 10, 1, 64, 64)
-    model = ConvLSTMSeq2Seq(1, 64, 2).to(device)
+    model = ConvLSTMSeq2Seq(1, 64, 3).to(device)
 
     # summary(model, input_size=x_shape))
 

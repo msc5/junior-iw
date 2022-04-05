@@ -15,129 +15,142 @@ class LSTMGate (nn.Module):
             cell_state: bool = True,
     ):
         super(LSTMGate, self).__init__()
-        self.W_x = nn.Linear(inp_size, out_size, bias=False)
-        self.W_h = nn.Linear(out_size, out_size, bias=False)
-        self.W_c = nn.Parameter(torch.rand(out_size))
-        self.bias = nn.Parameter(torch.rand(out_size))
-        self.activation = activation()
+        self.inp_size = inp_size
+        self.out_size = out_size
+        self.layer = nn.Linear(
+            in_features=(self.inp_size + self.out_size),
+            out_features=(4 * self.out_size), bias=True)
+        self.acts = nn.ModuleList([
+            nn.Sigmoid(),
+            nn.Sigmoid(),
+            nn.Tanh(),
+            nn.Sigmoid()
+        ])
 
     def forward(self, x, hidden: tuple):
+        # x : (batch_size, img_size, dat_size)
+        # hidden : (batch_size, out_size, dat_size)
         h, c = hidden
-        return self.activation(
-            self.W_x(x) + self.W_h(h) +
-            self.W_c * c + self.bias)
+        combined = self.layer(torch.cat([x, h], dim=1))
+        gates = torch.split(combined, self.out_size, dim=1)
+        i, f, g, o = [self.acts[j](G) for j, G in enumerate(gates)]
+        return i, f, g, o
 
 
 class LSTMCell (nn.Module):
 
     def __init__(self, inp_size: int, out_size: int):
         super(LSTMCell, self).__init__()
-        self.f = LSTMGate(inp_size, out_size, nn.Sigmoid)
-        self.i = LSTMGate(inp_size, out_size, nn.Sigmoid)
-        self.g = LSTMGate(inp_size, out_size, nn.Tanh, cell_state=False)
-        self.o = LSTMGate(inp_size, out_size, nn.Sigmoid)
+        self.gates = LSTMGate(inp_size, out_size)
 
     def forward(self, x, hidden: tuple):
+        # x : (batch_size, seq_len, dat_size)
+        # hidden : (batch_size, hid_size, dat_size)
         h, c = hidden
-        c = self.f(x, hidden) * c + self.i(x, hidden) * self.g(x, hidden)
-        h = self.o(x, hidden) * torch.tanh(c)
-        return nn.Parameter(h), nn.Parameter(c)
+
+        # Generate gate outputs
+        h, c = hidden
+        i, f, g, o = self.gates(x, hidden)
+
+        # Compute new c and h
+        c = f * c + i * g
+        h = o * torch.tanh(c)
+
+        return h, c
 
 
-class Seq2SeqLSTM (nn.Module):
+class LSTMSeq2Seq (nn.Module):
 
     def __init__(
         self,
-        data_size: int,
+        input_size: int,
         hidden_size: int,
-        model_depth: int,
+        model_depth: int = 1,
     ):
-        super(Seq2SeqLSTM, self).__init__()
-
-        # Define global Variables
-        global hid_size
-        hid_size = hidden_size
-        global dat_size
-        dat_size = data_size
-        global model_dep
-        model_dep = model_depth
-
+        super(LSTMSeq2Seq, self).__init__()
+        self.inp_size = input_size
+        self.hid_size = hidden_size
+        self.model_dep = model_depth
         self.init_layers()
-        self.init_params()
 
     def init_layers(self) -> None:
-        def init_layer(inp_size: int, d: int):
+        def init_layer(inp_size: int, depth: int):
             return nn.ModuleList(
-                [LSTMCell(inp_size, hid_size)] +
-                [LSTMCell(hid_size, hid_size) for _ in range(d)]
+                [LSTMCell(inp_size, self.hid_size)] +
+                [LSTMCell(self.hid_size, self.hid_size)
+                    for _ in range(depth)]
             )
-        self.enc = init_layer(dat_size, model_dep)
-        self.dec = init_layer(hid_size, model_dep)
-        self.fin = nn.Linear(hid_size, dat_size)
+        self.enc = init_layer(self.inp_size, self.model_dep)
+        self.dec = init_layer(self.hid_size, self.model_dep)
+        self.fin = nn.Linear(self.hid_size, self.inp_size)
 
-    def init_params(self) -> None:
+    def init_params(self, x: torch.Tensor) -> None:
         def init_param(n: int):
-            params = []
-            for i in range(n):
-                param = torch.rand(1, hid_size)
-                params += [nn.Parameter(param)]
-            return nn.ParameterList(params)
-        self.enc_h = init_param(model_dep + 1)
-        self.enc_c = init_param(model_dep + 1)
+            batch_size, _, dat_size = x.shape
+            param_shape = (batch_size, self.hid_size)
+            params = [torch.zeros(*param_shape, device=x.device)
+                      for _ in range(n + 1)]
+            return params
+        self.enc_h = init_param(self.model_dep)
+        self.enc_c = init_param(self.model_dep)
+        self.dec_h = init_param(self.model_dep)
+        self.dec_c = init_param(self.model_dep)
 
-    def reset_params(self) -> None:
-        def reset_param(param):
-            for layer in param:
-                layer = layer * 0
-        reset_param(self.enc_h)
-        reset_param(self.enc_c)
+    def forward(self, x, prediction_len: int = None):
 
-    def forward(self, x, pred_len: int = None):
+        # x : (batch_size, seq_len, dat_size)
+        batch_size, seq_len, dat_size = x.shape
+        fut_len = prediction_len or seq_len
 
-        # x -> (seq_len, img_chan, img_h, img_w)
-        seq_len = len(x)
-        pred_len = seq_len if pred_len is None else pred_len
-
-        output = []
-        self.reset_params()
+        self.init_params(x)
 
         def pass_through(
                 layers: nn.ModuleList,
-                h: nn.ParameterList,
-                c: nn.ParameterList,
-                x: torch.Tensor
+                x: torch.Tensor,
+                h: list[torch.Tensor],
+                c: list[torch.Tensor],
         ):
             h[0], c[0] = layers[0](x, (h[0], c[0]))
             for e in range(1, len(h)):
                 h[e], c[e] = layers[e](h[e - 1], (h[e], c[e]))
             return h[len(h) - 1]
 
+        output = torch.zeros(
+            (fut_len, batch_size, self.hid_size), device=x.device)
+
         for t in range(seq_len):
-            state = pass_through(self.enc, self.enc_h, self.enc_c, x[:, t])
+            state = pass_through(self.enc, x[:, t], self.enc_h, self.enc_c)
 
-        for t in range(pred_len):
-            state = pass_through(self.dec, self.enc_h, self.enc_c, state)
-            output += [state.squeeze(0)]
+        for t in range(fut_len):
+            state = pass_through(self.dec, state, self.dec_h, self.dec_c)
+            output[t] = state
 
-        output = torch.stack(output)        # --> (pred_len, hid_size)
-        output = self.fin(output)           # --> (pred_len, dat_size)
-        output = torch.sigmoid(output)      # --> range: (0, 1)
+        # (fut_len, batch_size, hid_size)
+        output = self.fin(output)
+        # (fut_len, batch_size, dat_size)
+        output = output.permute(1, 0, 2)
+        # (batch_size, fut_len, dat_size)
+        output = torch.sigmoid(output)
+        # --> range: (0, 1)
 
-        return output.unsqueeze(0)
+        return output
 
 
 if __name__ == '__main__':
 
+    from rich import print
     from torchinfo import summary
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    seq_len = 30
+    batch_size = 8
+    seq_len = 20
+    dat_size = 5
+    x_shape = (batch_size, seq_len, dat_size)
 
-    dat_size = 10
-    hid_size = 20
+    model = LSTMSeq2Seq(dat_size, 64, 1).to(device)
 
-    model_dep = 3
+    summary(model, input_size=x_shape)
 
-    model = Seq2SeqLSTM(dat_size, hid_size, model_dep).to(device)
-    summary(model, input_size=(1, seq_len, dat_size))
+    x = torch.rand(*x_shape).to(device)
+    output = model(x)
