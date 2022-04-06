@@ -9,7 +9,7 @@ from .train.tensorboard import start_tensorboard
 
 from .arch.lstm import LSTMSeq2Seq as LSTM
 from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
-from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
+# from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
 
 if __name__ == "__main__":
 
@@ -26,9 +26,10 @@ if __name__ == "__main__":
     # lightning = VideoPredictionLightning(model, opts)
 
     batch_size = 20
-    model = LSTM(10, 64, 2)
+    model = LSTM(1, 64, 2)
     opts = {
-        'device': 'gpu',
+        # 'device': 'gpu',
+        'device': 'cpu',
         'batch_size': batch_size,
         'learning_rate': 0.001,
         'epochs': 300,

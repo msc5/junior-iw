@@ -5,7 +5,6 @@ import torch
 import numpy as np
 import pytorch_lightning as pl
 import matplotlib.pyplot as plt
-import tensorflow as tf
 
 from torchvision.utils import make_grid
 from torch.utils.data import DataLoader
@@ -16,6 +15,8 @@ from ..data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
 from ..data.generators import GeneratedSins
 from ..arch.convlstm import ConvLSTMSeq2Seq
 from ..arch.lstm import LSTMSeq2Seq
+
+from ..analysis.plots import plot_sins, plot_to_tensor
 
 
 class SequencePredictionLightning (pl.LightningModule):
@@ -38,37 +39,10 @@ class SequencePredictionLightning (pl.LightningModule):
         self.criterion = torch.nn.MSELoss()
         self.seq_len = self.fut_len = 20
 
-    def make_image(self, x, y, output):
-        # (batch_size, seq_len, img_chan, img_h, img_w)
-        truth = torch.cat([x, y], dim=1)[0]
-        prediction = torch.cat([x, output], dim=1)[0]
-        combined = torch.cat([truth, prediction])
-        image = make_grid(combined, nrow=self.seq_len + self.fut_len)
-        label = f'epoch_{self.current_epoch}_step_{self.global_step}'
-        return image, label
-
     def make_plot(self, x, y, output):
-        assert y.shape == output.shape
-        _, seq_len, dat_size = x.shape
-        _, fut_len, _ = y.shape
-        t = np.linspace(0, 1, seq_len + fut_len)
-        st, ft = t[:seq_len], t[seq_len:(seq_len + fut_len)]
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
-        for n in range(dat_size):
-            ax1.plot(st, x[0, :, n], color='blue')
-            ax1.plot(ft, y[0, :, n], color='blue')
-            ax2.plot(st, x[0, :, n], color='blue')
-            ax2.plot(ft, y[0, :, n], color='limegreen')
-            ax2.plot(ft, output[0, :, n], color='magenta')
-        ax1.set_xlim([0, 1])
-        ax1.set_ylim([0, 1])
-        ax2.set_xlim([0, 1])
-        ax2.set_ylim([0, 1])
-        buf = io.BytesIO()
-        plt.savefig(buf, format='png')
-        buf.seek(0)
-        image = tf.image.decode_png(buf.getvalue(), channels=4)
-        label = f'epoch_{self.current_epoch}_step_{self.global_step}'
+        fig = plot_sins(x, y, output)
+        image = plot_to_tensor(fig)
+        label = f'sequence_epoch_{self.current_epoch}_step_{self.global_step}'
         return image, label
 
     def forward(self, x):
@@ -96,13 +70,13 @@ class SequencePredictionLightning (pl.LightningModule):
         trainer.fit(self)
 
     def training_step(self, batch, i):
-        x = batch[:, :self.seq_len]
-        y = batch[:, self.seq_len:]
+        x = batch[:, :self.seq_len].unsqueeze(2)
+        y = batch[:, self.seq_len:].unsqueeze(2)
         output = self.forward(x)
         loss = self.criterion(output, y)
         writer, step = self.logger.experiment, self.global_step
-        image = self.make_plot(x, y, output)
         if step % self.image_interval == 0:
+            image, label = self.make_plot(x, y, output)
             writer.add_image(label, image, step)
         writer.add_scalar('loss/train', loss, step)
         logs = {'loss': {'train': loss}}
@@ -114,10 +88,7 @@ class SequencePredictionLightning (pl.LightningModule):
         return optimizer
 
     def train_dataloader(self):
-        data = GeneratedSins(
-            seq_len=self.seq_len + self.fut_len,
-            dat_size=10,
-        )
+        data = GeneratedSins(seq_len=(self.seq_len))
         loader = torch.utils.data.DataLoader(
             dataset=data,
             batch_size=self.batch_size,
@@ -188,10 +159,10 @@ class VideoPredictionLightning (pl.LightningModule):
         y = batch[:, self.seq_len:].permute(0, 1, 4, 2, 3)
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
-        image, label = self.make_image(x, y, output)
         writer = self.logger.experiment
         step = self.global_step
         if step % self.image_interval == 0:
+            image, label = self.make_image(x, y, output)
             writer.add_image(label, image, step)
         logs = {
             'loss': {'train': loss},

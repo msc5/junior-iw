@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
     batch_size = 8
     seq_len = 20
-    dat_size = 5
+    dat_size = 1
     x_shape = (batch_size, seq_len, dat_size)
 
     model = LSTMSeq2Seq(dat_size, 64, 1).to(device)
