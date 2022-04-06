@@ -5,6 +5,8 @@ import numpy as np
 
 from torch.utils.data import Dataset
 
+from ..analysis.plots import plot_seqs
+
 
 class GeneratedSins (Dataset):
 
@@ -38,8 +40,7 @@ class GeneratedNoise (Dataset):
 
     def __init__(self, seq_len: int):
         self.len = 20000
-        self.data = self.gen_sins(self.len, seq_len * 2)
-        self.data = torch.from_numpy(self.data).float()
+        self.data = self.gen_noise(self.len, seq_len * 2)
 
     def __len__(self):
         return self.len
@@ -47,15 +48,27 @@ class GeneratedNoise (Dataset):
     def __getitem__(self, i: int):
         return self.data[i % self.len]
 
-    def gen_noise(self, seq_len: int):
-        a, b = torch.rand(2)
-        # x, y = 0,
+    def gen_noise(self, batch_size: int, seq_len: int):
+        vertices = 6
+        random = torch.rand(batch_size, vertices + 1)
+        y = torch.zeros(batch_size, seq_len)
 
-    def cos_interpolate(a, b, x):
-        f = (1 - np.cos(x * np.pi)) * 0.5
-        return a + (1 - f) + b * f
+        def interp_eval(x):
+            lo = int(x)
+            t = x - lo
+            return self.cerp(random[:, lo], random[:, lo + 1], t)
 
-    def lin_interpolate(a, b, x):
+        for i in range(seq_len):
+            x = i / float(seq_len + 1) * vertices
+            y[:, i] = interp_eval(x)
+
+        return y
+
+    def cerp(self, a, b, x):
+        g = (1 - np.cos(x * np.pi)) / 2
+        return (1 - g) * a + g * b
+
+    def lerp(self, a, b, x):
         return a * (1 - x) + b * x
 
 
@@ -63,7 +76,8 @@ if __name__ == "__main__":
 
     from torch.utils.data import DataLoader
 
-    dataset = GeneratedSins(20)
+    # dataset = GeneratedSins(20)
+    dataset = GeneratedNoise(20)
     dataloader = DataLoader(dataset, batch_size=8)
 
     x = next(iter(dataloader))

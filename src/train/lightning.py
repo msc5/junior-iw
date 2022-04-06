@@ -12,11 +12,11 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.tensorboard import SummaryWriter
 
 from ..data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
-from ..data.generators import GeneratedSins
+from ..data.generators import GeneratedSins, GeneratedNoise
 from ..arch.convlstm import ConvLSTMSeq2Seq
 from ..arch.lstm import LSTMSeq2Seq
 
-from ..analysis.plots import plot_sins, plot_to_tensor
+from ..analysis.plots import plot_seqs, plot_to_tensor
 
 
 class SequencePredictionLightning (pl.LightningModule):
@@ -40,7 +40,7 @@ class SequencePredictionLightning (pl.LightningModule):
         self.seq_len = self.fut_len = 20
 
     def make_plot(self, x, y, output):
-        fig = plot_sins(x, y, output)
+        fig = plot_seqs(x, y, output)
         image = plot_to_tensor(fig)
         label = f'sequence_epoch_{self.current_epoch}_step_{self.global_step}'
         return image, label
@@ -50,15 +50,13 @@ class SequencePredictionLightning (pl.LightningModule):
         return self.model(x, self.fut_len)
 
     def fit(self):
-        logger = TensorBoardLogger('tensorboard', name='ConvLSTM')
+        logger = TensorBoardLogger('tensorboard', name='LSTM')
         layout = {
             'Metrics': {
                 'loss':
-                ['Multiline',
-                 ['loss/train', 'loss/validation']],
+                ['Multiline', ['loss/train', 'loss/validation']],
                 'output_range':
-                ['Multiline',
-                 ['output_range/max', 'output_range/min']]
+                ['Multiline', ['output_range/max', 'output_range/min']]
             }
         }
         logger.experiment.add_custom_scalars(layout)
@@ -88,7 +86,8 @@ class SequencePredictionLightning (pl.LightningModule):
         return optimizer
 
     def train_dataloader(self):
-        data = GeneratedSins(seq_len=(self.seq_len))
+        data = GeneratedSins(self.seq_len)
+        # data = GeneratedNoise(self.seq_len)
         loader = torch.utils.data.DataLoader(
             dataset=data,
             batch_size=self.batch_size,
@@ -138,11 +137,9 @@ class VideoPredictionLightning (pl.LightningModule):
         layout = {
             'Metrics': {
                 'loss':
-                ['Multiline',
-                 ['loss/train', 'loss/validation']],
+                ['Multiline', ['loss/train', 'loss/validation']],
                 'output_range':
-                ['Multiline',
-                 ['output_range/max', 'output_range/min']]
+                ['Multiline', ['output_range/max', 'output_range/min']]
             }
         }
         logger.experiment.add_custom_scalars(layout)
