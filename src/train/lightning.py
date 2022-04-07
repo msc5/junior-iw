@@ -45,7 +45,7 @@ class SequencePredictionLightning (pl.LightningModule):
         self.criterion = torch.nn.MSELoss()
         self.seq_len = self.fut_len = 20
 
-        self.num_workers = 2
+        self.num_workers = 4
 
     def make_plot(self, x, y, output):
         fig = plot_seqs(x, y, output)
