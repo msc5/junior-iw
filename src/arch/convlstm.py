@@ -109,9 +109,9 @@ class ConvLSTMSeq2Seq (nn.Module):
 
         def pass_through(
                 layers: nn.ModuleList,  # Encoder or Decoder for each depth
-                x: torch.Tensor,        # Input data
-                h: list[torch.Tensor],  # hidden layer for each depth
-                c: list[torch.Tensor],  # cell state for each depth
+                x: torch.Tensor,       # Input data
+                h: list,               # hidden layer for each depth
+                c: list,               # cell state for each depth
         ):
             h[0], c[0] = layers[0](x, (h[0], c[0]))
             for e in range(1, len(h)):
