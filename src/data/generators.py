@@ -12,7 +12,7 @@ class GeneratedSins (Dataset):
 
     def __init__(self, seq_len: int):
         self.len = 20000
-        self.data = self.gen_sins(self.len, seq_len * 2)
+        self.data = self.gen_sins(self.len, seq_len)
         self.data = torch.from_numpy(self.data).float()
 
     def __len__(self):
@@ -40,7 +40,7 @@ class GeneratedNoise (Dataset):
 
     def __init__(self, seq_len: int):
         self.len = 20000
-        self.data = self.gen_noise(self.len, seq_len * 2)
+        self.data = self.gen_noise(self.len, seq_len)
 
     def __len__(self):
         return self.len

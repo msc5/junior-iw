@@ -86,8 +86,8 @@ class SequencePredictionLightning (pl.LightningModule):
         return optimizer
 
     def train_dataloader(self):
-        data = GeneratedSins(self.seq_len)
-        # data = GeneratedNoise(self.seq_len)
+        data = GeneratedSins(self.seq_len + self.fut_len)
+        # data = GeneratedNoise(self.seq_len + self.fut_len)
         loader = torch.utils.data.DataLoader(
             dataset=data,
             batch_size=self.batch_size,
