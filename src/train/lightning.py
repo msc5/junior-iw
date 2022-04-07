@@ -173,24 +173,9 @@ class VideoPredictionLightning (pl.LightningModule):
 
     def train_dataloader(self):
 
-        data = KTH(
-            seq_len=(self.seq_len + self.fut_len),
-            train=True
-        )
-        loader = torch.utils.data.DataLoader(
-            dataset=data,
-            batch_size=self.batch_size,
-            shuffle=True,
-            num_workers=self.num_workers
-        )
-        return loader
-
-        # data = MovingMNIST(
-        #     train=True,
-        #     seq_len=self.seq_len + self.fut_len,
-        #     image_size=64,
-        #     deterministic=True,
-        #     num_digits=2
+        # data = KTH(
+        #     seq_len=(self.seq_len + self.fut_len),
+        #     train=True
         # )
         # loader = torch.utils.data.DataLoader(
         #     dataset=data,
@@ -199,6 +184,21 @@ class VideoPredictionLightning (pl.LightningModule):
         #     num_workers=self.num_workers
         # )
         # return loader
+
+        data = MovingMNIST(
+            train=True,
+            seq_len=self.seq_len + self.fut_len,
+            image_size=64,
+            deterministic=True,
+            num_digits=2
+        )
+        loader = torch.utils.data.DataLoader(
+            dataset=data,
+            batch_size=self.batch_size,
+            shuffle=True,
+            num_workers=self.num_workers
+        )
+        return loader
 
 
 if __name__ == "__main__":
