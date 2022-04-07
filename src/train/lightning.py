@@ -45,6 +45,8 @@ class SequencePredictionLightning (pl.LightningModule):
         self.criterion = torch.nn.MSELoss()
         self.seq_len = self.fut_len = 20
 
+        self.num_workers = 2
+
     def make_plot(self, x, y, output):
         fig = plot_seqs(x, y, output)
         image = plot_to_tensor(fig)
@@ -90,7 +92,7 @@ class SequencePredictionLightning (pl.LightningModule):
             dataset=data,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=4
+            num_workers=self.num_workers
         )
         return loader
 
@@ -112,6 +114,7 @@ class VideoPredictionLightning (pl.LightningModule):
         self.fut_len = 10
 
         self.image_interval = 500
+        self.num_workers = 2
 
     def make_image(self, x, y, output):
         # (batch_size, seq_len, img_chan, img_h, img_w)
@@ -178,7 +181,7 @@ class VideoPredictionLightning (pl.LightningModule):
             dataset=data,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=4
+            num_workers=self.num_workers
         )
         return loader
 
@@ -193,7 +196,7 @@ class VideoPredictionLightning (pl.LightningModule):
         #     dataset=data,
         #     batch_size=self.batch_size,
         #     shuffle=True,
-        #     num_workers=4
+        #     num_workers=self.num_workers
         # )
         # return loader
 
