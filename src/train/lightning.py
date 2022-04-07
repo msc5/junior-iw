@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.tensorboard import SummaryWriter
 
+from ..data.datasets.KTH.KTH import KTH
 from ..data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
 from ..data.generators import GeneratedSins, GeneratedNoise
 from ..arch.convlstm import ConvLSTMSeq2Seq
@@ -18,14 +19,19 @@ from ..arch.lstm import LSTMSeq2Seq
 
 from ..analysis.plots import plot_seqs, plot_to_tensor
 
+GLOBAL_METRICS = {
+    'Metrics': {
+        'loss':
+        ['Multiline', ['loss/train', 'loss/validation']],
+        'output_range':
+        ['Multiline', ['output_range/max', 'output_range/min']]
+    }
+}
+
 
 class SequencePredictionLightning (pl.LightningModule):
 
-    def __init__(
-            self,
-            model,
-            opts: object,
-    ):
+    def __init__(self, model, opts: object):
         super(SequencePredictionLightning, self).__init__()
 
         self.model = model
@@ -51,15 +57,7 @@ class SequencePredictionLightning (pl.LightningModule):
 
     def fit(self):
         logger = TensorBoardLogger('tensorboard', name='LSTM')
-        layout = {
-            'Metrics': {
-                'loss':
-                ['Multiline', ['loss/train', 'loss/validation']],
-                'output_range':
-                ['Multiline', ['output_range/max', 'output_range/min']]
-            }
-        }
-        logger.experiment.add_custom_scalars(layout)
+        logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.dev,
@@ -99,11 +97,7 @@ class SequencePredictionLightning (pl.LightningModule):
 
 class VideoPredictionLightning (pl.LightningModule):
 
-    def __init__(
-            self,
-            model,
-            opts: object,
-    ):
+    def __init__(self, model, opts: object):
         super(VideoPredictionLightning, self).__init__()
 
         self.model = model
@@ -134,15 +128,7 @@ class VideoPredictionLightning (pl.LightningModule):
 
     def fit(self):
         logger = TensorBoardLogger('tensorboard', name='ConvLSTM')
-        layout = {
-            'Metrics': {
-                'loss':
-                ['Multiline', ['loss/train', 'loss/validation']],
-                'output_range':
-                ['Multiline', ['output_range/max', 'output_range/min']]
-            }
-        }
-        logger.experiment.add_custom_scalars(layout)
+        logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.dev,
@@ -152,6 +138,7 @@ class VideoPredictionLightning (pl.LightningModule):
         trainer.fit(self)
 
     def training_step(self, batch, i):
+        # print(batch.shape)
         x = batch[:, :self.seq_len].permute(0, 1, 4, 2, 3)
         y = batch[:, self.seq_len:].permute(0, 1, 4, 2, 3)
         output = self.forward(x)
@@ -182,12 +169,10 @@ class VideoPredictionLightning (pl.LightningModule):
         return optimizer
 
     def train_dataloader(self):
-        data = MovingMNIST(
-            train=True,
-            seq_len=self.seq_len + self.fut_len,
-            image_size=64,
-            deterministic=True,
-            num_digits=2
+
+        data = KTH(
+            seq_len=(self.seq_len + self.fut_len),
+            train=True
         )
         loader = torch.utils.data.DataLoader(
             dataset=data,
@@ -196,6 +181,21 @@ class VideoPredictionLightning (pl.LightningModule):
             num_workers=4
         )
         return loader
+
+        # data = MovingMNIST(
+        #     train=True,
+        #     seq_len=self.seq_len + self.fut_len,
+        #     image_size=64,
+        #     deterministic=True,
+        #     num_digits=2
+        # )
+        # loader = torch.utils.data.DataLoader(
+        #     dataset=data,
+        #     batch_size=self.batch_size,
+        #     shuffle=True,
+        #     num_workers=4
+        # )
+        # return loader
 
 
 if __name__ == "__main__":
