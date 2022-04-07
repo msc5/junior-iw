@@ -1,6 +1,10 @@
 
 import torch
 
+import os
+import argparse
+import subprocess
+
 import multiprocessing as mp
 
 from .train.lightning import VideoPredictionLightning
@@ -10,6 +14,11 @@ from .train.tensorboard import start_tensorboard
 from .arch.lstm import LSTMSeq2Seq as LSTM
 from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
 from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
+
+parser = argparse.ArgumentParser(
+    prog='Matthew Coleman Junior IW Video Prediction',
+    description='Junior IW'
+)
 
 if __name__ == "__main__":
 

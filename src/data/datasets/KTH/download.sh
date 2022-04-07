@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 SELF_DIR=$(dirname $0)
 TARGET_DIR=$SELF_DIR/raw
 echo "Downloading into $TARGET_DIR..."
