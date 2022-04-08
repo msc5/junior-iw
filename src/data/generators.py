@@ -19,7 +19,7 @@ class GeneratedSins (Dataset):
         return self.len
 
     def __getitem__(self, i: int):
-        return self.data[i % self.len]
+        return self.data[i % self.len].unsqueeze(1)
 
     def gen_sin(self, seq_len: int):
         # Generates a sin wave with a random period (0, 2]
@@ -46,7 +46,7 @@ class GeneratedNoise (Dataset):
         return self.len
 
     def __getitem__(self, i: int):
-        return self.data[i % self.len]
+        return self.data[i % self.len].unsqueeze(1)
 
     def gen_noise(self, batch_size: int, seq_len: int):
         vertices = 6

@@ -27,7 +27,7 @@ def plot_seqs(x, y, output):
         plt.plot(seq_t, x[n], color='blue')
         plt.plot(fut_t, y[n], color='limegreen')
         plt.plot(fut_t, output[n], color='magenta')
-    plt.title('Sin Wave Sequences and Predictions')
+    plt.title('Sequences and Predictions')
     return fig
 
 

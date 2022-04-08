@@ -105,4 +105,4 @@ class MovingMNIST(object):
                 sx += dx
 
         x[x > 1] = 1.
-        return x
+        return x.transpose(0, 3, 1, 2)
