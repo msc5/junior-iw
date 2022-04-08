@@ -63,7 +63,6 @@ class Lightning (pl.LightningModule):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
         logger = TensorBoardLogger('tensorboard', name=name)
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
-        logger.add_text(str(self.opts))
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.opts['device'],

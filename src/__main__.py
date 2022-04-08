@@ -71,7 +71,7 @@ if __name__ == "__main__":
         'learning_rate': args.get('learning_rate', 0.001),
         'max_epochs': args.get('max_epochs', 300),
         'criterion': args.get('criterion', 'MSELoss'),
-        'image_interval': args.get('image_interval', 200),
+        'image_interval': args.get('image_interval', 500),
     }
 
     # Initialize Model
