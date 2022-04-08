@@ -52,7 +52,7 @@ if __name__ == "__main__":
     args = {k: v for (k, v) in
             vars(parser.parse_args()).items() if v is not None}
 
-    n_columns = os.get_terminal_size().columns
+    n_columns = 80
     print('-' * n_columns)
     print(f'{"Model":>20} : {args.get("model"):<20}')
     print(f'{"Dataset":>20} : {args.get("dataset"):<20}')
