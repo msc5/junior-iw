@@ -124,7 +124,7 @@ if __name__ == "__main__":
         from .arch.lstm import LSTMSeq2Seq as LSTM
         model = LSTM(1, 64)
     elif opts['model'] == 'FutureGAN':
-        from .arch.futureGAN import FutureGenerator as FutureGAN
+        from .arch.futureGAN import FutureGAN as FutureGAN
         config = {
             'batch_norm': False,
             'g_pixelwise_norm': True,

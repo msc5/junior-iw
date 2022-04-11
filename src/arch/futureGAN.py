@@ -882,23 +882,23 @@ class Discriminator(nn.Module):
 
         super(Discriminator, self).__init__()
         self.config = config
-        self.nframes_pred = self.config.nframes_pred
-        self.batch_norm = config.batch_norm
-        self.w_norm = config.w_norm
-        if self.config.loss == 'lsgan':
+        self.nframes_pred = self.config['nframes_pred']
+        self.batch_norm = config['batch_norm']
+        self.w_norm = config['w_norm']
+        if self.config['loss'] == 'lsgan':
             self.d_gdrop = True
         else:
-            self.d_gdrop = config.d_gdrop
-        self.padding = config.padding
-        self.lrelu = config.lrelu
-        self.d_sigmoid = config.d_sigmoid
-        self.nz = config.nz
-        self.nc = config.nc
-        self.ndf = config.ndf
-        if not self.config.d_cond:
-            self.nframes = self.config.nframes_pred
+            self.d_gdrop = config['d_gdrop']
+        self.padding = config['padding']
+        self.lrelu = config['lrelu']
+        self.d_sigmoid = config['d_sigmoid']
+        self.nz = config['nz']
+        self.nc = config['nc']
+        self.ndf = config['ndf']
+        if not self.config['d_cond']:
+            self.nframes = self.config['nframes_pred']
         else:
-            self.nframes = config.nframes_in + config.nframes_pred
+            self.nframes = config['nframes_in'] + config['nframes_pred']
         self.layer_name = None
         self.module_names = []
         self.model = self.get_init_dis()
@@ -1171,3 +1171,30 @@ class Discriminator(nn.Module):
 
         x = self.model(x)
         return x
+
+
+class FutureGAN (nn.Module):
+
+    def __init__(self, config):
+        self.config = config
+        self.G = FutureGenerator(config)
+        self.D = Discriminator(config)
+
+    def forward(self, x):
+        # if 'x_add_noise' --> input to generator without noise, input to
+        # discriminator with noise
+        self.z.data = self.x.data[:, :, :self.nframes_in, :, :]
+        if self.config['x_add_noise']:
+            self.x = self.add_noise(self.x)
+        if self.config['d_cond']:
+            self.z_x_gen = self.G(self.z)
+            self.x_gen.data = self.z_x_gen.data[:, :, self.nframes_in:, :, :]
+            self.x_label = self.D(self.x.detach())
+            self.x_gen_label = self.D(self.z_x_gen.detach())
+        else:
+            self.x_gen = self.G(self.z)
+            self.z_x_gen.data[:, :, :self.nframes_in, :, :] = self.z.data
+            self.z_x_gen.data[:, :, self.nframes_in:, :, :] = self.x_gen.data
+            self.x_label = self.D(
+                self.x[:, :, self.nframes_in:, :, :].detach())
+            self.x_gen_label = self.D(self.x_gen.detach())
