@@ -97,15 +97,33 @@ this report, robotic control systems \cite{eg_robot_control}.
 % from real-world data, without any human intervention in the data-labeling
 % process.
 
-\subsection{Video Prediction Terminology}
-\label{subsec:intro_terminology}
+\section{Prediction Model Families}
+\label{sec:families}
 
-\newpage
-\section{Trade Study}
-\label{sec:related-work}
+In addition to convolution, modern video prediction models tend to adopt a few
+canonical architectures, which are each very well-researched and developed.
+Although they are typically implemented slightly differently in practice, the
+overarching themes are still in effect, and many of these model paradigms are
+combined or adapted for alternative tasks. The best video prediction models use
+them in conjunction with each other to create a larger network of interleaving
+models. 
 
-\subsection{Convolutional LSTM}
-\label{subsec:conv_lstm}
+Of these are recurrent models, which are trained on sequences of data,
+generative models, which are trained to approximate the conditional probability
+$p(x y)$ in order to generate images in the same distribution as ground-truth
+images.
+
+\subsection{Recurrent Models}
+\label{subsec:recurrent}
+
+\subsection{Generative Models}
+\label{subsec:generative}
+
+\section{Convolutional LSTM}
+\label{sec:conv_lstm}
+
+\section{FutureGAN}
+\label{sec:futuregan}
 
 \newpage
 \section{}
