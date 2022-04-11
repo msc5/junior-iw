@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 
 from .train.lightning import Lightning
 
-MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM']
+MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM', 'FutureGAN']
 DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
 
 
@@ -84,6 +84,25 @@ if __name__ == "__main__":
     elif opts['model'] == 'LSTM':
         from .arch.lstm import LSTMSeq2Seq as LSTM
         model = LSTM(1, 64)
+    elif opts['model'] == 'FutureGAN':
+        from .arch.futureGAN import FutureGenerator as FutureGAN
+        config = {
+            'batch_norm': False,
+            'g_pixelwise_norm': True,
+            'w_norm': True,
+            # 'w_norm' : config.w_norm
+            # padding : config.padding
+            # lrelu : config.lrelu
+            # g_tanh : config.g_tanh
+            # d_gdrop : False
+            # nc : config.nc
+            # nz : config.nz
+            # ngf : config.ngf
+            # ndf : config.ndf
+            # nframes_in : config.nframes_in
+            # nframes_pred : config.nframes_pred
+        }
+        model = FutureGAN(config)
 
     # Initialize Dataset and DataLoader
     if opts['dataset'] == 'GeneratedSins':

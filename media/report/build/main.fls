@@ -1,4 +1,4 @@
-PWD /home/msc5/code/junior-iw/media/report
+PWD /home/msc5/Code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -920,10 +920,6 @@ INPUT /usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 INPUT /usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 INPUT /usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
 INPUT /usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
-INPUT /usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
-INPUT /usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
-INPUT /usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
-INPUT /usr/share/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
 INPUT /usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
 INPUT /usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
 INPUT /usr/share/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -1239,10 +1235,18 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 OUTPUT build/main.toc
+INPUT build/main.bbl
+INPUT build/main.bbl
+INPUT build/main.bbl
+INPUT build/main.bbl
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
 INPUT build/main.aux
 INPUT build/main.out
 INPUT build/main.out
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb

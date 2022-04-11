@@ -28,7 +28,7 @@ from real-world data, without any human intervention in the data-labeling proces
 
 ## Architectures
 
-There are an extremely wide range of model architectures which are suited to
+There are a wide range of model architectures which are suited to
 the task of video-prediction, however they can be grouped by several key
 features.
 
@@ -72,4 +72,8 @@ simple array of numbers where time without a beat is represented by a zero and
 time with a beat is represented by a 1, and the 1s are somehow predictably
 spaced from each other.
 
+## Results
 
+## Conclusion
+
+## References

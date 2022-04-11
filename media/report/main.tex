@@ -8,26 +8,31 @@
 \usepackage{mathtools}
 \usepackage{cancel}
 \usepackage{xfrac}
-\usepackage{siunitx}                   % for scientific notation \num{}
-\usepackage{authblk}                   % for authors
-\usepackage{tikz}                      % for circled {}
-\usepackage{systeme}                   % for system of equations bracket
-\usepackage{verbatim}                  % for comment
-\usepackage{xfp}                       % for floating point operations in macros
-\usepackage{graphicx}                  % for cropping the images
-\usepackage{dsfont}                    % for doublestroke fonts
+\usepackage{siunitx}                    % for scientific notation \num{}
+\usepackage{authblk}                    % for authors
+\usepackage{tikz}                       % for circled {}
+\usepackage{systeme}                    % for system of equations bracket
+\usepackage{verbatim}                   % for comment
+\usepackage{xfp}                        % for floating point operations in macros
+\usepackage{graphicx}                   % for cropping the images
+\usepackage{dsfont}                     % for doublestroke fonts
 \usepackage{float}
-\usepackage[colorlinks=true]{hyperref} % hyperlink
+\usepackage{hyperref}                   % hyperlink
 \usepackage[english]{babel}
 \usepackage[square, numbers]{natbib}
-\usepackage[nottoc]{tocbibind}         % Includes "References" in the table of contents
+\usepackage[nottoc]{tocbibind}          % Includes "References" in the table of contents
 
 \bibliographystyle{abbrvnat}
+
+\hypersetup{
+	colorlinks=true, 
+	citecolor=orange,
+}
 
 \AtBeginDocument{\renewcommand{\bibname}{References}}
 
 \title{Video Prediction}
-\subtitle{Independent Work Report (MAE 439, Spring 2021)}
+\subtitle{Independent Work Report (MAE 340, Spring 2021)}
 \author{Matthew Coleman}
 \date{April 26, 2022}
 
@@ -45,11 +50,52 @@
 \tableofcontents
 \newpage
 
-\section{Abstract}
-\label{sec:abstract}
-
 \section{Introduction}
 \label{sec:intro}
+
+While humans cannot perfectly predict the future, they are indeed capable of
+predicting near events to some extent, and this knowledge greatly aids them in
+planning out their actions, such as which movements to take to reach a goal. To
+some extent, this ability to forecast the future is a direct result of an
+understanding of causality that is learned through observation and interaction
+\cite{human_learning_sequences}.
+
+A great amount of human predictions are, of course, entirely erroneous and
+result in some consequences, but even the humans least adept at predicting
+likely outcomes are still masters of predicting the future in some respects.
+For example, humans have a good sense for where a car will move in the street,
+or which direction a pedestrian may continue walking. Even a young child can
+predict where to toss a football to a moving receiver, and even this small
+knowledge reveals an infinite wisdom compared to the most advanced video
+prediction methods.
+
+The task of video prediction is comprised of several open challenges in
+computer vision; it uses some of the most recent model architectures that have
+been developed and it even deals directly with an impossible task altogether,
+which is to predict the future. Although it is a particularly confusing task,
+however, it also has the potential for immense impact and immediate practical
+applications, such as in autonomous driving \cite{eg_self_driving}, video
+interpolation \cite{eg_video_interp} and most interesting in the context of
+this report, robotic control systems \cite{eg_robot_control}.
+
+% On one hand, some situations are very predictable, such as the motion of a
+% pendulum swinging in a clock, or the spinning of a merry-go-round. These are
+% mostly deterministic events, that is, they have a high likelihood of continuing
+% in a predictable way. Other situations are more unpredictable, such as the
+% moves and strikes of an opponent boxer, or the paths of people walking on a
+% busy street. These events are mostly stochastic, meaning that they have only a
+% lowlikelihood of proceeding in any given way, and the longer the sequence goes
+% on, the more unlikely it will be that a person--or a machine learning
+% model--can predict what will happen next.
+
+% The task of video prediction in computer vision is a self-supervising task that
+% involves splitting a sequence of video frames into an input data and label
+% pair. The task is self-supervising because the first half of the data is used
+% as the input and the second half is used as the label, that is, the model
+% directly computes a loss function between it's own output and the actual ground
+% truth frames from the original sequence. In effect, the model learns solely
+% from real-world data, without any human intervention in the data-labeling
+% process.
 
 \subsection{Video Prediction Terminology}
 \label{subsec:intro_terminology}
@@ -83,7 +129,7 @@
 % ------------------------------------------------------------------------------
 
 \newpage
-\bibliography{bib}
+\bibliography{main}
 \newpage
 
 \end{document}
