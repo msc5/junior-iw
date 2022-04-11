@@ -16,7 +16,7 @@ import torch.nn as nn
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.nn.init import xavier_normal, kaiming_normal, calculate_gain
+from torch.nn.init import xavier_normal, kaiming_normal_ as kaiming_normal, calculate_gain
 from torch.autograd import Variable
 
 
@@ -382,19 +382,19 @@ class FutureGenerator(nn.Module):
 
         super(FutureGenerator, self).__init__()
         self.config = config
-        self.batch_norm = config.batch_norm
-        self.g_pixelwise_norm = config.g_pixelwise_norm
-        self.w_norm = config.w_norm
-        self.padding = config.padding
-        self.lrelu = config.lrelu
-        self.g_tanh = config.g_tanh
+        self.batch_norm = config.get('batch_norm')
+        self.g_pixelwise_norm = config.get('g_pixelwise_norm')
+        self.w_norm = config.get('w_norm')
+        self.padding = config.get('padding')
+        self.lrelu = config.get('lrelu')
+        self.g_tanh = config.get('g_tanh')
         self.d_gdrop = False
-        self.nc = config.nc
-        self.nz = config.nz
-        self.ngf = config.ngf
-        self.ndf = config.ndf
-        self.nframes_in = config.nframes_in
-        self.nframes_pred = config.nframes_pred
+        self.nc = config.get('nc')
+        self.nz = config.get('nz')
+        self.ngf = config.get('ngf')
+        self.ndf = config.get('ndf')
+        self.nframes_in = config.get('nframes_in')
+        self.nframes_pred = config.get('nframes_pred')
         self.nframes = self.nframes_in + self.nframes_pred
         self.layer_name_encode = None
         self.layer_name_decode = None
@@ -862,7 +862,7 @@ class FutureGenerator(nn.Module):
 
     def forward(self, x):
 
-        if self.config.d_cond:
+        if self.config.get('d_cond'):
             y = self.model(x)
             x = torch.cat([x, y], 2)
         else:

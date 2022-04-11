@@ -74,6 +74,45 @@ if __name__ == "__main__":
         'image_interval': args.get('image_interval', 500),
     }
 
+    # Initialize Dataset and DataLoader
+    if opts['dataset'] == 'GeneratedSins':
+        from .data.generators import GeneratedSins
+        dataset = GeneratedSins(opts['seq_len'])
+        opts['inp_size'] = 1
+    elif opts['dataset'] == 'GeneratedNoise':
+        from .data.generators import GeneratedNoise
+        dataset = GeneratedNoise(opts['seq_len'])
+        opts['inp_size'] = 1
+    elif opts['dataset'] == 'MovingMNIST':
+        from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
+        dataset = MovingMNIST(
+            train=True,
+            seq_len=opts['seq_len'],
+            image_size=64,
+            deterministic=True,
+            num_digits=2
+        )
+        opts['inp_chan'] = 1
+    elif opts['dataset'] == 'KTH':
+        from .data.datasets.KTH.KTH import KTH
+        dataset = KTH.make_dataset(
+            'src/data/datasets/KTH/raw',
+            64,
+            (opts['seq_len']),
+            True
+        )
+        opts['inp_chan'] = 1
+    elif opts['dataset'] == 'BAIR':
+        from .data.datasets.BAIR.BAIR import BAIR
+        dataset = BAIR('src/data/datasets/BAIR/raw')
+        opts['inp_chan'] = 3
+    loader = DataLoader(
+        dataset=dataset,
+        batch_size=opts['batch_size'],
+        shuffle=True,
+        num_workers=opts['num_workers']
+    )
+
     # Initialize Model
     if opts['model'] == 'ConvLSTM':
         from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
@@ -90,53 +129,19 @@ if __name__ == "__main__":
             'batch_norm': False,
             'g_pixelwise_norm': True,
             'w_norm': True,
-            # 'w_norm' : config.w_norm
-            # padding : config.padding
-            # lrelu : config.lrelu
-            # g_tanh : config.g_tanh
-            # d_gdrop : False
-            # nc : config.nc
-            # nz : config.nz
-            # ngf : config.ngf
-            # ndf : config.ndf
-            # nframes_in : config.nframes_in
-            # nframes_pred : config.nframes_pred
+            'padding': 'zero',
+            'lrelu': True,
+            'g_tanh': False,
+            'd_gdrop': False,
+            'd_cond': True,
+            'nc': opts['inp_chan'],
+            'nz': 512,
+            'ngf': 512,
+            'ndf': 512,
+            'nframes_in': opts['seq_len'],
+            'nframes_pred': opts['fut_len']
         }
         model = FutureGAN(config)
-
-    # Initialize Dataset and DataLoader
-    if opts['dataset'] == 'GeneratedSins':
-        from .data.generators import GeneratedSins
-        dataset = GeneratedSins(opts['seq_len'])
-    elif opts['dataset'] == 'GeneratedNoise':
-        from .data.generators import GeneratedNoise
-        dataset = GeneratedNoise(opts['seq_len'])
-    elif opts['dataset'] == 'MovingMNIST':
-        from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
-        dataset = MovingMNIST(
-            train=True,
-            seq_len=opts['seq_len'],
-            image_size=64,
-            deterministic=True,
-            num_digits=2
-        )
-    elif opts['dataset'] == 'KTH':
-        from .data.datasets.KTH.KTH import KTH
-        dataset = KTH.make_dataset(
-            'src/data/datasets/KTH/raw',
-            64,
-            (opts['seq_len']),
-            True
-        )
-    elif opts['dataset'] == 'BAIR':
-        from .data.datasets.BAIR.BAIR import BAIR
-        dataset = BAIR('src/data/datasets/BAIR/raw')
-    loader = DataLoader(
-        dataset=dataset,
-        batch_size=opts['batch_size'],
-        shuffle=True,
-        num_workers=opts['num_workers']
-    )
 
     # Start Training
     lightning = Lightning(model, loader, opts)

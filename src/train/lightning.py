@@ -57,7 +57,10 @@ class Lightning (pl.LightningModule):
         return image, self.make_label()
 
     def forward(self, x):
-        return self.model(x, self.opts['fut_len'])
+        if self.opts['model'] in ['FutureGAN']:
+            return self.model(x)
+        else:
+            return self.model(x, self.opts['fut_len'])
 
     def fit(self):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
