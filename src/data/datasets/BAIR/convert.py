@@ -71,5 +71,5 @@ def convert_data(dname):
         print('%s data: %s (%d)  (%d)' % (dname, f, k, n))
 
 
-convert_data('test')
+# convert_data('test')
 convert_data('train')
