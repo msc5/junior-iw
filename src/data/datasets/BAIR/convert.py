@@ -65,7 +65,7 @@ def convert_data(dname):
         for i in range(len(seq)):
             # imsave('/%s/processed_data/%s/%s/%d/%d.png' %
             #        (opt.data_dir, dname, f[:-10], k, i), seq[i])
-            imwrite('/%s/processed_data/%s/%s/%d/%d.png' %
+            imwrite('%s/processed_data/%s/%s/%d/%d.png' %
                     (opt.data_dir, dname, f[:-10], k, i), seq[i])
 
         print('%s data: %s (%d)  (%d)' % (dname, f, k, n))
