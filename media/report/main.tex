@@ -97,24 +97,42 @@ this report, robotic control systems \cite{eg_robot_control}.
 % from real-world data, without any human intervention in the data-labeling
 % process.
 
-\section{Prediction Model Families}
+\section{The Task of Video Prediction}
+\label{sec:task}
+
+The task of video prediction is to 
+
+\section{Families of Prediction Models}
 \label{sec:families}
 
-In addition to convolution, modern video prediction models tend to adopt a few
-canonical architectures, which are each very well-researched and developed.
-Although they are typically implemented slightly differently in practice, the
-overarching themes are still in effect, and many of these model paradigms are
-combined or adapted for alternative tasks. The best video prediction models use
-them in conjunction with each other to create a larger network of interleaving
-models. 
-
-Of these are recurrent models, which are trained on sequences of data,
-generative models, which are trained to approximate the conditional probability
-$p(x y)$ in order to generate images in the same distribution as ground-truth
-images.
+Modern video prediction models tend to adopt canonical architectures.
 
 \subsection{Recurrent Models}
 \label{subsec:recurrent}
+
+Recurrent neural networks (RNNs) consist of a network of nodes that stretches
+over some sequential information, typically in the form of a time sequence
+(Which is the case in video prediction). Each node will perform another
+learning technique on the data in sequence (This could be a convolution
+operation, or a linear layer, for example) and output its own activation.
+Commonly, this is implemented not with a network of individual nodes but rather
+in the form of a feedback loop over a single node, which passes some data
+embedding forward through the network to itself in a loop (a hidden state, or
+variable), only taking in new data from the original input sequence at each
+step. In this way, an RNN equipped with convolution is capable of learning from
+time-varying information while preserving spatio-temporal relations (That is,
+relationships in the data that exist over space, such as the shape of a
+person's leg and hip, as well as relationships in the data that exist over
+time, such as the motion of a person walking, will be preserved in the
+final activations of the network).
+
+The outputs of each node are then used for other purposes, depending on the
+task, and the result is then backpropagated against a loss function. In machine
+learning parlance, this is referred to as backpropagation through time (BPTT),
+since a gradient must be computed in the input sequence's reverse order, i.e.,
+through time, and in the case of an RNN implemented with a feedback system,
+this gradient must be computed with respect to the input data at each time step
+and then added to the weights of the single node in sum. 
 
 \subsection{Generative Models}
 \label{subsec:generative}
