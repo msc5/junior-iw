@@ -53,7 +53,7 @@ class BAIR (object):
             im = np.array(Image.open(fname)).reshape(1, 3, 64, 64)
             image_seq.append(im / 255.)
         image_seq = np.concatenate(image_seq, axis=0)
-        return torch.from_numpy(image_seq)
+        return torch.from_numpy(image_seq).float()
 
     def __getitem__(self, index):
         self.set_seed(index)

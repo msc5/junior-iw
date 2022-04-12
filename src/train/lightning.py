@@ -76,7 +76,6 @@ class Lightning (pl.LightningModule):
     def training_step(self, batch, i):
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
         x, y = batch[:, :inp_len], batch[:, inp_len:]
-        print(x.shape, y.shape)
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
         writer = self.logger.experiment
