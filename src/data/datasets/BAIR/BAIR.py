@@ -1,10 +1,9 @@
 import os
 import io
-from scipy.misc import imresize
 import numpy as np
 from PIL import Image
-from scipy.misc import imresize
-from scipy.misc import imread
+
+from torchvision.transforms import ToTensor
 
 
 class BAIR (object):
@@ -27,6 +26,7 @@ class BAIR (object):
         self.image_size = image_size
         self.seed_is_set = False  # multi threaded loading
         self.d = 0
+        self.totensor = ToTensor()
 
     def set_seed(self, seed):
         if not self.seed_is_set:
@@ -48,7 +48,8 @@ class BAIR (object):
         image_seq = []
         for i in range(self.seq_len):
             fname = '%s/%d.png' % (d, i)
-            im = imread(fname).reshape(1, 64, 64, 3)
+            # im = imread(fname).reshape(1, 64, 64, 3)
+            im = np.array(Image.open(fname)).reshape(1, 3, 64, 64)
             image_seq.append(im / 255.)
         image_seq = np.concatenate(image_seq, axis=0)
         return image_seq
