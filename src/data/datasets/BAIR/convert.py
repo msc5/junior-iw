@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.python.platform import flags
 from tensorflow.python.platform import gfile
 
+from tensorflow_serving.apis import input_pb2
 from imageio import imwrite
 
 
@@ -32,7 +33,8 @@ def get_seq(dname):
         # for serialized_example in tf.python_io.tf_record_iterator(f):
         raw_dataset = tf.data.TFRecordDataset(f)
         for serialized_example in raw_dataset.take(1):
-            example = tf.train.Example()
+            # example = tf.train.Example()
+            example = input_pb2.ExampleListWithContext()
             example.ParseFromString(serialized_example)
             image_seq = []
             for i in range(30):
