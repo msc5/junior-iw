@@ -2,6 +2,7 @@ import os
 import io
 import numpy as np
 from PIL import Image
+import torch
 
 from torchvision.transforms import ToTensor
 
@@ -53,7 +54,7 @@ class BAIR (object):
             im = np.array(Image.open(fname)).reshape(1, 3, 64, 64)
             image_seq.append(im / 255.)
         image_seq = np.concatenate(image_seq, axis=0)
-        return image_seq
+        return torch.from_numpy(image_seq)
 
     def __getitem__(self, index):
         self.set_seed(index)
