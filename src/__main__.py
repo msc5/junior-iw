@@ -130,13 +130,13 @@ if __name__ == "__main__":
     # Initialize Model
     if opts['model'] == 'ConvLSTM':
         from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
-        model = ConvLSTM(1, 64, opts['num_layers'])
+        model = ConvLSTM(opts['inp_chan'], 64, opts['num_layers'])
     elif opts['model'] == 'ConvLSTM_REF':
         from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
-        model = ConvLSTM_REF(64, 1)
+        model = ConvLSTM_REF(64, opts['inp_chan'])
     elif opts['model'] == 'LSTM':
         from .arch.lstm import LSTMSeq2Seq as LSTM
-        model = LSTM(1, 64)
+        model = LSTM(opts['inp_size'], 64)
     elif opts['model'] == 'FutureGAN':
         from .arch.futureGAN import FutureGAN as FutureGAN
         config = {
