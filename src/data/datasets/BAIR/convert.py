@@ -29,7 +29,8 @@ def get_seq(dname):
 
     for f in filenames:
         k = 0
-        for serialized_example in tf.python_io.tf_record_iterator(f):
+        # for serialized_example in tf.python_io.tf_record_iterator(f):
+        for serialized_example in tf.data.TFRecordDataset(f):
             example = tf.train.Example()
             example.ParseFromString(serialized_example)
             image_seq = []
