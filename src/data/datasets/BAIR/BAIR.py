@@ -13,10 +13,11 @@ class BAIR (object):
     def __init__(self, data_root, train=True, seq_len=20, image_size=64):
         self.root_dir = data_root
         if train:
-            self.data_dir = '%s/processed_data/train' % self.root_dir
+            # self.data_dir = '%s/processed_data/train' % self.root_dir
+            self.data_dir = '%s/train' % self.root_dir
             self.ordered = False
         else:
-            self.data_dir = '%s/processed_data/test' % self.root_dir
+            self.data_dir = '%s/test' % self.root_dir
             self.ordered = True
         self.dirs = []
         for d1 in os.listdir(self.data_dir):
