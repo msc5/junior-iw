@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 
 from .train.lightning import Lightning
 
+
 MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM', 'FutureGAN']
 DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
 
@@ -27,6 +28,17 @@ def add_args(parser):
     parser.add_argument('--criterion', help='Loss function')
     parser.add_argument('--image_interval',
                         help='Number of steps to make images')
+    parser.add_argument('--kth_classes', nargs='+',
+                        help='Specify KTH classes to train on')
+
+
+KTH_CLASSES = [
+    'boxing',
+    'handclapping',
+    'handwaving',
+    'jogging',
+    'running',
+    'walking']
 
 
 parser = argparse.ArgumentParser(
@@ -72,6 +84,7 @@ if __name__ == "__main__":
         'max_epochs': args.get('max_epochs', 300),
         'criterion': args.get('criterion', 'MSELoss'),
         'image_interval': args.get('image_interval', 500),
+        'kth_classes': args.get('kth_classes', KTH_CLASSES)
     }
 
     # Initialize Dataset and DataLoader
@@ -99,7 +112,8 @@ if __name__ == "__main__":
             'src/data/datasets/KTH/raw',
             64,
             (opts['seq_len']),
-            True
+            True,
+            classes=opts['kth_classes']
         )
         opts['inp_chan'] = 1
     elif opts['dataset'] == 'BAIR':

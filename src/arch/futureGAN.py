@@ -1198,3 +1198,42 @@ class FutureGAN (nn.Module):
             self.x_label = self.D(
                 self.x[:, :, self.nframes_in:, :, :].detach())
             self.x_gen_label = self.D(self.x_gen.detach())
+
+
+if __name__ == "__main__":
+
+    from rich import print
+    from torchinfo import summary
+
+    config = {
+        # Generator
+        'batch_norm': False,
+        'g_pixelwise_norm': True,
+        'w_norm': True,
+        'padding': 'zero',
+        'lrelu': True,
+        'g_tanh': False,
+        'd_gdrop': False,
+        'd_cond': True,
+
+        # Discriminator
+        'loss': 'lsgan',
+        'd_sigmoid': False,
+
+        # Data
+        'nc': 3,
+        'nz': 512,
+        'ngf': 512,
+        'ndf': 512,
+        'nframes_in': 6,
+        'nframes_pred': 6,
+    }
+
+    G = FutureGenerator(config)
+    D = Discriminator(config)
+
+    # (_, inp_chan, seq_len, _, _)
+    z = torch.rand(20, 3, 6, 16, 16)
+
+    summary(G, z.shape)
+    summary(D, z.shape)

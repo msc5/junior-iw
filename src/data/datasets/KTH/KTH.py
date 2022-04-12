@@ -121,7 +121,20 @@ class KTH(VideoDataset):
         return torch.from_numpy(x).unsqueeze(1).float()
 
     @classmethod
-    def make_dataset(cls, data_dir, nx, seq_len, train):
+    def make_dataset(
+            cls,
+            data_dir,
+            nx,
+            seq_len,
+            train,
+            classes=[
+                'boxing',
+                'handclapping',
+                'handwaving',
+                'jogging',
+                'running',
+                'walking']
+    ):
         """
         Creates a dataset from the directory where the dataset is saved.
 
@@ -140,12 +153,13 @@ class KTH(VideoDataset):
         -------
         data.kth.KTH
         """
+        print('Loading classes:', classes)
         # Select the right fold (train / test)
         if train:
             # Loads all preprocessed videos
             data_dir = join(data_dir, f'processed_{nx}')
             data = []
-            for c in cls.classes:
+            for c in classes:
                 for vid in os.listdir(join(data_dir, c)):
                     if not os.path.isdir(join(data_dir, c, vid)):
                         continue
