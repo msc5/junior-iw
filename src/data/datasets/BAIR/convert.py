@@ -8,7 +8,6 @@ import tensorflow as tf
 from tensorflow.python.platform import flags
 from tensorflow.python.platform import gfile
 
-from tensorflow_serving.apis import input_pb2
 from imageio import imwrite
 
 
