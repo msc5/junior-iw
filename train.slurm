@@ -20,4 +20,5 @@ conda activate torch-env
 # python -m src train ConvLSTM KTH --num_layers 4
 # python -m src train ConvLSTM KTH --num_layers 1
 # python -m src train ConvLSTM KTH --num_layers 2 --kth_classes walking
-python -m src train ConvLSTM KTH --num_layers 4 --kth_classes walking
+# python -m src train ConvLSTM KTH --num_layers 4 --kth_classes walking
+python -m src train ConvLSTM BAIR --num_layers 2
