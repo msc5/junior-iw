@@ -30,6 +30,8 @@ def add_args(parser):
                         help='Number of steps to make images')
     parser.add_argument('--kth_classes', nargs='+',
                         help='Specify KTH classes to train on')
+    parser.add_argument('--checkpoint_path',
+                        help='Resume training model at given path')
 
 
 KTH_CLASSES = [
@@ -84,7 +86,8 @@ if __name__ == "__main__":
         'max_epochs': args.get('max_epochs', 300),
         'criterion': args.get('criterion', 'MSELoss'),
         'image_interval': args.get('image_interval', 500),
-        'kth_classes': args.get('kth_classes', KTH_CLASSES)
+        'kth_classes': args.get('kth_classes', KTH_CLASSES),
+        'checkpoint_path': args.get('checkpoint_path', None),
     }
 
     # Initialize Dataset and DataLoader

@@ -41,6 +41,8 @@ class Lightning (pl.LightningModule):
         elif opts['criterion'] == 'CrossEntropyLoss':
             self.criterion = torch.nn.CrossEntropyLoss()
 
+        self.total_steps = len(self.loader)
+
     def make_label(self):
         epoch, step = self.current_epoch, self.global_step
         model, dataset = self.opts['model'], self.opts['dataset']
@@ -70,15 +72,19 @@ class Lightning (pl.LightningModule):
         log_dir = 'results'
         logger = TensorBoardLogger(log_dir, name=name)
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
+        checkpoint = ModelCheckpoint(
+            every_n_train_steps=(self.total_steps // 2))
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.opts['device'],
             devices=1,
-            max_epochs=self.opts['max_epochs'])
+            max_epochs=self.opts['max_epochs'],
+            callbacks=[checkpoint])
+
         logger_path = f'{log_dir}/{name}/version_{logger.version}/opts.json'
         with open(logger_path, 'w', encoding='utf-8') as file:
             json.dump(self.opts, file)
-        trainer.fit(self)
+        trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
 
     def training_step(self, batch, i):
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
