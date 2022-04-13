@@ -2,6 +2,7 @@
 import io
 import os
 import torch
+import json
 import numpy as np
 import pytorch_lightning as pl
 import matplotlib.pyplot as plt
@@ -71,6 +72,10 @@ class Lightning (pl.LightningModule):
             accelerator=self.opts['device'],
             devices=1,
             max_epochs=self.opts['max_epochs'])
+        print(logger.version, logger.name)
+        version = f'version_{logger.version}'
+        with open(f'results/{name}/{version}/opts.json', 'w', encoding='utf-8') as file:
+            json.dump(self.opts, file)
         trainer.fit(self)
 
     def training_step(self, batch, i):
