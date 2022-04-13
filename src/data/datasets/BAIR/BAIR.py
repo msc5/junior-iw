@@ -35,7 +35,7 @@ class BAIR (object):
             np.random.seed(seed)
 
     def __len__(self):
-        return 10000
+        return len(self.dirs)
 
     def get_seq(self):
         if self.ordered:
