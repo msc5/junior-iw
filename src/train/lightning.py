@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 
 from torchvision.utils import make_grid
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.tensorboard import SummaryWriter
+
 
 from ..analysis.plots import plot_seqs, plot_to_tensor
 
