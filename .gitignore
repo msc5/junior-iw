@@ -1,3 +1,4 @@
 MNIST/
 raw/
 **/__pycache__/
+results/
