@@ -43,7 +43,7 @@ def get_seq(dname):
                     img.getdata()).reshape(
                     img.size[1],
                     img.size[0],
-                    3)
+                    3).astype(np.uint8)
                 image_seq.append(arr.reshape(1, 64, 64, 3) / 255.)
             image_seq = np.concatenate(image_seq, axis=0)
             k = k + 1
