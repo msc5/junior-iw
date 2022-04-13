@@ -67,16 +67,16 @@ class Lightning (pl.LightningModule):
 
     def fit(self):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
-        logger = TensorBoardLogger('results', name=name)
+        log_dir = 'results'
+        logger = TensorBoardLogger(log_dir, name=name)
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.opts['device'],
             devices=1,
             max_epochs=self.opts['max_epochs'])
-        print(logger.version, logger.name)
-        version = f'version_{logger.version}'
-        with open(f'results/{name}/{version}/opts.json', 'w', encoding='utf-8') as file:
+        logger_path = f'{log_dir}/{name}/version_{logger.version}/opts.json'
+        with open(logger_path, 'w', encoding='utf-8') as file:
             json.dump(self.opts, file)
         trainer.fit(self)
 
