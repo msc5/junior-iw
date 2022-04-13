@@ -77,6 +77,7 @@ class Lightning (pl.LightningModule):
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
         x, y = batch[:, :inp_len], batch[:, inp_len:]
         output = self.forward(x)
+        print(output.shape)
         loss = self.criterion(output.squeeze(), y.squeeze())
         writer = self.logger.experiment
         step = self.global_step
@@ -203,10 +204,10 @@ class VideoPredictionLightning (pl.LightningModule):
         # (batch_size, seq_len, img_chan, img_h, img_w)
         truth = torch.cat([x, y], dim=1)[0]
         prediction = torch.cat([x, output], dim=1)[0]
-        combined = torch.cat([truth, prediction])
+        combined = torch.cat([truth, prediction])[:, [2, 1, 0]]
         image = make_grid(combined, nrow=self.seq_len + self.fut_len)
         label = f'epoch_{self.current_epoch}_step_{self.global_step}'
-        return image, label
+        return x[0][0], label
 
     def forward(self, x):
         x = x.to(self.device)

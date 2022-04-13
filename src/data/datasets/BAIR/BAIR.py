@@ -1,10 +1,10 @@
 import os
 import io
-from scipy.misc import imresize
 import numpy as np
 from PIL import Image
-from scipy.misc import imresize
-from scipy.misc import imread
+import torch
+
+from torchvision.transforms import ToTensor
 
 
 class BAIR (object):
@@ -17,7 +17,7 @@ class BAIR (object):
             self.data_dir = '%s/processed_data/train' % self.root_dir
             self.ordered = False
         else:
-            self.data_dir = '%s/processed_data/test' % self.root_dir
+            self.data_dir = '%s/test' % self.root_dir
             self.ordered = True
         self.dirs = []
         for d1 in os.listdir(self.data_dir):
@@ -27,6 +27,7 @@ class BAIR (object):
         self.image_size = image_size
         self.seed_is_set = False  # multi threaded loading
         self.d = 0
+        self.totensor = ToTensor()
 
     def set_seed(self, seed):
         if not self.seed_is_set:
@@ -48,9 +49,11 @@ class BAIR (object):
         image_seq = []
         for i in range(self.seq_len):
             fname = '%s/%d.png' % (d, i)
-            im = imread(fname).reshape(1, 64, 64, 3)
-            image_seq.append(im / 255.)
-        image_seq = np.concatenate(image_seq, axis=0)
+            # im = imread(fname).reshape(1, 64, 64, 3)
+            # im = np.array(Image.open(fname)).reshape((1, 3, 64, 64))
+            im = self.totensor(Image.open(fname)).reshape(1, 3, 64, 64)
+            image_seq.append(im)
+        image_seq = torch.cat(image_seq, axis=0)
         return image_seq
 
     def __getitem__(self, index):
