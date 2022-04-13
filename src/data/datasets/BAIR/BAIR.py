@@ -50,10 +50,11 @@ class BAIR (object):
         for i in range(self.seq_len):
             fname = '%s/%d.png' % (d, i)
             # im = imread(fname).reshape(1, 64, 64, 3)
-            im = np.array(Image.open(fname)).reshape(1, 3, 64, 64)
-            image_seq.append(im / 255.)
-        image_seq = np.concatenate(image_seq, axis=0)
-        return torch.from_numpy(image_seq).float()
+            # im = np.array(Image.open(fname)).reshape((1, 3, 64, 64))
+            im = self.totensor(Image.open(fname)).reshape(1, 3, 64, 64)
+            image_seq.append(im)
+        image_seq = torch.cat(image_seq, axis=0)
+        return image_seq
 
     def __getitem__(self, index):
         self.set_seed(index)
