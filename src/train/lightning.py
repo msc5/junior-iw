@@ -64,7 +64,7 @@ class Lightning (pl.LightningModule):
 
     def fit(self):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
-        logger = TensorBoardLogger('tensorboard', name=name)
+        logger = TensorBoardLogger('results', name=name)
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         trainer = pl.Trainer(
             logger=logger,
