@@ -32,6 +32,8 @@ def add_args(parser):
                         help='Specify KTH classes to train on')
     parser.add_argument('--checkpoint_path',
                         help='Resume training model at given path')
+    parser.add_argument('--task_id', help='Task id for slurm job array')
+    parser.add_argument('--log_dir', help='Results Directory')
 
 
 KTH_CLASSES = [
@@ -47,7 +49,6 @@ parser = argparse.ArgumentParser(
     prog='video_prediction',
     description='Matthew Coleman Junior IW Video Prediction'
 )
-add_args(parser)
 
 subparsers = parser.add_subparsers(help='Test or Train a Model')
 
@@ -59,7 +60,6 @@ add_args(train_parser)
 test_parser = subparsers.add_parser('test', help='Test a Model')
 test_parser.add_argument('model', choices=MODELS, help='Specify Model')
 test_parser.add_argument('dataset', choices=DATASETS, help='Specify Dataset')
-add_args(test_parser)
 
 if __name__ == "__main__":
 
@@ -88,6 +88,8 @@ if __name__ == "__main__":
         'image_interval': args.get('image_interval', 500),
         'kth_classes': args.get('kth_classes', KTH_CLASSES),
         'checkpoint_path': args.get('checkpoint_path', None),
+        'task_id': args.get('task_id', None),
+        'log_dir': args.get('log_dir', 'results')
     }
 
     # Initialize Dataset and DataLoader
