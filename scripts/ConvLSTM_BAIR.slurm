@@ -20,4 +20,4 @@ module purge
 module load anaconda3/2021.5
 conda activate torch-env
 
-python -m src train ConvLSTM BAIR --num_layers $SLURM_ARRAY_TASK_ID --max_epochs 3 --kth_classes walking running
+python -m src train ConvLSTM BAIR --num_layers $SLURM_ARRAY_TASK_ID --max_epochs 3
