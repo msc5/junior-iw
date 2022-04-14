@@ -20,4 +20,4 @@ module purge
 module load anaconda3/2021.5
 conda activate torch-env
 
-python -m src train ConvLSTM KTH --num_layers $SLURM_ARRAY_TASK_ID$ --max_epochs 3
+python -m src train ConvLSTM KTH --num_layers $SLURM_ARRAY_TASK_ID --max_epochs 3
