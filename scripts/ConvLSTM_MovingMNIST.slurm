@@ -8,6 +8,7 @@
 #SBATCH --gres=gpu:1             # number of gpus per node
 #SBATCH --time=03:00:00          # total run time limit (HH:MM:SS)
 #SBATCH --array=1,2              # job array 
+#SBATCH --chdir=/scratch/network/msc5/code/junior-iw/
 #SBATCH --mail-type=all        # send mail when job begins, ends, or fails
 #SBATCH --mail-user=msc5@princeton.edu
 
@@ -19,4 +20,7 @@ module purge
 module load anaconda3/2021.5
 conda activate torch-env
 
-python -m src train ConvLSTM MovingMNIST --num_layers $SLURM_ARRAY_TASK_ID$ --max_epochs 3
+python -m src train ConvLSTM MovingMNIST \
+	--task_id $SLURM_ARRAY_TASK_ID \
+	--num_layers $SLURM_ARRAY_TASK_ID \
+	--max_epochs 3 \
