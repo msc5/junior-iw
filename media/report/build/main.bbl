@@ -1,4 +1,4 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{5}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -26,5 +26,17 @@ A.~Hu, F.~Cotter, N.~Mohan, C.~Gurau, and A.~Kendall.
 Z.~Liu, R.~A. Yeh, X.~Tang, Y.~Liu, and A.~Agarwala.
 \newblock Video frame synthesis using deep voxel flow, 2017.
 \newblock URL \url{https://arxiv.org/abs/1702.02463}.
+
+\bibitem[{Oprea} et~al.(2020){Oprea}, {Martinez-Gonzalez}, {Garcia-Garcia},
+  {Castro-Vargas}, {Orts-Escolano}, {Garcia-Rodriguez}, and
+  {Argyros}]{video_prediction_survey}
+S.~{Oprea}, P.~{Martinez-Gonzalez}, A.~{Garcia-Garcia}, J.~A. {Castro-Vargas},
+  S.~{Orts-Escolano}, J.~{Garcia-Rodriguez}, and A.~{Argyros}.
+\newblock A review on deep learning techniques for video prediction.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, page 1–1, 2020.
+\newblock ISSN 1939-3539.
+\newblock \doi{10.1109/tpami.2020.3045007}.
+\newblock URL \url{http://dx.doi.org/10.1109/TPAMI.2020.3045007}.
 
 \end{thebibliography}

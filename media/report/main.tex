@@ -31,7 +31,7 @@
 
 \AtBeginDocument{\renewcommand{\bibname}{References}}
 
-\title{Video Prediction}
+\title{Video Prediction and Learning Causality}
 \subtitle{Independent Work Report (MAE 340, Spring 2021)}
 \author{Matthew Coleman}
 \date{April 26, 2022}
@@ -54,53 +54,56 @@
 \label{sec:intro}
 
 While humans cannot perfectly predict the future, they are indeed capable of
-predicting near events to some extent, and this knowledge greatly aids them in
-planning out their actions, such as which movements to take to reach a goal. To
-some extent, this ability to forecast the future is a direct result of an
-understanding of causality that is learned through observation and interaction
-\cite{human_learning_sequences}.
+inferring a great deal of information about near events in the future, and this
+knowledge greatly aids them in planning out their actions, such as which
+movements to take to reach a goal. This ability to forecast the future is a
+direct result of an understanding of causality that is learned through
+observation and interaction \cite{human_learning_sequences}.
 
-A great amount of human predictions are, of course, entirely erroneous and
-result in some consequences, but even the humans least adept at predicting
-likely outcomes are still masters of predicting the future in some respects.
-For example, humans have a good sense for where a car will move in the street,
-or which direction a pedestrian may continue walking. Even a young child can
-predict where to toss a football to a moving receiver, and even this small
-knowledge reveals an infinite wisdom compared to the most advanced video
-prediction methods.
+A great amount of human predictions are, of course, erroneous in major
+respects, but even the humans least adept at inferring far-off outcomes and
+consequences still are masters of learning very near-term ones. For example,
+humans have a good sense for where a car will move in the street, or which
+direction a pedestrian may continue walking. Even a young child can predict
+where to toss a football to a moving receiver, and even this small knowledge
+reveals an infinite wisdom compared to the most advanced video prediction
+methods.
 
 The task of video prediction is comprised of several open challenges in
 computer vision; it uses some of the most recent model architectures that have
 been developed and it even deals directly with an impossible task altogether,
 which is to predict the future. Although it is a particularly confusing task,
-however, it also has the potential for immense impact and immediate practical
+it also has the potential for immense impact and immediate practical
 applications, such as in autonomous driving \cite{eg_self_driving}, video
 interpolation \cite{eg_video_interp} and most interesting in the context of
 this report, robotic control systems \cite{eg_robot_control}.
 
-% On one hand, some situations are very predictable, such as the motion of a
-% pendulum swinging in a clock, or the spinning of a merry-go-round. These are
-% mostly deterministic events, that is, they have a high likelihood of continuing
-% in a predictable way. Other situations are more unpredictable, such as the
-% moves and strikes of an opponent boxer, or the paths of people walking on a
-% busy street. These events are mostly stochastic, meaning that they have only a
-% lowlikelihood of proceeding in any given way, and the longer the sequence goes
-% on, the more unlikely it will be that a person--or a machine learning
-% model--can predict what will happen next.
-
-% The task of video prediction in computer vision is a self-supervising task that
-% involves splitting a sequence of video frames into an input data and label
-% pair. The task is self-supervising because the first half of the data is used
-% as the input and the second half is used as the label, that is, the model
-% directly computes a loss function between it's own output and the actual ground
-% truth frames from the original sequence. In effect, the model learns solely
-% from real-world data, without any human intervention in the data-labeling
-% process.
+This project will examine the current state-of-the-art in video prediction
+models, report on several experiments carried out by implementing and testing
+such a model on various existing datasets, and attempt to make meaningful
+conclusions about video prediction and learning causality.
 
 \section{The Task of Video Prediction}
 \label{sec:task}
 
-The task of video prediction is to 
+\newcommand{\Xseq}{$\boldsymbol{X} = \left( X_1 , X_2 , X_3 \cdots X_n \right)$}
+\newcommand{\Yseq}{$\boldsymbol{Y} = \left( Y_1 , Y_2 , Y_3 \cdots Y_m \right)$}
+\newcommand{\Yhatseq}{
+	$\hat{\boldsymbol{Y}} = 
+	\left( \hat{Y}_1 , \hat{Y}_2 , \hat{Y}_3 \cdots \hat{Y}_n \right)$
+}
+
+The task of video prediction is to construct an approximation for the
+completion of a sequence of frames, given only the initial sequence of frames.
+Formally, given an ordered set of $n$ image frames \Xseq, the task is to
+predict the latter $m$ frames of the sequence \Yseq, each frame of which having
+the same dimensions, for example with $c$ channels, height $h$, and width $w$.
+The model predictions \Yhatseq are conditioned on the input sequence
+$\boldsymbol{X}$, and the model weights are updated typically by the gradient
+of a loss function computed between the predictions and ground truth sequence
+$\boldsymbol{Y}$ directly. Critically, since there is no human intervention or
+labeling required for the model to do this, video prediction is a
+self-supervised task \cite{video_prediction_survey}.
 
 \section{Families of Prediction Models}
 \label{sec:families}
@@ -114,28 +117,35 @@ Recurrent neural networks (RNNs) consist of a network of nodes that stretches
 over some sequential information, typically in the form of a time sequence
 (Which is the case in video prediction). Each node will perform another
 learning technique on the data in sequence (This could be a convolution
-operation, or a linear layer, for example) and output its own activation.
-Commonly, this is implemented not with a network of individual nodes but rather
-in the form of a feedback loop over a single node, which passes some data
-embedding forward through the network to itself in a loop (a hidden state, or
-variable), only taking in new data from the original input sequence at each
-step. In this way, an RNN equipped with convolution is capable of learning from
-time-varying information while preserving spatio-temporal relations (That is,
-relationships in the data that exist over space, such as the shape of a
-person's leg and hip, as well as relationships in the data that exist over
-time, such as the motion of a person walking, will be preserved in the
-final activations of the network).
+operation, a linear layer, or a combination of several, for example) and output
+its own activation. Commonly, this is implemented not with a network of
+individual nodes but rather in the form of a feedback loop over a single node,
+which passes some data embedding forward through the network to itself in a
+loop (a hidden state, or variable), only taking in new data from the original
+input sequence at each step. In this way, an RNN equipped with convolution is
+capable of learning from time-varying information while preserving
+spatio-temporal relations (That is, relationships in the data that exist over
+space, such as the shape of a person's leg and hip, as well as relationships in
+the data that exist over time, such as the motion of a person walking, will be
+preserved in the final activations of the network).
 
 The outputs of each node are then used for other purposes, depending on the
 task, and the result is then backpropagated against a loss function. In machine
 learning parlance, this is referred to as backpropagation through time (BPTT),
 since a gradient must be computed in the input sequence's reverse order, i.e.,
-through time, and in the case of an RNN implemented with a feedback system,
+backwards through time, and in the case of an RNN implemented with feedback,
 this gradient must be computed with respect to the input data at each time step
-and then added to the weights of the single node in sum. 
+and then added to the weights of the single node in sum.
 
 \subsection{Generative Models}
 \label{subsec:generative}
+
+Generative neural networks (for example, GANs) consist of mostly the same
+architecture as discriminative neural nets, such as the ones which are
+classically used for image classification. While discriminative nets seek to
+learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
+particular class $y$, generative nets seek to learn the opposite conditional
+probability $p(x \mid y)$ of an input data given the output. In practice...
 
 \section{Convolutional LSTM}
 \label{sec:conv_lstm}
