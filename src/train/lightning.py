@@ -18,7 +18,7 @@ from ..analysis.plots import plot_seqs, plot_to_tensor
 GLOBAL_METRICS = {
     'Metrics': {
         'loss':
-        ['Multiline', ['loss/train', 'loss/validation']],
+        ['Multiline', ['loss/train', 'loss/val']],
         'output_range':
         ['Multiline', ['output_range/max', 'output_range/min']]
     }
@@ -27,13 +27,17 @@ GLOBAL_METRICS = {
 
 class Lightning (pl.LightningModule):
 
-    def __init__(self, model, loader, opts: object):
+    def __init__(self, model, loaders, opts: object):
         super(Lightning, self).__init__()
 
-        self.model = model
-        self.loader = loader
-
         self.opts = opts
+
+        # Initialize Model
+        self.model = model
+
+        # Initialize DataLoaders
+        self.loaders = loaders
+        self.total_steps = {k: len(v) for (k, v) in loaders.items()}
 
         # Initialize Criterion
         if opts['criterion'] == 'MSELoss':
@@ -41,7 +45,7 @@ class Lightning (pl.LightningModule):
         elif opts['criterion'] == 'CrossEntropyLoss':
             self.criterion = torch.nn.CrossEntropyLoss()
 
-        self.total_steps = len(self.loader)
+        self.steps = {'train': 0, 'test': 0, 'val': 0}
 
     def make_label(self):
         epoch, step = self.current_epoch, self.global_step
@@ -74,45 +78,55 @@ class Lightning (pl.LightningModule):
             log_dir, name=name, version=self.opts['task_id'])
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         checkpoint = ModelCheckpoint(
-            every_n_train_steps=(self.total_steps // 2))
+            every_n_train_steps=(self.total_steps['train'] // 2))
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.opts['device'],
             devices=1,
             max_epochs=self.opts['max_epochs'],
-            callbacks=[checkpoint])
+            callbacks=[checkpoint],
+            limit_val_batches=self.opts['n_val_batches'],
+            val_check_interval=self.opts['val_interval'])
         opts_path = f'{logger.log_dir}/opts.json'
         with open(opts_path, 'w', encoding='utf-8') as file:
             json.dump(self.opts, file)
         trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
 
+    def get_step(self):
+        return self.steps['train'] + self.steps['val']
+
     def training_step(self, batch, i):
+        self.steps['train'] += 1
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
         x, y = batch[:, :inp_len], batch[:, inp_len:]
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
-        writer = self.logger.experiment
-        step = self.global_step
-        if step % self.opts['image_interval'] == 0:
-            if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-                image, label = self.make_image(x, y, output)
-            else:
-                image, label = self.make_plot(x, y, output)
-            writer.add_image(label, image, step)
-        logs = {
-            'loss': {'train': loss},
-            'output_range': {
-                'max': output.max(),
-                'min': output.min()
-            }
-        }
-        for key, val in logs.items():
-            if isinstance(val, dict):
-                for k, v in val.items():
-                    writer.add_scalar(f'{key}/{k}', v, step)
-            else:
-                writer.add_scalar(key, val, step)
-        return {'loss': loss, 'log': logs}
+        writer, step = self.logger.experiment, self.get_step()
+        # if step % self.opts['image_interval'] == 0:
+        #     if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+        #         image, label = self.make_image(x, y, output)
+        #     else:
+        #         image, label = self.make_plot(x, y, output)
+        #     writer.add_image(f'train_{label}', image, step)
+        writer.add_scalar('loss/train', loss, step)
+        writer.add_scalar('output_range/max', output.max(), step)
+        writer.add_scalar('output_range/min', output.min(), step)
+        return {'loss': loss}
+
+    def validation_step(self, batch, i):
+        self.steps['val'] += 1
+        inp_len = self.opts['seq_len'] - self.opts['fut_len']
+        x, y = batch[:, :inp_len], batch[:, inp_len:]
+        output = self.forward(x)
+        loss = self.criterion(output.squeeze(), y.squeeze())
+        writer, step = self.logger.experiment, self.get_step()
+        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+            image, label = self.make_image(x, y, output)
+        else:
+            image, label = self.make_plot(x, y, output)
+        writer.add_image(f'val_{label}', image, step)
+        writer.add_scalar('loss/val', loss, step)
+        return {'loss': loss}
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(
@@ -122,7 +136,13 @@ class Lightning (pl.LightningModule):
         return optimizer
 
     def train_dataloader(self):
-        return self.loader
+        return self.loaders['train']
+
+    def val_dataloader(self):
+        return self.loaders['val']
+
+    def test_dataloader(self):
+        return self.loaders['test']
 
 
 if __name__ == "__main__":

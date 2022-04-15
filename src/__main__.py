@@ -12,110 +12,112 @@ KTH_CLASSES = ['boxing', 'handclapping', 'handwaving',
 MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM', 'FutureGAN']
 DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
 
-# OPTS = {
-#     'model': {
-#         'description': 'Model architecture'
-#     },
-#     'dataset': {
-#         'description': 'Dataset'
-#     },
-#     'device': {
-#         'description': 'Device to use',
-#         'default': 'gpu',
-#         'choices': ['gpu', 'cpu'],
-#     },
-#     'num_workers': {
-#         'description': 'Number of dataloader workers',
-#         'default': 4,
-#         'type': int,
-#     },
-#     'num_layers': {
-#         'description': 'Number of specified model architecture layers',
-#         'default': 1,
-#         'type': int,
-#     },
-#     'seq_len': {
-#         'description': 'Total Length of sequence to predict',
-#         'default': 20,
-#         'type': int,
-#     },
-#     'fut_len': {
-#         'description': 'Length of predicted sequence',
-#         'default': 10,
-#         'type': int,
-#     },
-#     'batch_size': {
-#         'description': 'Size of data batches for each step',
-#         'default': 4,
-#         'type': int,
-#     },
-#     'shuffle': {
-#         'description': 'Whether to shuffle data in dataloader',
-#         'default': True,
-#         'type': bool,
-#     },
-#     'learning_rate': {
-#         'description': 'Learning rate of optimizer',
-#         'default': 0.001,
-#         'type': float,
-#     },
-#     'max_epochs': {
-#         'description': 'Maximum number of epochs to train/test',
-#         'default': 300,
-#         'type': int,
-#     },
-#     'criterion': {
-#         'description': 'Loss function for training',
-#         'default': 'MSELoss',
-#         'choices': ['MSELoss'],
-#     },
-#     'image_interval': {
-#         'description': 'How many steps between image generation',
-#         'default': 500,
-#         'type': int,
-#     },
-#     'kth_classes': {
-#         'description': 'Which classes to use in the KTH dataset training',
-#         'default': KTH_CLASSES,
-#     },
-#     'checkpoint_path': {
-#         'description': 'Path of model checkpoint to resume training from',
-#         'default': None,
-#     },
-#     'task_id': {
-#         'description': 'Task ID for slurm scheduler array jobs',
-#         'default': None,
-#     },
-#     'log_dir': {
-#         'description': 'Directory to log results',
-#         'default': 'results',
-#     },
-# }
+OPTS = {
+    'model': {
+        'description': 'Model architecture'
+    },
+    'dataset': {
+        'description': 'Dataset'
+    },
+    'device': {
+        'description': 'Device to use',
+        'default': 'gpu',
+        'choices': ['gpu', 'cpu'],
+    },
+    'num_workers': {
+        'description': 'Number of dataloader workers',
+        'default': 4,
+        'type': int,
+    },
+    'num_layers': {
+        'description': 'Number of specified model architecture layers',
+        'default': 1,
+        'type': int,
+    },
+    'seq_len': {
+        'description': 'Total Length of sequence to predict',
+        'default': 20,
+        'type': int,
+    },
+    'fut_len': {
+        'description': 'Length of predicted sequence',
+        'default': 10,
+        'type': int,
+    },
+    'batch_size': {
+        'description': 'Size of data batches for each step',
+        'default': 4,
+        'type': int,
+    },
+    'n_val_batches': {
+        'description': 'Total number of batches for validation loop',
+        'default': 10,
+        'type': int,
+    },
+    'val_interval': {
+        'description': 'Fraction of train batches to validate between',
+        'default': 0.25,
+        'type': float
+    },
+    'shuffle': {
+        'description': 'Whether to shuffle data in dataloader',
+        'default': True,
+        'type': bool,
+    },
+    'learning_rate': {
+        'description': 'Learning rate of optimizer',
+        'default': 0.001,
+        'type': float,
+    },
+    'max_epochs': {
+        'description': 'Maximum number of epochs to train/test',
+        'default': 300,
+        'type': int,
+    },
+    'criterion': {
+        'description': 'Loss function for training',
+        'default': 'MSELoss',
+        'choices': ['MSELoss'],
+    },
+    'image_interval': {
+        'description': 'How many steps between image generation',
+        'default': 500,
+        'type': int,
+    },
+    'kth_classes': {
+        'description': 'Which classes to use in the KTH dataset training',
+        'default': KTH_CLASSES,
+        'nargs': '+',
+    },
+    'checkpoint_path': {
+        'description': 'Path of model checkpoint to resume training from',
+        'default': None,
+    },
+    'task_id': {
+        'description': 'Task ID for slurm scheduler array jobs',
+        'default': None,
+    },
+    'log_dir': {
+        'description': 'Directory to log results',
+        'default': 'results',
+    },
+    'mmnist_num_digits': {
+        'description': 'Number of digits to use in the MovingMNIST dataset',
+        'default': 2,
+        'type': int,
+    }
+}
 
 
 def add_args(parser):
-    parser.add_argument('--device', choices=['gpu', 'cpu'], help='Device')
-    parser.add_argument('--num_workers', type=int,
-                        help='Number of DataLoader workers')
-    parser.add_argument('--num_layers',
-                        type=int, help='Number of ConvLSTM layers')
-    parser.add_argument('--seq_len', type=int, help='Total length of sequence')
-    parser.add_argument('--fut_len', type=int, help='Total length to predict')
-    parser.add_argument('--batch_size', type=int, help='Batch Size')
-    parser.add_argument('--shuffle', type=bool, help='Shuffle Dataset')
-    parser.add_argument('--learning_rate', type=float, help='Learning rate')
-    parser.add_argument('--max_epochs', type=int,
-                        help='Maximum amount of epochs')
-    parser.add_argument('--max_time', help='Maximum amount of time (s)')
-    parser.add_argument('--criterion', help='Loss function')
-    parser.add_argument('--image_interval',
-                        help='Number of steps to make images')
-    parser.add_argument('--kth_classes', nargs='+',
-                        help='Specify KTH classes to train on')
-    parser.add_argument('--checkpoint_path',
-                        help='Resume training model at given path')
-    parser.add_argument('--task_id', help='Task id for slurm job array')
-    parser.add_argument('--log_dir', help='Results Directory')
+    for key, val in OPTS.items():
+        parser.add_argument(
+            f'--{key}',
+            help=val.get('help', None),
+            choices=val.get('choices', None),
+            type=val.get('type', None),
+            nargs=val.get('nargs', None),
+        )
 
 
 parser = argparse.ArgumentParser(
@@ -133,44 +135,28 @@ add_args(train_parser)
 test_parser = subparsers.add_parser('test', help='Test a Model')
 test_parser.add_argument('model', choices=MODELS, help='Specify Model')
 test_parser.add_argument('dataset', choices=DATASETS, help='Specify Dataset')
+add_args(test_parser)
 
 
 if __name__ == "__main__":
 
-    args = {k: v for (k, v) in
-            vars(parser.parse_args()).items() if v is not None}
+    from rich import print
+
+    opts = {k: v if v is not None else OPTS[k]['default']
+            for (k, v) in vars(parser.parse_args()).items()}
 
     n_columns = 80
     print('-' * n_columns)
-    print(f'{"Training:":>20}')
-    print(f'{"Model":>20} : {args.get("model"):<20}')
-    print(f'{"Dataset":>20} : {args.get("dataset"):<20}')
+    print(f'{"Training":>20} :')
+    print(f'{"Model":>20} : {opts["model"]:<20}')
+    print(f'{"Dataset":>20} : {opts["dataset"]:<20}')
     print('-' * n_columns)
-
-    opts = {
-        'model': args.get('model'),
-        'dataset': args.get('dataset'),
-        'device': args.get('device', 'gpu'),
-        'num_workers': args.get('num_workers', 4),
-        'num_layers': args.get('num_layers', 1),
-        'seq_len': args.get('seq_len', 20),
-        'fut_len': args.get('fut_len', 10),
-        'batch_size': args.get('batch_size', 4),
-        'shuffle': args.get('shuffle', True),
-        'learning_rate': args.get('learning_rate', 0.001),
-        'max_epochs': args.get('max_epochs', 300),
-        'criterion': args.get('criterion', 'MSELoss'),
-        'image_interval': args.get('image_interval', 500),
-        'kth_classes': args.get('kth_classes', KTH_CLASSES),
-        'checkpoint_path': args.get('checkpoint_path', None),
-        'task_id': args.get('task_id', None),
-        'log_dir': args.get('log_dir', 'results')
-    }
 
     # Initialize Dataset and DataLoader
     if opts['dataset'] == 'GeneratedSins':
         from .data.generators import GeneratedSins
-        dataset = GeneratedSins(opts['seq_len'])
+        train_dataset = GeneratedSins(opts['seq_len'])
+        test_dataset = GeneratedSins(opts['seq_len'])
         opts['inp_size'] = 1
     elif opts['dataset'] == 'GeneratedNoise':
         from .data.generators import GeneratedNoise
@@ -178,32 +164,43 @@ if __name__ == "__main__":
         opts['inp_size'] = 1
     elif opts['dataset'] == 'MovingMNIST':
         from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
-        dataset = MovingMNIST(
+        train_dataset = MovingMNIST(
             train=True,
+            data_root='src/data/datasets/MovingMNIST',
             seq_len=opts['seq_len'],
             image_size=64,
             deterministic=True,
-            num_digits=2
-        )
+            num_digits=opts['mmnist_num_digits'])
+        test_dataset = MovingMNIST(
+            train=False,
+            data_root='src/data/datasets/MovingMNIST',
+            seq_len=opts['seq_len'],
+            image_size=64,
+            deterministic=True,
+            num_digits=opts['mmnist_num_digits'])
         opts['inp_chan'] = 1
     elif opts['dataset'] == 'KTH':
         from .data.datasets.KTH.KTH import KTH
         dataset = KTH.make_dataset(
-            'src/data/datasets/KTH/raw',
-            64,
-            (opts['seq_len']),
-            True,
-            classes=opts['kth_classes']
-        )
+            data_dir='src/data/datasets/KTH/raw',
+            nx=64,
+            seq_len=opts['seq_len'],
+            train=True,
+            classes=opts['kth_classes'])
         opts['inp_chan'] = 1
     elif opts['dataset'] == 'BAIR':
         from .data.datasets.BAIR.BAIR import BAIR
         dataset = BAIR('src/data/datasets/BAIR/raw')
         opts['inp_chan'] = 3
-    loader = DataLoader(
-        dataset=dataset,
+    train_loader = DataLoader(
+        dataset=train_dataset,
         batch_size=opts['batch_size'],
-        shuffle=True,
+        shuffle=opts['shuffle'],
+        num_workers=opts['num_workers'])
+    test_loader = DataLoader(
+        dataset=test_dataset,
+        batch_size=opts['batch_size'],
+        shuffle=False,
         num_workers=opts['num_workers']
     )
 
@@ -237,6 +234,11 @@ if __name__ == "__main__":
         }
         model = FutureGAN(config)
 
+    print(opts)
+
     # Start Training
-    lightning = Lightning(model, loader, opts)
+    lightning = Lightning(model, {
+        'train': train_loader,
+        'val': test_loader
+    }, opts)
     lightning.fit()

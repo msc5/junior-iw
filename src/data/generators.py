@@ -10,8 +10,8 @@ from ..analysis.plots import plot_seqs
 
 class GeneratedSins (Dataset):
 
-    def __init__(self, seq_len: int):
-        self.len = 20000
+    def __init__(self, seq_len: int, N: int = None):
+        self.len = N or 5000
         self.data = self.gen_sins(self.len, seq_len)
         self.data = torch.from_numpy(self.data).float()
 
@@ -38,8 +38,8 @@ class GeneratedSins (Dataset):
 
 class GeneratedNoise (Dataset):
 
-    def __init__(self, seq_len: int):
-        self.len = 20000
+    def __init__(self, seq_len: int, N: int = None):
+        self.len = N or 5000
         self.data = self.gen_noise(self.len, seq_len)
 
     def __len__(self):

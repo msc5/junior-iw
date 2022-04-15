@@ -12,18 +12,12 @@ class MovingMNIST(object):
     def __init__(
             self,
             train,
-            # data_root,
+            data_root,
             seq_len=20,
             num_digits=2,
             image_size=64,
             deterministic=True):
-        # path = data_root
-        path = os.path.join(
-            os.getcwd(),
-            'src',
-            'data',
-            'datasets',
-            'MovingMNIST')
+        path = data_root
         self.seq_len = seq_len
         self.num_digits = num_digits
         self.image_size = image_size
@@ -38,7 +32,6 @@ class MovingMNIST(object):
             train=train,
             download=True,
             transform=transforms.Compose(
-                # [transforms.Scale(self.digit_size),
                 [transforms.Resize(self.digit_size),
                  transforms.ToTensor()]))
 
@@ -106,3 +99,18 @@ class MovingMNIST(object):
 
         x[x > 1] = 1.
         return x.transpose(0, 3, 1, 2)
+
+
+if __name__ == "__main__":
+
+    from torch.utils.data import DataLoader
+
+    train_dataset = MovingMNIST(True)
+    train_dataloader = DataLoader(train_dataset, batch_size=4)
+    print(len(train_dataset))
+    print(len(train_dataloader))
+
+    test_dataset = MovingMNIST(False)
+    test_dataloader = DataLoader(test_dataset, batch_size=4)
+    print(len(test_dataset))
+    print(len(test_dataloader))
