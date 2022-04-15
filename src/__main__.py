@@ -6,9 +6,91 @@ from torch.utils.data import DataLoader
 
 from .train.lightning import Lightning
 
+KTH_CLASSES = ['boxing', 'handclapping', 'handwaving',
+               'jogging', 'running', 'walking']
 
 MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM', 'FutureGAN']
 DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
+
+# OPTS = {
+#     'model': {
+#         'description': 'Model architecture'
+#     },
+#     'dataset': {
+#         'description': 'Dataset'
+#     },
+#     'device': {
+#         'description': 'Device to use',
+#         'default': 'gpu',
+#         'choices': ['gpu', 'cpu'],
+#     },
+#     'num_workers': {
+#         'description': 'Number of dataloader workers',
+#         'default': 4,
+#         'type': int,
+#     },
+#     'num_layers': {
+#         'description': 'Number of specified model architecture layers',
+#         'default': 1,
+#         'type': int,
+#     },
+#     'seq_len': {
+#         'description': 'Total Length of sequence to predict',
+#         'default': 20,
+#         'type': int,
+#     },
+#     'fut_len': {
+#         'description': 'Length of predicted sequence',
+#         'default': 10,
+#         'type': int,
+#     },
+#     'batch_size': {
+#         'description': 'Size of data batches for each step',
+#         'default': 4,
+#         'type': int,
+#     },
+#     'shuffle': {
+#         'description': 'Whether to shuffle data in dataloader',
+#         'default': True,
+#         'type': bool,
+#     },
+#     'learning_rate': {
+#         'description': 'Learning rate of optimizer',
+#         'default': 0.001,
+#         'type': float,
+#     },
+#     'max_epochs': {
+#         'description': 'Maximum number of epochs to train/test',
+#         'default': 300,
+#         'type': int,
+#     },
+#     'criterion': {
+#         'description': 'Loss function for training',
+#         'default': 'MSELoss',
+#         'choices': ['MSELoss'],
+#     },
+#     'image_interval': {
+#         'description': 'How many steps between image generation',
+#         'default': 500,
+#         'type': int,
+#     },
+#     'kth_classes': {
+#         'description': 'Which classes to use in the KTH dataset training',
+#         'default': KTH_CLASSES,
+#     },
+#     'checkpoint_path': {
+#         'description': 'Path of model checkpoint to resume training from',
+#         'default': None,
+#     },
+#     'task_id': {
+#         'description': 'Task ID for slurm scheduler array jobs',
+#         'default': None,
+#     },
+#     'log_dir': {
+#         'description': 'Directory to log results',
+#         'default': 'results',
+#     },
+# }
 
 
 def add_args(parser):
@@ -36,15 +118,6 @@ def add_args(parser):
     parser.add_argument('--log_dir', help='Results Directory')
 
 
-KTH_CLASSES = [
-    'boxing',
-    'handclapping',
-    'handwaving',
-    'jogging',
-    'running',
-    'walking']
-
-
 parser = argparse.ArgumentParser(
     prog='video_prediction',
     description='Matthew Coleman Junior IW Video Prediction'
@@ -61,6 +134,7 @@ test_parser = subparsers.add_parser('test', help='Test a Model')
 test_parser.add_argument('model', choices=MODELS, help='Specify Model')
 test_parser.add_argument('dataset', choices=DATASETS, help='Specify Dataset')
 
+
 if __name__ == "__main__":
 
     args = {k: v for (k, v) in
@@ -68,6 +142,7 @@ if __name__ == "__main__":
 
     n_columns = 80
     print('-' * n_columns)
+    print(f'{"Training:":>20}')
     print(f'{"Model":>20} : {args.get("model"):<20}')
     print(f'{"Dataset":>20} : {args.get("dataset"):<20}')
     print('-' * n_columns)
