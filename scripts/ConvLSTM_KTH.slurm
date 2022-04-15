@@ -24,4 +24,4 @@ python -m src train ConvLSTM KTH \
 	--task_id $SLURM_ARRAY_TASK_ID \
 	--num_layers $SLURM_ARRAY_TASK_ID \
 	--max_epochs 3 \
-	--kth_classes walking running \
+	--kth_classes walking running
