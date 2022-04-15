@@ -89,7 +89,7 @@ class KTH(VideoDataset):
             # The number is a trade-off for max efficiency.
             # If too low, it is not good for batch size and multi-threaded dataloader.
             # If too high, it is not good for shuffling and sampling.
-            return 500000
+            return 100000
         return len(self.data)
 
     def __getitem__(self, index):
@@ -153,7 +153,7 @@ class KTH(VideoDataset):
         -------
         data.kth.KTH
         """
-        print('Loading classes:', classes)
+        print('Loading KTH classes:', classes)
         # Select the right fold (train / test)
         if train:
             # Loads all preprocessed videos
