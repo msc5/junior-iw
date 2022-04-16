@@ -12,9 +12,14 @@
 #SBATCH --mail-type=all        # send mail when job begins, ends, or fails
 #SBATCH --mail-user=msc5@princeton.edu
 
-echo "My SLURM_ARRAY_JOB_ID is $SLURM_ARRAY_JOB_ID."
-echo "My SLURM_ARRAY_TASK_ID is $SLURM_ARRAY_TASK_ID"
-echo "Executing on the machine:" $(hostname)
+CWD_PATH=$(pwd)
+SCRIPT_PATH=$(dirname $(readlink -f "$0"))
+
+echo "Executing on the machine  	$HOSTNAME"
+echo "Current Working Directory 	$CWD_PATH"
+echo "Slurm Script Directory    	$SCRIPT_PATH"
+echo "SLURM_ARRAY_JOB_ID is     	$SLURM_ARRAY_JOB_ID"
+echo "SLURM_ARRAY_TASK_ID is    	$SLURM_ARRAY_TASK_ID"
 
 module purge
 module load anaconda3/2021.5
