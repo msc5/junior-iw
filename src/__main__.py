@@ -97,7 +97,7 @@ OPTS = {
         'description': 'Task ID for slurm scheduler array jobs',
         'default': None,
     },
-    'log_dir': {
+    'results_dir': {
         'description': 'Directory to log results',
         'default': 'results',
     },
@@ -231,3 +231,5 @@ if __name__ == "__main__":
         'val': test_loader
     }, opts)
     lightning.fit()
+
+    lightning.save('final')

@@ -28,6 +28,7 @@ def plot_seqs(x, y, output):
         plt.plot(fut_t, y[n], color='limegreen')
         plt.plot(fut_t, output[n], color='magenta')
     plt.title('Sequences and Predictions')
+    plt.close()
     return fig
 
 

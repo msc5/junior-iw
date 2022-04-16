@@ -73,9 +73,9 @@ class Lightning (pl.LightningModule):
 
     def fit(self):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
-        log_dir = self.opts['log_dir']
+        results_dir = self.opts['results_dir']
         logger = TensorBoardLogger(
-            log_dir, name=name, version=self.opts['task_id'])
+            results_dir, name=name, version=self.opts['task_id'])
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         checkpoint = ModelCheckpoint(
             every_n_train_steps=(self.total_steps['train'] // 2))
@@ -91,6 +91,10 @@ class Lightning (pl.LightningModule):
         with open(opts_path, 'w', encoding='utf-8') as file:
             json.dump(self.opts, file)
         trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
+
+    def save(self, name: str = 'checkpoint'):
+        ckpt_dir = f'{self.logger.log_dir}/checkpoints/{name}.ckpt'
+        self.trainer.save_checkpoint(ckpt_dir)
 
     def get_step(self):
         return self.steps['train'] + self.steps['val']
