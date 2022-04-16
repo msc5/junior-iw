@@ -177,7 +177,7 @@ class KTH(VideoDataset):
             fname = f'svg_test_set_{seq_len}.npz'
             dataset = np.load(join(data_dir, fname), allow_pickle=True)
             sequences = dataset['sequences']
-            print(sequences.shape)
             data = [sequences[i] for i in range(len(sequences))]
+            print(data[0].shape)
         # Create and return the dataset
         return cls(data, nx, seq_len, train)
