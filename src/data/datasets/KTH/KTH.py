@@ -118,7 +118,9 @@ class KTH(VideoDataset):
             x[t] += np.array(img)[:, :, 0]
         # Returned video is an uint8 NumPy array of shape (length, width,
         # height)
-        return torch.from_numpy(x).unsqueeze(1).float() / 255
+        x = torch.from_numpy(x).unsqueeze(1).float() / 255
+        print(x.shape)
+        return x
 
     @classmethod
     def make_dataset(
@@ -178,6 +180,5 @@ class KTH(VideoDataset):
             dataset = np.load(join(data_dir, fname), allow_pickle=True)
             sequences = dataset['sequences']
             data = [sequences[i] for i in range(len(sequences))]
-            print(data[0].shape)
         # Create and return the dataset
         return cls(data, nx, seq_len, train)
