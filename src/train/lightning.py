@@ -102,12 +102,6 @@ class Lightning (pl.LightningModule):
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
         writer, step = self.logger.experiment, self.get_step()
-        # if step % self.opts['image_interval'] == 0:
-        #     if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-        #         image, label = self.make_image(x, y, output)
-        #     else:
-        #         image, label = self.make_plot(x, y, output)
-        #     writer.add_image(f'train_{label}', image, step)
         writer.add_scalar('loss/train', loss, step)
         writer.add_scalar('output_range/max', output.max(), step)
         writer.add_scalar('output_range/min', output.min(), step)

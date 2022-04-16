@@ -9,7 +9,7 @@ from .train.lightning import Lightning
 KTH_CLASSES = ['boxing', 'handclapping', 'handwaving',
                'jogging', 'running', 'walking']
 
-MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM', 'FutureGAN']
+MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM']
 DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
 
 OPTS = {
@@ -160,7 +160,8 @@ if __name__ == "__main__":
         opts['inp_size'] = 1
     elif opts['dataset'] == 'GeneratedNoise':
         from .data.generators import GeneratedNoise
-        dataset = GeneratedNoise(opts['seq_len'])
+        train_dataset = GeneratedNoise(opts['seq_len'])
+        test_dataset = GeneratedNoise(opts['seq_len'])
         opts['inp_size'] = 1
     elif opts['dataset'] == 'MovingMNIST':
         from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
@@ -181,16 +182,23 @@ if __name__ == "__main__":
         opts['inp_chan'] = 1
     elif opts['dataset'] == 'KTH':
         from .data.datasets.KTH.KTH import KTH
-        dataset = KTH.make_dataset(
+        train_dataset = KTH.make_dataset(
             data_dir='src/data/datasets/KTH/raw',
             nx=64,
             seq_len=opts['seq_len'],
             train=True,
             classes=opts['kth_classes'])
+        test_dataset = KTH.make_dataset(
+            data_dir='src/data/datasets/KTH/raw',
+            nx=64,
+            seq_len=opts['seq_len'],
+            train=False,
+            classes=opts['kth_classes'])
         opts['inp_chan'] = 1
     elif opts['dataset'] == 'BAIR':
         from .data.datasets.BAIR.BAIR import BAIR
-        dataset = BAIR('src/data/datasets/BAIR/raw')
+        train_dataset = BAIR('src/data/datasets/BAIR/raw', train=True)
+        test_dataset = BAIR('src/data/datasets/BAIR/raw', train=False)
         opts['inp_chan'] = 3
     train_loader = DataLoader(
         dataset=train_dataset,
@@ -214,25 +222,6 @@ if __name__ == "__main__":
     elif opts['model'] == 'LSTM':
         from .arch.lstm import LSTMSeq2Seq as LSTM
         model = LSTM(opts['inp_size'], 64)
-    elif opts['model'] == 'FutureGAN':
-        from .arch.futureGAN import FutureGAN as FutureGAN
-        config = {
-            'batch_norm': False,
-            'g_pixelwise_norm': True,
-            'w_norm': True,
-            'padding': 'zero',
-            'lrelu': True,
-            'g_tanh': False,
-            'd_gdrop': False,
-            'd_cond': True,
-            'nc': opts['inp_chan'],
-            'nz': 512,
-            'ngf': 512,
-            'ndf': 512,
-            'nframes_in': opts['seq_len'],
-            'nframes_pred': opts['fut_len']
-        }
-        model = FutureGAN(config)
 
     print(opts)
 
