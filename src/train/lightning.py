@@ -48,7 +48,7 @@ class Lightning (pl.LightningModule):
         self.steps = {'train': 0, 'test': 0, 'val': 0}
 
     def make_label(self):
-        epoch, step = self.current_epoch, self.global_step
+        epoch, step = self.current_epoch, self.get_step()
         model, dataset = self.opts['model'], self.opts['dataset']
         return f'{model}_{dataset}_epoch_{epoch}_step_{step}'
 
