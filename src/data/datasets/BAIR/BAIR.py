@@ -17,7 +17,7 @@ class BAIR (object):
             self.data_dir = '%s/processed_data/train' % self.root_dir
             self.ordered = False
         else:
-            self.data_dir = '%s/test' % self.root_dir
+            self.data_dir = '%s/processed_data/test' % self.root_dir
             self.ordered = True
         self.dirs = []
         for d1 in os.listdir(self.data_dir):

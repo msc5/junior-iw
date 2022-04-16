@@ -176,6 +176,7 @@ class KTH(VideoDataset):
             # If testing, load the precomputed dataset
             fname = f'svg_test_set_{seq_len}.npz'
             dataset = np.load(join(data_dir, fname), allow_pickle=True)
+            print(dataset.shape)
             sequences = dataset['sequences']
             data = [sequences[i] for i in range(len(sequences))]
         # Create and return the dataset

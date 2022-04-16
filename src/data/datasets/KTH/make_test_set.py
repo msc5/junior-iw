@@ -56,7 +56,7 @@ if __name__ == "__main__":
         metavar='SIZE',
         default=1000,
         help='Number of sequences to extract (size of the testing set).')
-    parser.add_argument('--seq_len', type=int, metavar='LEN', default=40,
+    parser.add_argument('--seq_len', type=int, metavar='LEN', default=20,
                         help='Number of frames per testing sequences.')
     parser.add_argument('--image_size', type=int, metavar='SIZE', default=64,
                         help='Width and height of videos.')
