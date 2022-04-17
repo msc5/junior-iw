@@ -96,7 +96,8 @@ class KTH(VideoDataset):
         if not self.train:
             # When testing, pick the selected video at its beginning (from the
             # precomputed testing set)
-            return self.data[index]
+            x = self.data[index]
+            return torch.from_numpy(x).unsqueeze(1).float() / 255
         # When training, pick a random video from the dataset, and extract a random sequence
         # Iterate until the selected video is long enough
         done = False
@@ -178,7 +179,6 @@ class KTH(VideoDataset):
             fname = f'svg_test_set_{seq_len}.npz'
             dataset = np.load(join(data_dir, fname), allow_pickle=True)
             sequences = dataset['sequences']
-            data = [np.expand_dims(sequences[i], 1)
-                    for i in range(len(sequences))]
+            data = [sequences[i] for i in range(len(sequences))]
         # Create and return the dataset
         return cls(data, nx, seq_len, train)
