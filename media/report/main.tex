@@ -71,12 +71,12 @@ methods.
 
 The task of video prediction is comprised of several open challenges in
 computer vision; it uses some of the most recent model architectures that have
-been developed and it even deals directly with an impossible task altogether,
-which is to predict the future. Although it is a particularly confusing task,
-it also has the potential for immense impact and immediate practical
-applications, such as in autonomous driving \cite{eg_self_driving}, video
-interpolation \cite{eg_video_interp} and most interesting in the context of
-this report, robotic control systems \cite{eg_robot_control}.
+been developed and it even contends directly with an impossible task
+altogether, which is to predict the future. Although it is a particularly
+confusing task, it also has the potential for immense impact and immediate
+practical applications, such as in autonomous driving \cite{eg_self_driving},
+video interpolation \cite{eg_video_interp} and most interesting in the context
+of this report, robotic control systems \cite{eg_robot_control}.
 
 This project will examine the current state-of-the-art in video prediction
 models, report on several experiments carried out by implementing and testing
@@ -98,17 +98,28 @@ completion of a sequence of frames, given only the initial sequence of frames.
 Formally, given an ordered set of $n$ image frames \Xseq, the task is to
 predict the latter $m$ frames of the sequence \Yseq, each frame of which having
 the same dimensions, for example with $c$ channels, height $h$, and width $w$.
-The model predictions \Yhatseq are conditioned on the input sequence
-$\boldsymbol{X}$, and the model weights are updated typically by the gradient
-of a loss function computed between the predictions and ground truth sequence
-$\boldsymbol{Y}$ directly. Critically, since there is no human intervention or
-labeling required for the model to do this, video prediction is a
-self-supervised task \cite{video_prediction_survey}.
+At each inference in training, the model predictions \Yhatseq are conditioned
+on the input sequence $\boldsymbol{X}$, and the model weights are updated
+typically by the gradient of a loss function computed between the predictions
+and ground truth sequence $\boldsymbol{Y}$ directly. Critically, since there is
+no human intervention or labeling required for the model to do this, video
+prediction is a self-supervised task \cite{video_prediction_survey}.
 
 \section{Families of Prediction Models}
 \label{sec:families}
 
-Modern video prediction models tend to adopt canonical architectures.
+Modern video prediction models tend to adopt several canonical architectures,
+which are normally simple and easily generalizable for specific tasks, such that
+they can be used as building blocks or blueprints within larger architectures.
+For example, RNNs and generative networks are each successful and well-tested
+paradigms used in many other machine learning domains outside of computer
+vision, but they are especially utilized within video prediction because of
+their key properties and strengths, particularly of RNNs to work on
+time-sequential data and of generative networks to ``imagine'' new data
+within a distribution. These paradigms are used extensively in Convolutional
+LSTM, FutureGAN \cite{futuregan}, and SAVP models \cite{savp}. A short
+description of each family and its relevance to video prediction is given
+below:
 
 \subsection{Recurrent Models}
 \label{subsec:recurrent}
@@ -131,11 +142,19 @@ preserved in the final activations of the network).
 
 The outputs of each node are then used for other purposes, depending on the
 task, and the result is then backpropagated against a loss function. In machine
-learning parlance, this is referred to as backpropagation through time (BPTT),
+learning terminology, this is referred to as backpropagation through time (BPTT),
 since a gradient must be computed in the input sequence's reverse order, i.e.,
 backwards through time, and in the case of an RNN implemented with feedback,
 this gradient must be computed with respect to the input data at each time step
 and then added to the weights of the single node in sum.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{figures/rnn_arch.png}
+	\end{center}
+	\caption{General RNN Architecture}
+	\label{fig:rnn_arch}
+\end{figure}
 
 \subsection{Generative Models}
 \label{subsec:generative}
@@ -144,31 +163,30 @@ Generative neural networks (for example, GANs) consist of mostly the same
 architecture as discriminative neural nets, such as the ones which are
 classically used for image classification. While discriminative nets seek to
 learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
-particular class $y$, generative nets seek to learn the opposite conditional
-probability $p(x \mid y)$ of an input data given the output. In practice...
+particular class $y$, generative nets seek to learn the conditional probability
+distribution $p(x \mid y)$ of an input data given the output, allowing them to
+make inferences in the form of ``imagined'' data that might belong to the same
+distribution as $x$. In short, discriminative models look at many Van Gogh
+paintings and fakes in order to learn to differentiate between them, and
+generative models look at many Van Gogh paintings in order to learn how to
+paint like Van Gogh.
 
-\section{Convolutional LSTM}
-\label{sec:conv_lstm}
+In practice, this is done by passing a low-dimensional embedding vector from a
+known latent distribution (such as the kind that may come as an activation from
+a discriminative net) through a typical network in reverse, generating an
+upscaled output in the same shape as the targeted learning data.
 
-\section{FutureGAN}
-\label{sec:futuregan}
+\section{Video Prediction Models}
+\label{sec:families}
 
-\newpage
-\section{}
-\label{}
+\subsection{Convolutional LSTM}
+\label{subsec:conv_lstm}
 
-\newpage
-\section{}
-\label{}
+\subsection{FutureGAN}
+\label{subsec:futuregan}
 
-\newpage
-\section{}
-\label{}
-
-\newpage
-\section{}
-\label{}
-
+\subsection{SAVP}
+\label{subsec:savp}
 
 % ------------------------------------------------------------------------------
 % References 

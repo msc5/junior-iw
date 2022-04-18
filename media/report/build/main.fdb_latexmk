@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1649960841 "build/main.aux" "build/main.bbl" "build/main" 1649961034
+["bibtex build/main"] 1650307823 "build/main.aux" "build/main.bbl" "build/main" 1650307825
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1649961033 5333 03624f77cb2e6e0918cf7418967195ee "pdflatex"
-  "main.bib" 1649960020 6975 8953331ceafb024ce75b555c642c48c1 ""
+  "build/main.aux" 1650307825 6440 713556cc77d6c90fb9bf9bfe01c76360 "pdflatex"
+  "main.bib" 1650305290 7558 16755745921e32488adb486fb3e307bc ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1649961031 "main.tex" "build/main.pdf" "main" 1649961034
+["pdflatex"] 1650307823 "main.tex" "build/main.pdf" "main" 1650307825
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1647844622 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1647844622 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -215,11 +215,12 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1649261359 4278762 af3ac1370db81a450c1118eabf1fe718 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1649261356 2924509 590e0613683111570d49259a118b5898 ""
-  "build/main.aux" 1649961033 5333 03624f77cb2e6e0918cf7418967195ee "pdflatex"
-  "build/main.bbl" 1649960841 1902 4c95de5fe1d60d4031feaa53869523ea "bibtex build/main"
+  "build/main.aux" 1650307825 6440 713556cc77d6c90fb9bf9bfe01c76360 "pdflatex"
+  "build/main.bbl" 1650307823 2469 697ff2b1f833dd99f7919ed57a099717 "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 1649961033 688 59ced4801acd00eb384bf2003b7e500f "pdflatex"
-  "main.tex" 1649961029 7314 042b4f0b962abb9af1515ac61bb07328 ""
+  "build/main.toc" 1650307825 857 ab3d6069fa733c129deb317500a199e2 "pdflatex"
+  "figures/rnn_arch.png" 1650304032 23369 ce1ebdc515795acff9f02406bf749445 ""
+  "main.tex" 1650307820 8913 25cb3bedc8dc92afe054c9ff15f901ee ""
   (generated)
   "build/main.aux"
   "build/main.log"

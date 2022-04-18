@@ -1,9 +1,15 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{7}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aigner and Körner(2018)]{futuregan}
+S.~Aigner and M.~Körner.
+\newblock Futuregan: Anticipating the future frames of video sequences using
+  spatio-temporal 3d convolutions in progressively growing gans, 2018.
+\newblock URL \url{https://arxiv.org/abs/1810.01325}.
 
 \bibitem[Cleeremans and Mcclelland(1991)]{human_learning_sequences}
 A.~Cleeremans and J.~Mcclelland.
@@ -21,6 +27,12 @@ C.~Finn and S.~Levine.
 A.~Hu, F.~Cotter, N.~Mohan, C.~Gurau, and A.~Kendall.
 \newblock Probabilistic future prediction for video scene understanding, 2020.
 \newblock URL \url{https://arxiv.org/abs/2003.06409}.
+
+\bibitem[Lee et~al.(2018)Lee, Zhang, Ebert, Abbeel, Finn, and Levine]{savp}
+A.~X. Lee, R.~Zhang, F.~Ebert, P.~Abbeel, C.~Finn, and S.~Levine.
+\newblock Stochastic adversarial video prediction.
+\newblock \emph{CoRR}, abs/1804.01523, 2018.
+\newblock URL \url{http://arxiv.org/abs/1804.01523}.
 
 \bibitem[Liu et~al.(2017)Liu, Yeh, Tang, Liu, and Agarwala]{eg_video_interp}
 Z.~Liu, R.~A. Yeh, X.~Tang, Y.~Liu, and A.~Agarwala.
