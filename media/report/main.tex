@@ -26,7 +26,7 @@
 
 \hypersetup{
 	colorlinks=true, 
-	citecolor=orange,
+	citecolor=blue,
 }
 
 \AtBeginDocument{\renewcommand{\bibname}{References}}
@@ -105,6 +105,7 @@ and ground truth sequence $\boldsymbol{Y}$ directly. Critically, since there is
 no human intervention or labeling required for the model to do this, video
 prediction is a self-supervised task \cite{video_prediction_survey}.
 
+\newpage
 \section{Families of Prediction Models}
 \label{sec:families}
 
@@ -150,7 +151,7 @@ and then added to the weights of the single node in sum.
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=0.95\textwidth]{figures/rnn_arch.png}
+		\includegraphics[width=1\textwidth]{figures/rnn_arch.png}
 	\end{center}
 	\caption{General RNN Architecture}
 	\label{fig:rnn_arch}
@@ -166,10 +167,10 @@ learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
 particular class $y$, generative nets seek to learn the conditional probability
 distribution $p(x \mid y)$ of an input data given the output, allowing them to
 make inferences in the form of ``imagined'' data that might belong to the same
-distribution as $x$. In short, discriminative models look at many Van Gogh
-paintings and fakes in order to learn to differentiate between them, and
-generative models look at many Van Gogh paintings in order to learn how to
-paint like Van Gogh.
+distribution as $x$. In short, discriminative models would look at many Van
+Gogh paintings and fakes in order to learn to differentiate between them, and
+generative models would look at many Van Gogh paintings in order to learn how
+to paint like Van Gogh.
 
 In practice, this is done by passing a low-dimensional embedding vector from a
 known latent distribution (such as the kind that may come as an activation from
@@ -182,11 +183,46 @@ upscaled output in the same shape as the targeted learning data.
 \subsection{Convolutional LSTM}
 \label{subsec:conv_lstm}
 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/lstmcell_arch.png}
+	\end{center}
+	\caption{LSTM Cell Architecture}
+	\label{fig:rnn_arch}
+\end{figure}
+
 \subsection{FutureGAN}
 \label{subsec:futuregan}
 
 \subsection{SAVP}
 \label{subsec:savp}
+
+\newpage
+\section{Datasets}
+\label{sec:datasets}
+
+\subsection{MovingMNIST}
+\label{subsec:mmnist}
+
+\subsection{KTH}
+\label{subsec:kth}
+
+\subsection{BAIR}
+\label{subsec:bair}
+
+\newpage
+\section{Experiments}
+\label{sec:experiments}
+
+\subsection{Sequence Prediction}
+\label{subsec:experiment_sp}
+
+\subsection{Video Prediction}
+\label{subsec:experiment_vp}
+
+\newpage
+\section{Conclusion}
+\label{sec:conclusion}
 
 % ------------------------------------------------------------------------------
 % References 

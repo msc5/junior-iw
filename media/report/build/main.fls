@@ -1249,6 +1249,11 @@ INPUT ./figures/rnn_arch.png
 INPUT figures/rnn_arch.png
 INPUT ./figures/rnn_arch.png
 INPUT ./figures/rnn_arch.png
+INPUT ./figures/lstmcell_arch.png
+INPUT ./figures/lstmcell_arch.png
+INPUT figures/lstmcell_arch.png
+INPUT ./figures/lstmcell_arch.png
+INPUT ./figures/lstmcell_arch.png
 INPUT build/main.bbl
 INPUT build/main.bbl
 INPUT build/main.bbl
