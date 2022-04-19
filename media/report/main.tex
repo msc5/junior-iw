@@ -31,7 +31,7 @@
 
 \AtBeginDocument{\renewcommand{\bibname}{References}}
 
-\title{Video Prediction and Learning Causality}
+\title{Video Prediction}
 \subtitle{Independent Work Report (MAE 340, Spring 2021)}
 \author{Matthew Coleman}
 \date{April 26, 2022}
@@ -161,6 +161,14 @@ the single node in sum.
 \subsection{Generative Models}
 \label{subsec:generative}
 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
+	\end{center}
+	\caption{General GAN Architecture}
+	\label{fig:rnn_arch}
+\end{figure}
+
 Generative neural networks (for example, GANs) consist of mostly the same
 architecture as discriminative neural nets, such as the ones which are
 classically used for image classification. While discriminative nets seek to
@@ -189,11 +197,19 @@ upscaled output in the same shape as the targeted learning data.
 		\includegraphics[width=1\textwidth]{figures/lstmcell_arch.png}
 	\end{center}
 	\caption{LSTM Cell Architecture}
-	\label{fig:rnn_arch}
+	\label{fig:lstmcell_arch}
 \end{figure}
 
 \subsection{FutureGAN}
 \label{subsec:futuregan}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/futuregan_arch.png}
+	\end{center}
+	\caption{FutureGAN Architecture}
+	\label{fig:futuregan_arch}
+\end{figure}
 
 \subsection{SAVP}
 \label{subsec:savp}
@@ -215,8 +231,30 @@ upscaled output in the same shape as the targeted learning data.
 \section{Experiments}
 \label{sec:experiments}
 
+The main experimental procedure carried out in this report is the training and
+testing of the re-implemented Convolutional LSTM model on the MovingMNIST, KTH,
+and BAIR datasets, however, in order to more gain a more robust understanding
+of LSTM features and limitations, as well as to debug the training mechanisms
+in a much simpler setting, it was useful to first test a Linear LSTM model on
+one-dimensional sequential data before moving fully to video prediction.
+
+This Linear LSTM was implemented with nearly the same exact architecture as the
+Convolutional LSTM, however with Linear layers in place of convolutions, and as
+a result, a 2D convolution layer as the final step as opposed to 3D.
+
+% Insert Linear LSTM specifics
+
 \subsection{Sequence Prediction}
 \label{subsec:experiment_sp}
+
+Two generated datasets of one-dimensional sequences were implemented, one which
+was composed of sin waves with random frequency and phase offset, and another
+which represented random points chosen at several steps within the sequence and
+simply interpolated using a sinusoidal interpolation function. Both datasets
+were normalized within the range $(0, 1)$.
+
+\subsubsection{Generated Sinusoids}
+\label{subsubsec:generated_sins}
 
 \subsection{Video Prediction}
 \label{subsec:experiment_vp}
