@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{9}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -22,6 +22,13 @@ A.~Cleeremans and J.~Mcclelland.
 C.~Finn and S.~Levine.
 \newblock Deep visual foresight for planning robot motion, 2016.
 \newblock URL \url{https://arxiv.org/abs/1610.00696}.
+
+\bibitem[Goodfellow et~al.(2014)Goodfellow, Pouget-Abadie, Mirza, Xu,
+  Warde-Farley, Ozair, Courville, and Bengio]{gan_original}
+I.~J. Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair,
+  A.~Courville, and Y.~Bengio.
+\newblock Generative adversarial networks, 2014.
+\newblock URL \url{https://arxiv.org/abs/1406.2661}.
 
 \bibitem[Hu et~al.(2020)Hu, Cotter, Mohan, Gurau, and Kendall]{eg_self_driving}
 A.~Hu, F.~Cotter, N.~Mohan, C.~Gurau, and A.~Kendall.
@@ -50,5 +57,12 @@ S.~{Oprea}, P.~{Martinez-Gonzalez}, A.~{Garcia-Garcia}, J.~A. {Castro-Vargas},
 \newblock ISSN 1939-3539.
 \newblock \doi{10.1109/tpami.2020.3045007}.
 \newblock URL \url{http://dx.doi.org/10.1109/TPAMI.2020.3045007}.
+
+\bibitem[Sherstinsky(2018)]{rnn_and_lstm_fundamentals}
+A.~Sherstinsky.
+\newblock Fundamentals of recurrent neural network {(RNN)} and long short-term
+  memory {(LSTM)} network.
+\newblock \emph{CoRR}, abs/1808.03314, 2018.
+\newblock URL \url{http://arxiv.org/abs/1808.03314}.
 
 \end{thebibliography}

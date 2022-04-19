@@ -143,11 +143,12 @@ preserved in the final activations of the network).
 
 The outputs of each node are then used for other purposes, depending on the
 task, and the result is then backpropagated against a loss function. In machine
-learning terminology, this is referred to as backpropagation through time (BPTT),
-since a gradient must be computed in the input sequence's reverse order, i.e.,
-backwards through time, and in the case of an RNN implemented with feedback,
-this gradient must be computed with respect to the input data at each time step
-and then added to the weights of the single node in sum.
+learning terminology, this is referred to as backpropagation through time
+(BPTT) \cite{rnn_and_lstm_fundamentals}, since a gradient must be computed in
+the input sequence's reverse order, i.e., backwards through time, and in the
+case of an RNN implemented with feedback, this gradient must be computed with
+respect to the input data at each time step and then added to the weights of
+the single node in sum.
 
 \begin{figure}[H]
 	\begin{center}
@@ -167,10 +168,10 @@ learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
 particular class $y$, generative nets seek to learn the conditional probability
 distribution $p(x \mid y)$ of an input data given the output, allowing them to
 make inferences in the form of ``imagined'' data that might belong to the same
-distribution as $x$. In short, discriminative models would look at many Van
-Gogh paintings and fakes in order to learn to differentiate between them, and
-generative models would look at many Van Gogh paintings in order to learn how
-to paint like Van Gogh.
+distribution as $x$ \cite{gan_original}. In short, discriminative models would
+look at many Van Gogh paintings and fakes in order to learn to differentiate
+between them, and generative models would look at many Van Gogh paintings in
+order to learn how to paint like Van Gogh.
 
 In practice, this is done by passing a low-dimensional embedding vector from a
 known latent distribution (such as the kind that may come as an activation from
