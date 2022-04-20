@@ -24,4 +24,4 @@ conda activate torch-env
 
 python -m src train ConvLSTM MovingMNIST \
 	--num_layers 1 \
-	--max_epochs 2 \
+	--max_epochs 2
