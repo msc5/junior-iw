@@ -251,10 +251,15 @@ Two generated datasets of one-dimensional sequences were implemented, one which
 was composed of sin waves with random frequency and phase offset, and another
 which represented random points chosen at several steps within the sequence and
 simply interpolated using a sinusoidal interpolation function. Both datasets
-were normalized within the range $(0, 1)$.
+were normalized to the range $(0, 1)$, with 20 total data points for each
+seqeuence. The model was then given the first 10 points and tasked to predict
+the last 10.
 
 \subsubsection{Generated Sinusoids}
 \label{subsubsec:generated_sins}
+
+Figure \ref{fig:gen_sin_training} shows the model's inferences on a held-out
+set of the generated sinusoidal data as the model trains over one epoch. 
 
 \subsection{Video Prediction}
 \label{subsec:experiment_vp}
