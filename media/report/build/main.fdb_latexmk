@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1650406855 "build/main.aux" "build/main.bbl" "build/main" 1650411232
+["bibtex build/main"] 1650419778 "build/main.aux" "build/main.bbl" "build/main" 1650419779
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1650411232 10825 f5237076f4d8fc857c1e0633a62a58dc "pdflatex"
-  "main.bib" 1650401724 10577 ab4dbddf0cbfcbf7fa02fedef354b78b ""
+  "build/main.aux" 1650419779 10825 5eb553df9410629f69e3314c752eab03 "pdflatex"
+  "main.bib" 1650418262 10577 ab4dbddf0cbfcbf7fa02fedef354b78b ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1650411229 "main.tex" "build/main.pdf" "main" 1650411232
+["pdflatex"] 1650419778 "main.tex" "build/main.pdf" "main" 1650419779
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1647844622 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1647844622 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -39,6 +39,7 @@
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1647844622 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmti12.tfm" 1647844622 1484 ed72f8f5cf654cda15ecc8e32bfcbee5 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1647844622 768 1321e9409b4137d6fb428ac9dc956269 ""
+  "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1647844622 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1647844622 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1647844622 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1647844622 35469 70d41d2b9ea31d5d813066df7c99281c ""
@@ -213,17 +214,17 @@
   "/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty" 1647844622 56029 3f7889dab51d620aa43177c391b7b190 ""
   "/usr/share/texmf-dist/tex/latex/xpatch/xpatch.sty" 1647807149 8314 7803f78066c4f9d008405191a4b43073 ""
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1649261359 4278762 af3ac1370db81a450c1118eabf1fe718 ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1649261356 2924509 590e0613683111570d49259a118b5898 ""
-  "build/main.aux" 1650411232 10825 f5237076f4d8fc857c1e0633a62a58dc "pdflatex"
-  "build/main.bbl" 1650406855 3089 415bcadd07c5367ca855eb59263b0c55 "bibtex build/main"
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1648423700 4278762 af3ac1370db81a450c1118eabf1fe718 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1648423680 2924513 13359978d7cc29c4d3ba90e3c72181ad ""
+  "build/main.aux" 1650419779 10825 5eb553df9410629f69e3314c752eab03 "pdflatex"
+  "build/main.bbl" 1650419778 3089 415bcadd07c5367ca855eb59263b0c55 "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 1650411232 1534 44977fd0b457b13657f777004f178d17 "pdflatex"
-  "figures/futuregan_arch.png" 1650404786 156407 c6011df5f6ae5dca48ae84133b1034aa ""
-  "figures/gan_arch.png" 1650411223 30763 b7857177ec4e06bfc163f7b243a84f13 ""
-  "figures/lstmcell_arch.png" 1650411189 36089 05f6270959b48a61c9a3b6854bce6d54 ""
-  "figures/rnn_arch.png" 1650384253 24036 3fcfa1df28027fbd04698b4b64e8da61 ""
-  "main.tex" 1650406852 11082 47720ba066e1678d6b11d318f9337c73 ""
+  "build/main.toc" 1650419779 1534 44977fd0b457b13657f777004f178d17 "pdflatex"
+  "figures/futuregan_arch.png" 1650418262 156407 c6011df5f6ae5dca48ae84133b1034aa ""
+  "figures/gan_arch.png" 1650418262 30763 b7857177ec4e06bfc163f7b243a84f13 ""
+  "figures/lstmcell_arch.png" 1650418262 36089 05f6270959b48a61c9a3b6854bce6d54 ""
+  "figures/rnn_arch.png" 1650418262 24036 3fcfa1df28027fbd04698b4b64e8da61 ""
+  "main.tex" 1650419778 11356 8a411a6e174f59062d5e536b7a178076 ""
   (generated)
   "build/main.aux"
   "build/main.log"

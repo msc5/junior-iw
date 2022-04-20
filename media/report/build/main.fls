@@ -1,4 +1,4 @@
-PWD /home/msc5/code/junior-iw/media/report
+PWD /home/msc5/Code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -1273,6 +1273,7 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT build/main.aux
 INPUT build/main.out
 INPUT build/main.out
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
