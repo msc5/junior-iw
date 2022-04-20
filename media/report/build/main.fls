@@ -1,4 +1,4 @@
-PWD /home/msc5/Code/junior-iw/media/report
+PWD /home/msc5/code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -1264,6 +1264,11 @@ INPUT ./figures/futuregan_arch.png
 INPUT figures/futuregan_arch.png
 INPUT ./figures/futuregan_arch.png
 INPUT ./figures/futuregan_arch.png
+INPUT ./images/kth/KTHEpoch2Step56342.png
+INPUT ./images/kth/KTHEpoch2Step56342.png
+INPUT images/kth/KTHEpoch2Step56342.png
+INPUT ./images/kth/KTHEpoch2Step56342.png
+INPUT ./images/kth/KTHEpoch2Step56342.png
 INPUT build/main.bbl
 INPUT build/main.bbl
 INPUT build/main.bbl
