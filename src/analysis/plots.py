@@ -28,7 +28,6 @@ def plot_seqs(x, y, output):
         plt.plot(fut_t, y[n], color='limegreen')
         plt.plot(fut_t, output[n], color='magenta')
     plt.title('Sequences and Predictions')
-    plt.close()
     return fig
 
 
@@ -37,25 +36,48 @@ def plot_to_tensor(fig):
     plt.savefig(buf, format='png')
     buf.seek(0)
     image = Image.open(buf)
-    return transforms.ToTensor()(image)
+    image = transforms.ToTensor()(image)
+    plt.close()
+    return image
+
+
+def plot_loss_over_seq(loss_fn, y, output):
+    batch_size, seq_len = y.shape[0], y.shape[1]
+    losses = [[loss_fn(output[b, i], y[b, i]).item()
+              for i in range(seq_len)] for b in range(batch_size)]
+    fig = plt.figure(figsize=(12, 6))
+    for b in range(batch_size):
+        plt.plot(losses[b])
+    plt.title('Loss over Entire Sequence')
+    return fig
 
 
 if __name__ == "__main__":
 
     from torch.utils.data import DataLoader
+    from torch.nn import MSELoss
     from ..data.generators import GeneratedSins, GeneratedNoise
+
+    from ..arch.lstm import LSTMSeq2Seq
 
     seq_len = 200
 
-    # dataset = GeneratedSins(seq_len)
-    dataset = GeneratedNoise(seq_len)
+    dataset = GeneratedSins(seq_len)
+    # dataset = GeneratedNoise(seq_len)
     dataloader = DataLoader(dataset, batch_size=8)
 
     data = next(iter(dataloader))
-    x, y = data[:, :seq_len], data[:, seq_len:]
+    x, y = data[:, :(seq_len // 2)], data[:, (seq_len // 2):]
     print(x.shape, y.shape)
 
-    fig = plot_seqs(x, y, y)
+    # fig = plot_seqs(x, y, y)
+    # tensor = plot_to_tensor(fig)
+
+    model = LSTMSeq2Seq(1, 64, 1)
+    output = model(x)
+
+    loss = MSELoss()
+    fig = plot_loss_over_seq(loss, y, output)
     tensor = plot_to_tensor(fig)
 
     plt.show()

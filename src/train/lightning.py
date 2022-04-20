@@ -2,6 +2,7 @@
 import io
 import os
 import torch
+import torch.nn as nn
 import json
 import numpy as np
 import pytorch_lightning as pl
@@ -13,7 +14,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.tensorboard import SummaryWriter
 
 
-from ..analysis.plots import plot_seqs, plot_to_tensor
+from ..analysis.plots import plot_seqs, plot_to_tensor, plot_loss_over_seq
 
 GLOBAL_METRICS = {
     'Metrics': {
@@ -27,9 +28,10 @@ GLOBAL_METRICS = {
 
 class Lightning (pl.LightningModule):
 
-    def __init__(self, model, loaders, opts: object):
+    def __init__(self, loaders: object, opts: object, model: nn.Module = None):
         super(Lightning, self).__init__()
 
+        self.save_hyperparameters()
         self.opts = opts
 
         # Initialize Model
@@ -57,23 +59,22 @@ class Lightning (pl.LightningModule):
         truth = torch.cat([x, y], dim=1)[0]
         prediction = torch.cat([x, output], dim=1)[0]
         combined = torch.cat([truth, prediction])
-        image = make_grid(combined, nrow=self.opts['seq_len'])
-        return image, self.make_label()
+        return make_grid(combined, nrow=self.opts['seq_len'])
 
-    def make_plot(self, x, y, output):
+    def plot_seq_loss(self, y, output):
+        fig = plot_loss_over_seq(self.criterion, y, output)
+        return plot_to_tensor(fig)
+
+    def plot_pred(self, x, y, output):
         fig = plot_seqs(x, y, output)
-        image = plot_to_tensor(fig)
-        return image, self.make_label()
+        return plot_to_tensor(fig)
 
     def forward(self, x):
-        if self.opts['model'] in ['FutureGAN']:
-            return self.model(x)
-        else:
-            return self.model(x, self.opts['fut_len'])
+        return self.model(x, self.opts['fut_len'])
 
     def fit(self):
         name = f'{self.opts["model"]}_{self.opts["dataset"]}'
-        results_dir = self.opts['results_dir']
+        results_dir = f'{self.opts["results_dir"]}/train'
         logger = TensorBoardLogger(
             results_dir, name=name, version=self.opts['task_id'])
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
@@ -92,12 +93,26 @@ class Lightning (pl.LightningModule):
             json.dump(self.opts, file)
         trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
 
+    def test(self):
+        name = f'{self.opts["model"]}_{self.opts["dataset"]}'
+        results_dir = f'{self.opts["results_dir"]}/test'
+        logger = TensorBoardLogger(
+            results_dir, name=name, version=self.opts['task_id'])
+        logger.experiment.add_custom_scalars(GLOBAL_METRICS)
+        trainer = pl.Trainer(
+            logger=logger,
+            accelerator=self.opts['device'],
+            devices=1,
+            max_epochs=self.opts['max_epochs'],
+            limit_test_batches=self.opts['n_test_batches'])
+        trainer.test(self.model, dataloaders=self.test_dataloader())
+
     def save(self, name: str = 'checkpoint'):
         ckpt_dir = f'{self.logger.log_dir}/checkpoints/{name}.ckpt'
         self.trainer.save_checkpoint(ckpt_dir)
 
     def get_step(self):
-        return self.steps['train'] + self.steps['val']
+        return self.steps['train'] + self.steps['test'] + self.steps['val']
 
     def training_step(self, batch, i):
         self.steps['train'] += 1
@@ -119,11 +134,30 @@ class Lightning (pl.LightningModule):
         loss = self.criterion(output.squeeze(), y.squeeze())
         writer, step = self.logger.experiment, self.get_step()
         if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-            image, label = self.make_image(x, y, output)
+            img_pred = self.make_image(x, y, output)
         else:
-            image, label = self.make_plot(x, y, output)
-        writer.add_image(f'val_{label}', image, step)
+            img_pred = self.plot_pred(x, y, output)
+        label = self.make_label()
+        writer.add_image(f'val_{label}', img_pred, step)
         writer.add_scalar('loss/val', loss, step)
+        return {'loss': loss}
+
+    def test_step(self, batch, i):
+        self.steps['test'] += 1
+        inp_len = self.opts['seq_len'] - self.opts['fut_len']
+        x, y = batch[:, :inp_len], batch[:, inp_len:]
+        output = self.forward(x)
+        loss = self.criterion(output.squeeze(), y.squeeze())
+        writer, step = self.logger.experiment, self.get_step()
+        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+            img_pred = self.make_image(x, y, output)
+        else:
+            img_pred = self.plot_pred(x, y, output)
+        img_seq_loss = self.plot_seq_loss(y, output)
+        label = self.make_label()
+        writer.add_image(f'test_{label}_prediction', img_pred, step)
+        writer.add_image(f'test_{label}_seq_loss', img_seq_loss, step)
+        writer.add_scalar('loss/test', loss, step)
         return {'loss': loss}
 
     def configure_optimizers(self):

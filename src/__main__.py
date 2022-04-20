@@ -50,8 +50,13 @@ OPTS = {
         'type': int,
     },
     'n_val_batches': {
-        'description': 'Total number of batches for validation loop',
+        'description': 'Maximum number of batches for validation loop',
         'default': 10,
+        'type': int,
+    },
+    'n_test_batches': {
+        'description': 'Maximum number of batches for testing loop',
+        'default': 1e13,
         'type': int,
     },
     'val_interval': {
@@ -90,7 +95,7 @@ OPTS = {
         'nargs': '+',
     },
     'checkpoint_path': {
-        'description': 'Path of model checkpoint to resume training from',
+        'description': 'Path of model checkpoint to resume training or test',
         'default': None,
     },
     'task_id': {
@@ -125,7 +130,8 @@ parser = argparse.ArgumentParser(
     description='Matthew Coleman Junior IW Video Prediction'
 )
 
-subparsers = parser.add_subparsers(help='Test or Train a Model')
+subparsers = parser.add_subparsers(
+    help='Test or Train a Model', dest='command')
 
 train_parser = subparsers.add_parser('train', help='Train a Model')
 train_parser.add_argument('model', choices=MODELS, help='Specify Model')
@@ -144,6 +150,8 @@ if __name__ == "__main__":
 
     opts = {k: v if v is not None else OPTS[k]['default']
             for (k, v) in vars(parser.parse_args()).items()}
+
+    print(opts)
 
     n_columns = 80
     print('-' * n_columns)
@@ -212,24 +220,28 @@ if __name__ == "__main__":
         num_workers=opts['num_workers']
     )
 
-    # Initialize Model
-    if opts['model'] == 'ConvLSTM':
-        from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
-        model = ConvLSTM(opts['inp_chan'], 64, opts['num_layers'])
-    elif opts['model'] == 'ConvLSTM_REF':
-        from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
-        model = ConvLSTM_REF(64, opts['inp_chan'])
-    elif opts['model'] == 'LSTM':
-        from .arch.lstm import LSTMSeq2Seq as LSTM
-        model = LSTM(opts['inp_size'], 64)
+    if opts['command'] == 'train':
+        # Initialize Model for Training
+        if opts['model'] == 'ConvLSTM':
+            from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
+            model = ConvLSTM(opts['inp_chan'], 64, opts['num_layers'])
+        elif opts['model'] == 'ConvLSTM_REF':
+            from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
+            model = ConvLSTM_REF(64, opts['inp_chan'])
+        elif opts['model'] == 'LSTM':
+            from .arch.lstm import LSTMSeq2Seq as LSTM
+            model = LSTM(opts['inp_size'], 64)
+        lightning = Lightning({
+            'train': train_loader,
+            'val': test_loader
+        }, opts, model)
+    elif opts['command'] == 'test':
+        # Initialize Model for testing
+        model = Lightning.load_from_checkpoint(opts['checkpoint_path'])
+        lightning = Lightning({'test': test_loader}, opts, model)
 
-    print(opts)
-
-    # Start Training
-    lightning = Lightning(model, {
-        'train': train_loader,
-        'val': test_loader
-    }, opts)
-    lightning.fit()
-
-    lightning.save('final')
+    if opts['command'] == 'train':
+        lightning.fit()
+        lightning.save('final')
+    elif opts['command'] == 'test':
+        lightning.test()
