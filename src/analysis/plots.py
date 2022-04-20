@@ -23,11 +23,24 @@ def plot_seqs(x, y, output):
     t = np.linspace(0, 1, seq_len + fut_len)
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
     fig = plt.figure(figsize=(12, 6))
+    plt.grid()
     for n in range(batch_size):
         plt.plot(seq_t, x[n], color='blue')
         plt.plot(fut_t, y[n], color='limegreen')
         plt.plot(fut_t, output[n], color='magenta')
     plt.title('Sequences and Predictions')
+    return fig
+
+
+def plot_loss_over_seq(loss_fn, y, output):
+    batch_size, seq_len = y.shape[0], y.shape[1]
+    losses = [[loss_fn(output[b, i], y[b, i]).item()
+              for i in range(seq_len)] for b in range(batch_size)]
+    fig = plt.figure(figsize=(12, 6))
+    plt.grid()
+    for b in range(batch_size):
+        plt.plot(losses[b])
+    plt.title('Loss over Entire Sequence')
     return fig
 
 
@@ -39,17 +52,6 @@ def plot_to_tensor(fig):
     image = transforms.ToTensor()(image)
     plt.close()
     return image
-
-
-def plot_loss_over_seq(loss_fn, y, output):
-    batch_size, seq_len = y.shape[0], y.shape[1]
-    losses = [[loss_fn(output[b, i], y[b, i]).item()
-              for i in range(seq_len)] for b in range(batch_size)]
-    fig = plt.figure(figsize=(12, 6))
-    for b in range(batch_size):
-        plt.plot(losses[b])
-    plt.title('Loss over Entire Sequence')
-    return fig
 
 
 if __name__ == "__main__":

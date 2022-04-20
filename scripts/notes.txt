@@ -1,0 +1,6 @@
+want:
+
+dataset 	num_layers
+BAIR 		2, 3, 4, 5
+KTH 		1, 2, 3, 4
+MMNIST 		1, 2, 3

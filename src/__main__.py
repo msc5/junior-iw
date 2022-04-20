@@ -240,6 +240,7 @@ if __name__ == "__main__":
         model = Lightning.load_from_checkpoint(opts['checkpoint_path'])
         lightning = Lightning({'test': test_loader}, opts, model)
 
+    # Initiate Training or Testing
     if opts['command'] == 'train':
         lightning.fit()
         lightning.save('final')
