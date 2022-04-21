@@ -7,14 +7,6 @@ from PIL import Image
 from torchvision import transforms
 
 
-def plot_loss(path):
-    loss = np.load(path)
-    fig = plt.figure()
-    plt.plot(loss)
-    plt.legend(['Loss', 'Output Minimum', 'Output Maximum'])
-    plt.show()
-
-
 def plot_seqs(x, y, output):
     def to_numpy(tensor): return tensor.squeeze().detach().cpu()
     x, y, output = [to_numpy(tensor) for tensor in [x, y, output]]

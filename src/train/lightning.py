@@ -58,7 +58,9 @@ class Lightning (pl.LightningModule):
         # (batch_size, seq_len, img_chan, img_h, img_w)
         truth = torch.cat([x, y], dim=1)[0]
         prediction = torch.cat([x, output], dim=1)[0]
-        combined = torch.cat([truth, prediction])
+        difference = torch.cat(
+            [torch.zeros(x.shape), (y - output) / 2], dim=1)[0]
+        combined = torch.cat([truth, prediction, difference])
         return make_grid(combined, nrow=self.opts['seq_len'])
 
     def plot_seq_loss(self, y, output):
