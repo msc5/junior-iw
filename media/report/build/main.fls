@@ -1259,6 +1259,11 @@ INPUT ./figures/lstmcell_arch.png
 INPUT figures/lstmcell_arch.png
 INPUT ./figures/lstmcell_arch.png
 INPUT ./figures/lstmcell_arch.png
+INPUT ./figures/seq2seq_arch.png
+INPUT ./figures/seq2seq_arch.png
+INPUT figures/seq2seq_arch.png
+INPUT ./figures/seq2seq_arch.png
+INPUT ./figures/seq2seq_arch.png
 INPUT ./figures/futuregan_arch.png
 INPUT ./figures/futuregan_arch.png
 INPUT figures/futuregan_arch.png
