@@ -26,7 +26,6 @@ module load anaconda3/2021.5
 conda activate torch-env
 
 python -m src train ConvLSTM MovingMNIST \
-	--checkpoint_path results/train/ConvLSTM_MovingMNIST/$SLURM_ARRAY_TASK_ID/checkpoints/final.ckpt \
 	--task_id $SLURM_ARRAY_TASK_ID \
 	--num_layers $SLURM_ARRAY_TASK_ID \
 	--learning_rate 0.005 \
