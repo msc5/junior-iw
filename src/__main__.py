@@ -219,6 +219,11 @@ if __name__ == "__main__":
         shuffle=False,
         num_workers=opts['num_workers']
     )
+    loaders = {
+        'train': train_loader,
+        'test': test_loader,
+        'val': test_loader,
+    }
 
     # Initialize Model for Training
     if opts['model'] == 'ConvLSTM':
@@ -230,20 +235,16 @@ if __name__ == "__main__":
     elif opts['model'] == 'LSTM':
         from .arch.lstm import LSTMSeq2Seq as LSTM
         model = LSTM(opts['inp_size'], 64)
-    lightning = Lightning({
-        'train': train_loader,
-        'test': test_loader,
-        'val': test_loader,
-    }, opts, model)
+    lightning = Lightning(opts, model, loaders)
     if opts['command'] == 'test':
         # Reload model for testing
         model = lightning.load_from_checkpoint(
-            opts['checkpoint_path'], model=model)
+            opts['checkpoint_path'], model=model, loaders=loaders)
+        lightning.model = model
 
     # Initiate Training or Testing
     if opts['command'] == 'train':
         lightning.fit()
         lightning.save('final')
     elif opts['command'] == 'test':
-        lightning.model = model
         lightning.test()

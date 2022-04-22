@@ -28,10 +28,15 @@ GLOBAL_METRICS = {
 
 class Lightning (pl.LightningModule):
 
-    def __init__(self, loaders: object, opts: object, model: nn.Module = None):
+    def __init__(
+            self,
+            opts: object,
+            model: nn.Module = None,
+            loaders: object = None,
+    ):
         super(Lightning, self).__init__()
 
-        self.save_hyperparameters(ignore=['model'])
+        self.save_hyperparameters(ignore=['model', 'loaders'])
         self.opts = opts
 
         # Initialize Model
@@ -94,9 +99,6 @@ class Lightning (pl.LightningModule):
             callbacks=[checkpoint],
             limit_val_batches=self.opts['n_val_batches'],
             val_check_interval=self.opts['val_interval'])
-        opts_path = f'{logger.log_dir}/opts.json'
-        with open(opts_path, 'w', encoding='utf-8') as file:
-            json.dump(self.opts, file)
         trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
 
     def test(self):
