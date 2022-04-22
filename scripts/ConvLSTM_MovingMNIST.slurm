@@ -28,7 +28,6 @@ conda activate torch-env
 python -m src train ConvLSTM MovingMNIST \
 	--task_id $SLURM_ARRAY_TASK_ID \
 	--num_layers $SLURM_ARRAY_TASK_ID \
-	--learning_rate 0.005 \
 	--max_epochs 3 \
 	--mmnist_num_digits 2 \
 	--num_workers 2
