@@ -3,7 +3,7 @@
 #SBATCH --job-name=vp_mmnist     # create a short name for your job
 #SBATCH --nodes=1                # node count
 #SBATCH --ntasks=1               # total number of tasks across all nodes
-#SBATCH --cpus-per-task=2        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --cpus-per-task=4        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --mem=4G                 # total memory per node (4 GB per cpu-core is default)
 #SBATCH --gres=gpu:1             # number of gpus per node
 #SBATCH --time=04:00:00          # total run time limit (HH:MM:SS)
@@ -28,7 +28,11 @@ conda activate torch-env
 python -m src train ConvLSTM MovingMNIST \
 	--task_id $SLURM_ARRAY_TASK_ID \
 	--num_layers $SLURM_ARRAY_TASK_ID \
+<<<<<<< HEAD
 	--learning_rate 0.005 \
 	--max_epochs 3 \
 	--num_workers 2 \
+=======
+	--max_epochs 5 \
+>>>>>>> e46d39ac4829cf7475687f025895145267411c22
 	--mmnist_num_digits 2
