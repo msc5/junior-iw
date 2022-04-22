@@ -1,1 +1,1 @@
-python -m tensorboard.main --logdir results
+python -m tensorboard.main --logdir results &
