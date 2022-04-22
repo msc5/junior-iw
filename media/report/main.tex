@@ -145,13 +145,13 @@ Formally, a Recurrent Neural Network (RNN) is the end-result of a mathematical
 analysis of a nonlinear first-order non-homogeneous ordinary differential
 equation describing the time-evolution of a state signal $\vec{s}$ as a
 function of time, along with an input signal $\vec{x}$. The canonical statement
-of an RNN is given below in the form of a discrete Delay Difference Equation
+of an RNN is given below in the form of a discrete Delay Differential Equation
 (DDE) \cite{rnn_and_lstm_fundamentals}:
 
 \begin{equation}
 	\begin{split}
-		\vec{s} [n] & = W_s \vec{s} [n - 1] + W_r \vec{r} [n - 1] + W_x \vec{x} [n] + \vec{\theta_s} \\
-		\vec{r} [n] & = G ( \vec{s} [n] )
+		\vec{s} [t] & = W_s \vec{s} [t - 1] + W_r \vec{r} [t - 1] + W_x \vec{x} [t] + \vec{\theta_s} \\
+		\vec{r} [t] & = G ( \vec{s} [t] )
 	\end{split}
 	\label{eq:rnn_canonical}
 \end{equation}
@@ -161,25 +161,14 @@ convolved with their respective signals, and $\vec{\theta_s}$ as a bias term
 which is typically added in element-wise fashion to $\vec{s}$. This equation
 also includes the read-out or output signal $\vec{r}$, which is the activation
 $G(z)$ of the state signal, and can be seen as the ``output'' of the network.
-All together, this equation describes all of the moving parts of an RNN,
-however, it can be written more succinctly in the following form, ignoring the
-cell's signal from memory $\vec{s} [n - 1]$, since its affect on the signal's
-trajectory is negligible as long as $\vec{r} [n - 1]$ is still present:
-
-\begin{equation}
-	\begin{split}
-		\vec{s} [n] & = W_r \vec{r} [n - 1] + W_x \vec{x} [n] + \vec{\theta_s} \\
-		\vec{r} [n] & = G ( \vec{s} [n] )
-	\end{split}
-	\label{eq:rnn_standard}
-\end{equation}
+All together, this equation describes all of the moving parts of an RNN.
 
 A more understandable depiction of the RNN described in Equation
-\ref{eq:rnn_standard} can be found in Figure \ref{fig:rnn_arch}. This figure
+\ref{eq:rnn_canonical} can be found in Figure \ref{fig:rnn_arch}. This figure
 also shows the ``unfolding'' or ``unrolling'' of the model, which is just a way
 of seeing each time-step of the state signal $\vec{s} [t]$, input signal
-$\vec{x} [t]$, and ouput signal $\vec{r} [t]$ (now given by $\vec{y} [t]$)
-as they are produced over time.
+$\vec{x} [t]$, and ouput signal $\vec{r} [t]$ (now shown as $\hat{y} [t]$,
+denoting the network inferences) as they are produced over time.
 
 \begin{figure}[H]
 	\begin{center}
@@ -189,30 +178,30 @@ as they are produced over time.
 	\label{fig:rnn_arch}
 \end{figure}
 
-Recurrent neural networks (RNNs) consist of a network of nodes that stretches
-over some sequential information, typically in the form of a time sequence
-(Which is the case in video prediction). Each node will perform another
-learning technique on the data in sequence (This could be a convolution
-operation, a linear layer, or a combination of several, for example) and output
-its own activation. Commonly, this is implemented not with a network of
-individual nodes but rather in the form of a feedback loop over a single node,
-which passes some data embedding forward through the network to itself in a
-loop (a hidden state, or variable), only taking in new data from the original
-input sequence at each step. In this way, an RNN equipped with convolution is
-capable of learning from time-varying information while preserving
-spatio-temporal relations (That is, relationships in the data that exist over
-space, such as the shape of a person's leg and hip, as well as relationships in
-the data that exist over time, such as the motion of a person walking, will be
-preserved in the final activations of the network).
+% Recurrent neural networks (RNNs) consist of a network of nodes that stretches
+% over some sequential information, typically in the form of a time sequence
+% (Which is the case in video prediction). Each node will perform another
+% learning technique on the data in sequence (This could be a convolution
+% operation, a linear layer, or a combination of several, for example) and output
+% its own activation. Commonly, this is implemented not with a network of
+% individual nodes but rather in the form of a feedback loop over a single node,
+% which passes some data embedding forward through the network to itself in a
+% loop (a hidden state, or variable), only taking in new data from the original
+% input sequence at each step. In this way, an RNN equipped with convolution is
+% capable of learning from time-varying information while preserving
+% spatio-temporal relations (That is, relationships in the data that exist over
+% space, such as the shape of a person's leg and hip, as well as relationships in
+% the data that exist over time, such as the motion of a person walking, will be
+% preserved in the final activations of the network).
 
-The outputs of each node are then used for other purposes, depending on the
-task, and the result is then backpropagated against a loss function. In machine
-learning terminology, this is referred to as backpropagation through time
-(BPTT) \cite{rnn_and_lstm_fundamentals}, since a gradient must be computed in
-the input sequence's reverse order, i.e., backwards through time, and in the
-case of an RNN implemented with feedback, this gradient must be computed with
-respect to the input data at each time step and then added to the weights of
-the single node in sum.
+% The outputs of each node are then used for other purposes, depending on the
+% task, and the result is then backpropagated against a loss function. In machine
+% learning terminology, this is referred to as backpropagation through time
+% (BPTT) \cite{rnn_and_lstm_fundamentals}, since a gradient must be computed in
+% the input sequence's reverse order, i.e., backwards through time, and in the
+% case of an RNN implemented with feedback, this gradient must be computed with
+% respect to the input data at each time step and then added to the weights of
+% the single node in sum.
 
 \subsection{Generative Models}
 \label{subsec:generative}

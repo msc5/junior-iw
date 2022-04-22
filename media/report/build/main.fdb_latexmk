@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1650653805 "build/main.aux" "build/main.bbl" "build/main" 1650655418
+["bibtex build/main"] 1650668416 "build/main.aux" "build/main.bbl" "build/main" 1650668885
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1650655418 11590 a7dabdf619312e5e8adb6326312f48f9 "pdflatex"
-  "main.bib" 1650418262 10577 ab4dbddf0cbfcbf7fa02fedef354b78b ""
+  "build/main.aux" 1650668885 11467 f79aeea26f4ac8a563aef08dda1b8f6c "pdflatex"
+  "main.bib" 1650668129 10577 ab4dbddf0cbfcbf7fa02fedef354b78b ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1650655417 "main.tex" "build/main.pdf" "main" 1650655418
+["pdflatex"] 1650668883 "main.tex" "build/main.pdf" "main" 1650668885
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1647844622 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1647844622 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -216,17 +216,17 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1648423700 4278762 af3ac1370db81a450c1118eabf1fe718 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1648423680 2924513 13359978d7cc29c4d3ba90e3c72181ad ""
-  "build/main.aux" 1650655418 11590 a7dabdf619312e5e8adb6326312f48f9 "pdflatex"
-  "build/main.bbl" 1650419778 3089 415bcadd07c5367ca855eb59263b0c55 "bibtex build/main"
+  "build/main.aux" 1650668885 11467 f79aeea26f4ac8a563aef08dda1b8f6c "pdflatex"
+  "build/main.bbl" 1650668416 3089 415bcadd07c5367ca855eb59263b0c55 "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 1650655418 1551 7c14ad87fb9ad92fc79c945d73b5d258 "pdflatex"
+  "build/main.toc" 1650668885 1547 b9dc38b80c24428e8529d1c0aa8abb5d "pdflatex"
   "figures/futuregan_arch.png" 1650418262 156407 c6011df5f6ae5dca48ae84133b1034aa ""
   "figures/gan_arch.png" 1650418262 30763 b7857177ec4e06bfc163f7b243a84f13 ""
-  "figures/lstmcell_arch.png" 1650646829 34540 b0557e7e95d4d97b9e8b61619133a84b ""
-  "figures/rnn_arch.png" 1650654908 23205 2f9374bd0c0b4e6ede5c520e5d5825a7 ""
+  "figures/lstmcell_arch.png" 1650668848 35017 461dcbb7cab23a597b3bd340a39082fa ""
+  "figures/rnn_arch.png" 1650668840 23753 365588f08d0f9279848a22a82066e77b ""
   "figures/seq2seq_arch.png" 1650646829 30098 1b89be8d94d0904698f9cb2e75c1fca8 ""
   "images/kth/KTHEpoch2Step56342.png" 1650482297 199331 71fac9fefef89898a7a51755775dafd2 ""
-  "main.tex" 1650655418 15109 298b81ad58be3755b953640df4c41701 ""
+  "main.tex" 1650668883 14764 a6857e97a0dd201393396150bd64ac22 ""
   (generated)
   "build/main.aux"
   "build/main.log"

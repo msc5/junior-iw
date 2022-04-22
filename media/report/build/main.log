@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  22 APR 2022 15:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  22 APR 2022 19:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -857,42 +857,41 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <figures/rnn_arch.png, id=84, 1037.8775pt x 502.87875pt>
 File: figures/rnn_arch.png Graphic file (type png)
 <use figures/rnn_arch.png>
-Package pdftex.def Info: figures/rnn_arch.png  used on input line 186.
+Package pdftex.def Info: figures/rnn_arch.png  used on input line 175.
 (pdftex.def)             Requested size: 418.25372pt x 202.65958pt.
  [4]
-<figures/gan_arch.png, id=97, 885.3075pt x 440.64626pt>
+<figures/gan_arch.png, id=95, 885.3075pt x 440.64626pt>
 File: figures/gan_arch.png Graphic file (type png)
 <use figures/gan_arch.png>
-Package pdftex.def Info: figures/gan_arch.png  used on input line 222.
+Package pdftex.def Info: figures/gan_arch.png  used on input line 211.
 (pdftex.def)             Requested size: 418.25372pt x 208.17955pt.
- [5 <./figures/rnn_arch.png>]
+ [5 <./figures/rnn_arch.png> <./figures/gan_arch.png>]
 <figures/lstmcell_arch.png, id=104, 931.48pt x 608.2725pt>
 File: figures/lstmcell_arch.png Graphic file (type png)
 <use figures/lstmcell_arch.png>
-Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 253.
+Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 242.
 (pdftex.def)             Requested size: 418.25372pt x 273.12608pt.
- [6 <./figures/gan_arch.png>]
-<figures/seq2seq_arch.png, id=112, 1056.94875pt x 470.75874pt>
+<figures/seq2seq_arch.png, id=105, 1056.94875pt x 470.75874pt>
 File: figures/seq2seq_arch.png Graphic file (type png)
 <use figures/seq2seq_arch.png>
-Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 261.
+Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 250.
 (pdftex.def)             Requested size: 418.25372pt x 186.28886pt.
- [7 <./figures/lstmcell_arch.png>]
-<figures/futuregan_arch.png, id=120, 446.89043pt x 288.542pt>
+ [6 <./figures/lstmcell_arch.png>]
+<figures/futuregan_arch.png, id=113, 446.89043pt x 288.542pt>
 File: figures/futuregan_arch.png Graphic file (type png)
 <use figures/futuregan_arch.png>
-Package pdftex.def Info: figures/futuregan_arch.png  used on input line 273.
+Package pdftex.def Info: figures/futuregan_arch.png  used on input line 262.
 (pdftex.def)             Requested size: 418.25372pt x 270.05836pt.
- [8 <./figures/seq2seq_arch.png> <./figures/futuregan_arch.png>] [9] [10]
+ [7 <./figures/seq2seq_arch.png> <./figures/futuregan_arch.png>] [8] [9]
 
-LaTeX Warning: Reference `fig:gen_sin_training' on page 11 undefined on input line 340.
+LaTeX Warning: Reference `fig:gen_sin_training' on page 10 undefined on input line 329.
 
-<images/kth/KTHEpoch2Step56342.png, id=137, 1401.235pt x 416.55624pt>
+<images/kth/KTHEpoch2Step56342.png, id=131, 1401.235pt x 416.55624pt>
 File: images/kth/KTHEpoch2Step56342.png Graphic file (type png)
 <use images/kth/KTHEpoch2Step56342.png>
-Package pdftex.def Info: images/kth/KTHEpoch2Step56342.png  used on input line 348.
+Package pdftex.def Info: images/kth/KTHEpoch2Step56342.png  used on input line 337.
 (pdftex.def)             Requested size: 418.25372pt x 124.33858pt.
-[11 <./images/kth/KTHEpoch2Step56342.png>] [12] (build/main.bbl) [13] (build/main.aux)
+[10 <./images/kth/KTHEpoch2Step56342.png>] [11] (build/main.bbl) [12] (build/main.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -903,18 +902,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30646 strings out of 478276
- 623785 string characters out of 5853013
- 1009201 words of memory out of 5000000
- 48305 multiletter control sequences out of 15000+600000
+ 30643 strings out of 478276
+ 623749 string characters out of 5853013
+ 1007146 words of memory out of 5000000
+ 48304 multiletter control sequences out of 15000+600000
  479615 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,16n,106p,10599b,811s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/main.pdf (13 pages, 583400 bytes).
+Output written on build/main.pdf (12 pages, 582634 bytes).
 PDF statistics:
- 296 PDF objects out of 1000 (max. 8388607)
- 240 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
+ 289 PDF objects out of 1000 (max. 8388607)
+ 234 compressed objects within 3 object streams
+ 49 named destinations out of 1000 (max. 500000)
  195 words of extra memory for PDF output out of 10000 (max. 10000000)
 
