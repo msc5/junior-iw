@@ -98,32 +98,96 @@ completion of a sequence of frames, given only the initial sequence of frames.
 Formally, given an ordered set of $n$ image frames \Xseq, the task is to
 predict the latter $m$ frames of the sequence \Yseq, each frame of which having
 the same dimensions, for example with $c$ channels, height $h$, and width $w$.
-At each inference in training, the model predictions \Yhatseq are conditioned
-on the input sequence $\boldsymbol{X}$, and the model weights are updated
-typically by the gradient of a loss function computed between the predictions
-and ground truth sequence $\boldsymbol{Y}$ directly. Critically, since there is
-no human intervention or labeling required for the model to do this, video
+At each inference in training, the model predictions \Yhatseq, with the same
+dimensions as the inputs, are conditioned on the input sequence
+$\boldsymbol{X}$, and the model weights are updated typically by the gradient
+of a loss function computed between the predictions and ground truth sequence
+$\boldsymbol{Y}$ directly. Critically, since there is no human intervention or
+labeling required for the model to do this, and models typically are able to
+learn from the implicit temporal organiziation of the video data, video
 prediction is a self-supervised task \cite{video_prediction_survey}.
+
+% A great deal of discussion in video prediction research centers around exactly
+% how these predictions are computed, specifically by testing different model
+% architectures, loss functions, and training approaches, however, there is also
+% a good amount of disagreement on how model predictions are actually evaluated.
+% For example, models trained using pixel-wise loss functions such as MSE will
+% typically prefer blurrier predictions in order to capture the underlying
+% stochasticity of the data, whereas GANs will prefer to produce more realistic
+% data, even if the predictions are further off the mark.
 
 \newpage
 \section{Families of Prediction Models}
 \label{sec:families}
 
 Modern video prediction models tend to adopt several canonical architectures,
-which are normally simple and easily generalizable for specific tasks, such that
-they can be used as building blocks or blueprints within larger architectures.
+which are normally simple and easily generalizable for specific tasks, such
+that they can be used as building blocks or blueprints within larger
+architectures. Understanding what each architecture seeks to do on a high level
+is imperative to understanding what kind of output one should expect from the
+model, since they are each very unique, and research implementations make use
+of them in different ways.
+
 For example, RNNs and generative networks are each successful and well-tested
 paradigms used in many other machine learning domains outside of computer
 vision, but they are especially utilized within video prediction because of
 their key properties and strengths, particularly of RNNs to work on
-time-sequential data and of generative networks to ``imagine'' new data
-within a distribution. These paradigms are used extensively in Convolutional
-LSTM, FutureGAN \cite{futuregan}, and SAVP models \cite{savp}. A short
-description of each family and its relevance to video prediction is given
-below:
+time-sequential data and of generative networks to ``imagine'' new data within
+a distribution. These paradigms are used extensively in Convolutional LSTM,
+FutureGAN \cite{futuregan}, and SAVP models \cite{savp}, as well as many other
+models in cutting-edge research. A short description of each family and its
+relevance to video prediction is given below:
 
-\subsection{Recurrent Models}
+\subsection{Recurrent Neural Networks}
 \label{subsec:recurrent}
+
+Formally, a Recurrent Neural Network (RNN) is the end-result of a mathematical
+analysis of a nonlinear first-order non-homogeneous ordinary differential
+equation describing the time-evolution of a state signal $\vec{s}$ as a
+function of time, along with an input signal $\vec{x}$. The canonical statement
+of an RNN is given below in the form of a discrete Delay Difference Equation
+(DDE) \cite{rnn_and_lstm_fundamentals}:
+
+\begin{equation}
+	\begin{split}
+		\vec{s} [n] & = W_s \vec{s} [n - 1] + W_r \vec{r} [n - 1] + W_x \vec{x} [n] + \vec{\theta_s} \\
+		\vec{r} [n] & = G ( \vec{s} [n] )
+	\end{split}
+	\label{eq:rnn_canonical}
+\end{equation}
+
+With $W_s$, $W_r$, and $W_x$ as weight matrices which are either multiplied or
+convolved with their respective signals, and $\vec{\theta_s}$ as a bias term
+which is typically added in element-wise fashion to $\vec{s}$. This equation
+also includes the read-out or output signal $\vec{r}$, which is the activation
+$G(z)$ of the state signal, and can be seen as the ``output'' of the network.
+All together, this equation describes all of the moving parts of an RNN,
+however, it can be written more succinctly in the following form, ignoring the
+cell's signal from memory $\vec{s} [n - 1]$, since its affect on the signal's
+trajectory is negligible as long as $\vec{r} [n - 1]$ is still present:
+
+\begin{equation}
+	\begin{split}
+		\vec{s} [n] & = W_r \vec{r} [n - 1] + W_x \vec{x} [n] + \vec{\theta_s} \\
+		\vec{r} [n] & = G ( \vec{s} [n] )
+	\end{split}
+	\label{eq:rnn_standard}
+\end{equation}
+
+A more understandable depiction of the RNN described in Equation
+\ref{eq:rnn_standard} can be found in Figure \ref{fig:rnn_arch}. This figure
+also shows the ``unfolding'' or ``unrolling'' of the model, which is just a way
+of seeing each time-step of the state signal $\vec{s} [t]$, input signal
+$\vec{x} [t]$, and ouput signal $\vec{r} [t]$ (now given by $\vec{y} [t]$)
+as they are produced over time.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/rnn_arch.png}
+	\end{center}
+	\caption{RNN Architecture}
+	\label{fig:rnn_arch}
+\end{figure}
 
 Recurrent neural networks (RNNs) consist of a network of nodes that stretches
 over some sequential information, typically in the form of a time sequence
@@ -150,14 +214,6 @@ case of an RNN implemented with feedback, this gradient must be computed with
 respect to the input data at each time step and then added to the weights of
 the single node in sum.
 
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=1\textwidth]{figures/rnn_arch.png}
-	\end{center}
-	\caption{General RNN Architecture}
-	\label{fig:rnn_arch}
-\end{figure}
-
 \subsection{Generative Models}
 \label{subsec:generative}
 
@@ -166,7 +222,7 @@ the single node in sum.
 		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
 	\end{center}
 	\caption{General GAN Architecture}
-	\label{fig:rnn_arch}
+	\label{fig:gan_arch}
 \end{figure}
 
 Generative neural networks (for example, GANs) consist of mostly the same
