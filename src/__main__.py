@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     n_columns = 80
     print('-' * n_columns)
-    print(f'{"Training":>20} :')
+    print(f'{(opts["command"] + "ing").capitalize():>20}')
     print(f'{"Model":>20} : {opts["model"]:<20}')
     print(f'{"Dataset":>20} : {opts["dataset"]:<20}')
     print('-' * n_columns)
@@ -220,29 +220,30 @@ if __name__ == "__main__":
         num_workers=opts['num_workers']
     )
 
-    if opts['command'] == 'train':
-        # Initialize Model for Training
-        if opts['model'] == 'ConvLSTM':
-            from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
-            model = ConvLSTM(opts['inp_chan'], 64, opts['num_layers'])
-        elif opts['model'] == 'ConvLSTM_REF':
-            from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
-            model = ConvLSTM_REF(64, opts['inp_chan'])
-        elif opts['model'] == 'LSTM':
-            from .arch.lstm import LSTMSeq2Seq as LSTM
-            model = LSTM(opts['inp_size'], 64)
-        lightning = Lightning({
-            'train': train_loader,
-            'val': test_loader
-        }, opts, model)
-    elif opts['command'] == 'test':
-        # Initialize Model for testing
-        model = Lightning.load_from_checkpoint(opts['checkpoint_path'])
-        lightning = Lightning({'test': test_loader}, opts, model)
+    # Initialize Model for Training
+    if opts['model'] == 'ConvLSTM':
+        from .arch.convlstm import ConvLSTMSeq2Seq as ConvLSTM
+        model = ConvLSTM(opts['inp_chan'], 64, opts['num_layers'])
+    elif opts['model'] == 'ConvLSTM_REF':
+        from .arch.convlstm_ref import EncoderDecoderConvLSTM as ConvLSTM_REF
+        model = ConvLSTM_REF(64, opts['inp_chan'])
+    elif opts['model'] == 'LSTM':
+        from .arch.lstm import LSTMSeq2Seq as LSTM
+        model = LSTM(opts['inp_size'], 64)
+    lightning = Lightning({
+        'train': train_loader,
+        'test': test_loader,
+        'val': test_loader,
+    }, opts, model)
+    if opts['command'] == 'test':
+        # Reload model for testing
+        model = lightning.load_from_checkpoint(
+            opts['checkpoint_path'], model=model)
 
     # Initiate Training or Testing
     if opts['command'] == 'train':
         lightning.fit()
         lightning.save('final')
     elif opts['command'] == 'test':
+        lightning.model = model
         lightning.test()

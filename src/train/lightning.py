@@ -31,7 +31,7 @@ class Lightning (pl.LightningModule):
     def __init__(self, loaders: object, opts: object, model: nn.Module = None):
         super(Lightning, self).__init__()
 
-        self.save_hyperparameters()
+        self.save_hyperparameters(ignore=['model'])
         self.opts = opts
 
         # Initialize Model
@@ -48,6 +48,8 @@ class Lightning (pl.LightningModule):
             self.criterion = torch.nn.CrossEntropyLoss()
 
         self.steps = {'train': 0, 'test': 0, 'val': 0}
+        self.seq_losses = 0
+        self.seq_mse = nn.MSELoss(reduction='none')
 
     def make_label(self):
         epoch, step = self.current_epoch, self.get_step()
@@ -58,13 +60,15 @@ class Lightning (pl.LightningModule):
         # (batch_size, seq_len, img_chan, img_h, img_w)
         truth = torch.cat([x, y], dim=1)[0]
         prediction = torch.cat([x, output], dim=1)[0]
-        difference = torch.cat(
-            [torch.zeros(x.shape), (y - output) / 2], dim=1)[0]
+        difference = torch.cat([
+            torch.zeros(x.shape).to(self.device),
+            (y - output).abs()
+        ], dim=1)[0]
         combined = torch.cat([truth, prediction, difference])
         return make_grid(combined, nrow=self.opts['seq_len'])
 
-    def plot_seq_loss(self, y, output):
-        fig = plot_loss_over_seq(self.criterion, y, output)
+    def plot_seq_loss(self, losses):
+        fig = plot_loss_over_seq(losses)
         return plot_to_tensor(fig)
 
     def plot_pred(self, x, y, output):
@@ -144,23 +148,34 @@ class Lightning (pl.LightningModule):
         writer.add_scalar('loss/val', loss, step)
         return {'loss': loss}
 
+    def add_seq_loss(self, output, y):
+        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+            self.seq_losses += self.seq_mse(output, y).sum((0, 2, 3, 4))
+        else:
+            self.seq_losses += self.seq_mse(output, y).sum((0, 2))
+
     def test_step(self, batch, i):
         self.steps['test'] += 1
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
         x, y = batch[:, :inp_len], batch[:, inp_len:]
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
+        self.add_seq_loss(output, y)
         writer, step = self.logger.experiment, self.get_step()
         if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
             img_pred = self.make_image(x, y, output)
         else:
             img_pred = self.plot_pred(x, y, output)
-        img_seq_loss = self.plot_seq_loss(y, output)
         label = self.make_label()
         writer.add_image(f'test_{label}_prediction', img_pred, step)
-        writer.add_image(f'test_{label}_seq_loss', img_seq_loss, step)
         writer.add_scalar('loss/test', loss, step)
         return {'loss': loss}
+
+    def on_test_end(self):
+        avg_seq_losses = self.seq_losses / self.steps['test']
+        img_avg_seq_loss = self.plot_seq_loss(avg_seq_losses)
+        writer, step = self.logger.experiment, self.get_step()
+        writer.add_image('test_avg_seq_loss', img_avg_seq_loss, step)
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(

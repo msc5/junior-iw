@@ -24,14 +24,14 @@ def plot_seqs(x, y, output):
     return fig
 
 
-def plot_loss_over_seq(loss_fn, y, output):
-    batch_size, seq_len = y.shape[0], y.shape[1]
-    losses = [[loss_fn(output[b, i], y[b, i]).item()
-              for i in range(seq_len)] for b in range(batch_size)]
+def plot_loss_over_seq(losses):
+    # batch_size, seq_len = y.shape[0], y.shape[1]
+    # losses = [loss_fn(output[:, i], y[:, i]).item()
+    #           for i in range(seq_len)]
+    losses = losses.squeeze().detach().cpu()
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
-    for b in range(batch_size):
-        plt.plot(losses[b])
+    plt.plot(losses)
     plt.title('Loss over Entire Sequence')
     return fig
 
@@ -72,6 +72,6 @@ if __name__ == "__main__":
 
     loss = MSELoss()
     fig = plot_loss_over_seq(loss, y, output)
-    tensor = plot_to_tensor(fig)
+    # tensor = plot_to_tensor(fig)
 
     plt.show()
