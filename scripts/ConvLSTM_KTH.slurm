@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=4                              # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --mem=4G                                       # total memory per node (4 GB per cpu-core is default)
 #SBATCH --gres=gpu:1                                   # number of gpus per node
-#SBATCH --time=04:00:00                                # total run time limit (HH:MM:SS)
-#SBATCH --array=2,3                                    # job array
+#SBATCH --time=06:00:00                                # total run time limit (HH:MM:SS)
+#SBATCH --array=1,3                                    # job array
 #SBATCH --chdir=/scratch/network/msc5/code/junior-iw/
 #SBATCH --mail-type=all                                # send mail when job begins, ends, or fails
 #SBATCH --mail-user=msc5@princeton.edu
