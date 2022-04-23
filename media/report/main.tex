@@ -8,19 +8,19 @@
 \usepackage{mathtools}
 \usepackage{cancel}
 \usepackage{xfrac}
-\usepackage{siunitx}                    % for scientific notation \num{}
-\usepackage{authblk}                    % for authors
-\usepackage{tikz}                       % for circled {}
-\usepackage{systeme}                    % for system of equations bracket
-\usepackage{verbatim}                   % for comment
-\usepackage{xfp}                        % for floating point operations in macros
-\usepackage{graphicx}                   % for cropping the images
-\usepackage{dsfont}                     % for doublestroke fonts
+\usepackage{siunitx}                                % for scientific notation \num{}
+\usepackage{authblk}                                % for authors
+\usepackage{tikz}                                   % for circled {}
+\usepackage{systeme}                                % for system of equations bracket
+\usepackage{verbatim}                               % for comment
+\usepackage{xfp}                                    % for floating point operations in macros
+\usepackage{graphicx}                               % for cropping the images
+\usepackage{dsfont}                                 % for doublestroke fonts
 \usepackage{float}
-\usepackage{hyperref}                   % hyperlink
+\usepackage{hyperref}                               % hyperlink
 \usepackage[english]{babel}
 \usepackage[square, numbers]{natbib}
-\usepackage[nottoc]{tocbibind}          % Includes "References" in the table of contents
+\usepackage[nottoc, notlof, notlot]{tocbibind}     % Includes "References" in the table of contents
 
 \bibliographystyle{abbrvnat}
 
@@ -138,7 +138,7 @@ models in cutting-edge research. A short description of each family and its
 relevance to video prediction is given below:
 
 \subsection{Recurrent Neural Networks}
-\label{subsec:recurrent}
+\label{subsec:rnn}
 
 Formally, a Recurrent Neural Network (RNN) is the end-result of a mathematical
 analysis of a nonlinear first-order non-homogeneous ordinary differential
@@ -198,16 +198,22 @@ Short-Term Memory (LSTM) cell was developed with nonlinear, data-dependent
 controls in the form of several ``gates'' that control input to and output from 
 the cell's state \cite{rnn_and_lstm_fundamentals}.
 
-These changes take the form of a modified system of equations \cite{rnn_review}: 
+\subsection{Long Short-Term Memory (LSTM) Cell}
+\label{subsec:lstm}
+
+The changes described in the following section take the form of a modified
+system of equations \cite{rnn_review}: 
+
+\newcommand{\csquig}{\tilde{c}}
 
 \begin{equation}
 	\begin{split}
-		f_t & = \sigma (W_{fh} h_{t - 1} + W_{fx} x_t + b_f) \\
-		i_t & = \sigma (W_{ih} h_{t - 1} + W_{ix} x_t + b_i) \\
-		\tilde{c}_t & = \tanh (W_{\tilde{c} h} h_{t - 1} + W_{\tilde{c} x} x_t + b_\tilde{c}) \\
-		o_t & = \sigma (W_{oh} h_{t - 1} + W_{ox} x_t + b_o) \\
-		c_t & = f_t \circ c_{t - 1} + i_t \circ \tilde{c}_t \\
-		h_t & = o_t \circ \tanh (c_t)
+		f_t           & = \sigma ( W_{fh} h_{t - 1} + W_{fx} x_t + b_f ) \\
+		i_t           & = \sigma ( W_{ih} h_{t - 1} + W_{ix} x_t + b_i ) \\
+		\csquig_t     & = \tanh ( W_{\csquig h} h_{t - 1} + W_{\csquig x} x_t + b_{\csquig} ) \\
+		o_t           & = \sigma ( W_{oh} h_{t - 1} + W_{ox} x_t + b_o ) \\
+		c_t           & = f_t \circ c_{t - 1} + i_t \circ \tilde{c}_t \\
+		h_t           & = o_t \circ \tanh ( c_t )
 	\end{split}
 	\label{eq:lstm_canonical}
 \end{equation}
@@ -243,11 +249,14 @@ parameters.
 
 Now that some of the general architectures and methodologies are laid out,
 however, the question still remains of how these models actually predict the
-continuation of a sequence of frames $\boldsymbol{Y}$ with any sort of
-accuracy. In order to do this, one final methodology must be examined, namely
-Sequence to Sequence (Seq2Seq) learning, which will lead to the final
+continuation $\boldsymbol{Y}$ of a sequence of frames $\boldsymbol{X}$ with any
+sort of accuracy. In order to do this, one final methodology must be examined,
+namely Sequence to Sequence (Seq2Seq) learning, which will lead to the final
 implementation of a Convolutional LSTM used for experimentation in this
 project.
+
+\subsection{Sequence To Sequence Learning}
+\label{subsec:seq2seq}
 
 Seq2Seq learning is only a slight modification to the original usage of RNNs,
 but they represent an elegant solution to a classical shortcoming of most Deep
@@ -257,8 +266,8 @@ discretized, vectors, and therefore must be of a certain length or size.
 Seq2Seq learning solves this problem for video prediction as well as many other
 tasks by using 2 LSTMs: an encoder to read the sequence and learn to create an
 embedding vector, and a decoder, which is passed the embedding vector and
-learns to generate the sequence. A diagram of this procedure is shown in Figure
-\ref{fig:seq2seq_arch}.
+learns to generate the predicted sequence \cite{seq2seq_original}. A diagram of
+this procedure is shown in Figure \ref{fig:seq2seq_arch}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -267,6 +276,25 @@ learns to generate the sequence. A diagram of this procedure is shown in Figure
 	\caption{Seq2Seq Architecture}
 	\label{fig:seq2seq_arch}
 \end{figure}
+
+The diagram shows how the input sequence $x$ is fed into the encoder LSTM for 3
+steps (in practice this can be any length), how the encoder generates an
+embedding vector $h_4$ which is passed to the decoder as an input, and how the
+decoder generates the predicted sequence by passing the predicted output
+$\hat{y}_{t}$ back into itself at the next time step as an input, continuing until
+all predicted frames are generated.
+
+This diagram also shows two layered LSTM cells, which is another key
+modification used in this project's implementation. Note that each layer has
+it's own states $h$ and $c$, and at each time step, the cells pass their $h$
+embedding up to the next cell as an input. Deep, multilayered LSTMs have been
+shown to significantly outperform shallow LSTMs for language translation
+\cite{seq2seq_original}, however, this project will also analyze the effect of
+depth on LSTM inferences for video prediction. 
+
+In sum, these are the main methods used in this report's implementation of an
+LSTM model for video prediction, which can be found at this
+\href{https://github.com/msc5/junior-iw}{GitHub repository}.
 
 % \subsection{Generative Models}
 % \label{subsec:generative}
@@ -296,25 +324,25 @@ learns to generate the sequence. A diagram of this procedure is shown in Figure
 % a discriminative net) through a typical network in reverse, generating an
 % upscaled output in the same shape as the targeted learning data.
 
-\section{Video Prediction Models}
-\label{sec:families}
+% \section{Video Prediction Models}
+% \label{sec:families}
 
-\subsection{Convolutional LSTM}
-\label{subsec:conv_lstm}
-
-\subsection{FutureGAN}
-\label{subsec:futuregan}
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=1\textwidth]{figures/futuregan_arch.png}
-	\end{center}
-	\caption{FutureGAN Architecture}
-	\label{fig:futuregan_arch}
-\end{figure}
-
-\subsection{SAVP}
-\label{subsec:savp}
+% \subsection{Convolutional LSTM}
+% \label{subsec:conv_lstm}
+%
+% \subsection{FutureGAN}
+% \label{subsec:futuregan}
+%
+% \begin{figure}[H]
+% 	\begin{center}
+% 		\includegraphics[width=1\textwidth]{figures/futuregan_arch.png}
+% 	\end{center}
+% 	\caption{FutureGAN Architecture}
+% 	\label{fig:futuregan_arch}
+% \end{figure}
+%
+% \subsection{SAVP}
+% \label{subsec:savp}
 
 \newpage
 \section{Datasets}
@@ -346,7 +374,6 @@ learns to generate the sequence. A diagram of this procedure is shown in Figure
 % 	\end{center}
 % \end{table}
 
-
 The main experimental procedure carried out in this report is the training and
 testing of the re-implemented Convolutional LSTM model on the MovingMNIST, KTH,
 and BAIR datasets, however, in order to more gain a more robust understanding
@@ -374,8 +401,8 @@ the last 10.
 \subsubsection{Generated Sinusoids}
 \label{subsubsec:generated_sins}
 
-Figure \ref{fig:gen_sin_training} shows the model's inferences on a held-out
-set of the generated sinusoidal data as the model trains over one epoch. 
+% Figure \ref{fig:gen_sin_training} shows the model's inferences on a held-out
+% set of the generated sinusoidal data as the model trains over one epoch. 
 
 \subsection{Video Prediction}
 \label{subsec:experiment_vp}

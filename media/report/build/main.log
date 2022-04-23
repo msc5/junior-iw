@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.4.6)  23 APR 2022 17:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.4.6)  23 APR 2022 18:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -701,11 +701,7 @@ Package tocbibind Note: Using section or other style headings.
 
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 30.
- (build/main.aux
-
-LaTeX Warning: Label `sec:families' multiply defined.
-
-)
+ (build/main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
@@ -730,18 +726,6 @@ Package scrbase Info: activating english \contentsname on input line 39.
 Package scrbase Info: activating english \listfigurename on input line 39.
 Package scrbase Info: activating english \listtablename on input line 39.
 Package tocbasic Info: usage of `tocbibind' detected on input line 39.
-
-
-Package tocbasic Warning: `tocbibind' redefinition of `\listoffigures'
-(tocbasic)                detected.
-(tocbasic)                Note: Loading `tocbibind' without option `notlof'
-(tocbasic)                can break several features of `tocbasic'.
-
-
-Package tocbasic Warning: `tocbibind' redefinition of `\listoftables'
-(tocbasic)                detected.
-(tocbasic)                Note: Loading `tocbibind' without option `notlot'
-(tocbasic)                can break several features of `tocbasic'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -851,99 +835,46 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout5 = `main.toc'.
 
  [2] [3]
-<figures/rnn_arch.png, id=83, 1017.8025pt x 473.77pt>
+<figures/rnn_arch.png, id=79, 1017.8025pt x 473.77pt>
 File: figures/rnn_arch.png Graphic file (type png)
 <use figures/rnn_arch.png>
 Package pdftex.def Info: figures/rnn_arch.png  used on input line 183.
 (pdftex.def)             Requested size: 418.25372pt x 194.68793pt.
- [4]
-./main.tex:211: Missing { inserted.
-<to be read again> 
-                   \gdef 
-l.211 	\end{split}
-                  
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./main.tex:211: Missing } inserted.
-<inserted text> 
-                }
-l.211 	\end{split}
-                  
-I've put in what seems to be necessary to fix
-the current column of the current alignment.
-Try to go on, since this might almost work.
-
-./main.tex:211: Missing { inserted.
-<to be read again> 
-                   \gdef 
-l.211 	\end{split}
-                  
-A left brace was mandatory here, so I've put one in.
-You might want to delete and/or insert some corrections
-so that I will find a matching right brace soon.
-(If you're confused by all this, try typing `I}' now.)
-
-./main.tex:211: Missing } inserted.
-<inserted text> 
-                }
-l.211 	\end{split}
-                  
-I've put in what seems to be necessary to fix
-the current column of the current alignment.
-Try to go on, since this might almost work.
-
-[5 <./figures/rnn_arch.png>]
-<figures/lstmcell_arch.png, id=107, 900.36375pt x 564.1075pt>
+ [4] [5 <./figures/rnn_arch.png>]
+<figures/lstmcell_arch.png, id=103, 900.36375pt x 564.1075pt>
 File: figures/lstmcell_arch.png Graphic file (type png)
 <use figures/lstmcell_arch.png>
-Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 232.
+Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 238.
 (pdftex.def)             Requested size: 418.25372pt x 262.04904pt.
  [6 <./figures/lstmcell_arch.png>]
-<figures/seq2seq_arch.png, id=116, 1056.94875pt x 470.75874pt>
+<figures/seq2seq_arch.png, id=113, 1056.94875pt x 470.75874pt>
 File: figures/seq2seq_arch.png Graphic file (type png)
 <use figures/seq2seq_arch.png>
-Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 265.
+Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 274.
 (pdftex.def)             Requested size: 418.25372pt x 186.28886pt.
-<figures/futuregan_arch.png, id=117, 446.89043pt x 288.542pt>
-File: figures/futuregan_arch.png Graphic file (type png)
-<use figures/futuregan_arch.png>
-Package pdftex.def Info: figures/futuregan_arch.png  used on input line 310.
-(pdftex.def)             Requested size: 418.25372pt x 270.05836pt.
- [7 <./figures/seq2seq_arch.png>] [8 <./figures/futuregan_arch.png>] [9]
-
-LaTeX Warning: Reference `fig:gen_sin_training' on page 10 undefined on input line 377.
-
-<images/kth/KTHEpoch2Step56342.png, id=135, 1401.235pt x 416.55624pt>
+ [7 <./figures/seq2seq_arch.png>] [8]
+<images/kth/KTHEpoch2Step56342.png, id=127, 1401.235pt x 416.55624pt>
 File: images/kth/KTHEpoch2Step56342.png Graphic file (type png)
 <use images/kth/KTHEpoch2Step56342.png>
-Package pdftex.def Info: images/kth/KTHEpoch2Step56342.png  used on input line 385.
+Package pdftex.def Info: images/kth/KTHEpoch2Step56342.png  used on input line 411.
 (pdftex.def)             Requested size: 418.25372pt x 124.33858pt.
-[10 <./images/kth/KTHEpoch2Step56342.png>] [11] (build/main.bbl) [12] (build/main.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
+ [9 <./images/kth/KTHEpoch2Step56342.png>] [10] (build/main.bbl) [11] (build/main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30639 strings out of 478276
- 623705 string characters out of 5853014
- 1008108 words of memory out of 5000000
- 48301 multiletter control sequences out of 15000+600000
+ 30628 strings out of 478276
+ 623481 string characters out of 5853014
+ 1009152 words of memory out of 5000000
+ 48294 multiletter control sequences out of 15000+600000
  479615 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,17n,106p,10599b,811s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/main.pdf (12 pages, 581074 bytes).
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on build/main.pdf (11 pages, 449709 bytes).
 PDF statistics:
- 299 PDF objects out of 1000 (max. 8388607)
- 242 compressed objects within 3 object streams
- 49 named destinations out of 1000 (max. 500000)
- 182 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 280 PDF objects out of 1000 (max. 8388607)
+ 228 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 161 words of extra memory for PDF output out of 10000 (max. 10000000)
 

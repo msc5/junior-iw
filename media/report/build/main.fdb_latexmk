@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1650749290 "build/main.aux" "build/main.bbl" "build/main" 1650749290
+["bibtex build/main"] 1650752360 "build/main.aux" "build/main.bbl" "build/main" 1650752362
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1650749183 10819 1126701d0e09349f4048478ec911919e "pdflatex"
-  "main.bib" 1650748466 13138 43fb486cf1b15b7b70382df60c274ae0 ""
+  "build/main.aux" 1650752361 10615 d3a553ebde592845c56c6b03147bcc93 "pdflatex"
+  "main.bib" 1650752145 13138 43fb486cf1b15b7b70382df60c274ae0 ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1650749290 "main.tex" "build/main.pdf" "main" 1650749290
+["pdflatex"] 1650752360 "main.tex" "build/main.pdf" "main" 1650752362
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1647844622 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1647844622 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -39,7 +39,6 @@
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1647844622 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmti12.tfm" 1647844622 1484 ed72f8f5cf654cda15ecc8e32bfcbee5 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1647844622 768 1321e9409b4137d6fb428ac9dc956269 ""
-  "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1647844622 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1647844622 30251 6afa5cb1d0204815a708a080681d4674 ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1647844622 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1647844622 35469 70d41d2b9ea31d5d813066df7c99281c ""
@@ -218,16 +217,15 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1649261359 4278762 af3ac1370db81a450c1118eabf1fe718 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1649261356 2924509 590e0613683111570d49259a118b5898 ""
-  "build/main.aux" 1650749183 10819 1126701d0e09349f4048478ec911919e "pdflatex"
-  "build/main.bbl" 1650749290 3394 a33588bd6df570c30c2157545e61e4cb "bibtex build/main"
+  "build/main.aux" 1650752361 10615 d3a553ebde592845c56c6b03147bcc93 "pdflatex"
+  "build/main.bbl" 1650752360 3633 f0775d5e14d3c26a208149e263a091ef "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 0 -1 0 "pdflatex"
-  "figures/futuregan_arch.png" 1650404786 156407 c6011df5f6ae5dca48ae84133b1034aa ""
+  "build/main.toc" 1650752361 1347 9e303762fe3b8f2b83f1012b06724b1b "pdflatex"
   "figures/lstmcell_arch.png" 1650744551 33697 a4dc5bf99e2f4a7a459cad50b8e2d788 ""
   "figures/rnn_arch.png" 1650743447 23267 0e310618073ef4c8a8f12515f1a3fe3a ""
   "figures/seq2seq_arch.png" 1650642253 30098 1b89be8d94d0904698f9cb2e75c1fca8 ""
   "images/kth/KTHEpoch2Step56342.png" 1650469209 199331 71fac9fefef89898a7a51755775dafd2 ""
-  "main.tex" 1650749225 17377 e46d5808e479ee630648dfcf8b246f96 ""
+  "main.tex" 1650752358 18876 719f83089bec002a0c2a3cb07708c9f5 ""
   (generated)
   "build/main.aux"
   "build/main.log"
