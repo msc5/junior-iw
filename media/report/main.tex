@@ -60,14 +60,13 @@ movements to take to reach a goal. This ability to forecast the future is a
 direct result of an understanding of causality that is learned through
 observation and interaction \cite{human_learning_sequences}.
 
-A great amount of human predictions are, of course, erroneous in major
-respects, but even the humans least adept at inferring far-off outcomes and
-consequences still are masters of learning very near-term ones. For example,
-humans have a good sense for where a car will move in the street, or which
-direction a pedestrian may continue walking. Even a young child can predict
-where to toss a football to a moving receiver, and even this small knowledge
-reveals an infinite wisdom compared to the most advanced video prediction
-methods.
+A great amount of human predictions are erroneous in major respects, but even
+the humans least adept at inferring far-off outcomes and consequences still are
+masters of learning very near-term ones. For example, humans have a good sense
+for where a car will move in the street, or which direction a pedestrian may
+continue walking. Even a young child can predict where to toss a football to a
+moving receiver, and even this small knowledge reveals an infinite wisdom
+compared to the most advanced video prediction methods.
 
 The task of video prediction is comprised of several open challenges in
 computer vision; it uses some of the most recent model architectures that have
@@ -79,9 +78,9 @@ video interpolation \cite{eg_video_interp} and most interesting in the context
 of this report, robotic control systems \cite{eg_robot_control}.
 
 This project will examine the current state-of-the-art in video prediction
-models, report on several experiments carried out by implementing and testing
-such a model on various existing datasets, and attempt to make meaningful
-conclusions about video prediction and learning causality.
+machine learning models, report on several experiments carried out by
+implementing and testing such a model on various existing datasets, and attempt
+to make meaningful conclusions about video prediction and learning causality.
 
 \section{The Task of Video Prediction}
 \label{sec:task}
@@ -143,31 +142,40 @@ relevance to video prediction is given below:
 
 Formally, a Recurrent Neural Network (RNN) is the end-result of a mathematical
 analysis of a nonlinear first-order non-homogeneous ordinary differential
-equation describing the time-evolution of a state signal $\vec{s}$ as a
-function of time, along with an input signal $\vec{x}$. The canonical statement
-of an RNN is given below in the form of a discrete Delay Differential Equation
-(DDE) \cite{rnn_and_lstm_fundamentals}:
+equation describing the evolution of a state signal $s$ as a function of time,
+along with an input signal $x$. The canonical statement of an RNN is given
+below in the form of a discrete Delay Differential Equation (DDE)
+\cite{rnn_and_lstm_fundamentals}:
 
 \begin{equation}
 	\begin{split}
-		\vec{s} [t] & = W_s \vec{s} [t - 1] + W_r \vec{r} [t - 1] + W_x \vec{x} [t] + \vec{\theta_s} \\
-		\vec{r} [t] & = G ( \vec{s} [t] )
+		s_t & = W_s s_{t - 1} + W_r r_{t - 1} + W_x x_t + \theta_s \\
+		r_t & = G ( s_t )
 	\end{split}
 	\label{eq:rnn_canonical}
 \end{equation}
 
-With $W_s$, $W_r$, and $W_x$ as weight matrices which are either multiplied or
-convolved with their respective signals, and $\vec{\theta_s}$ as a bias term
-which is typically added in element-wise fashion to $\vec{s}$. This equation
-also includes the read-out or output signal $\vec{r}$, which is the activation
+With $W_s$, $W_r$, and $W_x$ as weights which are either multiplied or
+convolved with their respective signals, and $\theta_s$ as a bias term
+which is typically added in element-wise fashion to $s$. This equation
+also includes the read-out or output signal $r$, which is the activation
 $G(z)$ of the state signal, and can be seen as the ``output'' of the network.
 All together, this equation describes all of the moving parts of an RNN.
 
-A more understandable depiction of the RNN described in Equation
+As a toy example (and ignoring some technical tricks that would be required to
+make this actually happen), a network of this type could be capable of
+transcribing seqeunces of a lecture by evaluating discrete audio samples
+recorded from the event and outputting the spoken words in text form
+\cite{rnn_and_lstm_fundamentals}. Another extremely common application of
+vanilla RNNs is machine translation, in which the input sequence is text in one
+language and the output is meant to be the translation of that text into
+another language.
+
+An easily understandable depiction of the RNN described in Equation
 \ref{eq:rnn_canonical} can be found in Figure \ref{fig:rnn_arch}. This figure
 also shows the ``unfolding'' or ``unrolling'' of the model, which is just a way
-of seeing each time-step of the state signal $\vec{s} [t]$, input signal
-$\vec{x} [t]$, and ouput signal $\vec{r} [t]$ (here replaced by $\hat{y} [t]$,
+of seeing each time-step of the state signal $s_t$, input signal
+$x_t$, and ouput signal $r_t$ (here replaced by $\hat{y}_t$,
 denoting the network inferences) as they are produced over time.
 
 \begin{figure}[H]
@@ -178,64 +186,46 @@ denoting the network inferences) as they are produced over time.
 	\label{fig:rnn_arch}
 \end{figure}
 
-% Recurrent neural networks (RNNs) consist of a network of nodes that stretches
-% over some sequential information, typically in the form of a time sequence
-% (Which is the case in video prediction). Each node will perform another
-% learning technique on the data in sequence (This could be a convolution
-% operation, a linear layer, or a combination of several, for example) and output
-% its own activation. Commonly, this is implemented not with a network of
-% individual nodes but rather in the form of a feedback loop over a single node,
-% which passes some data embedding forward through the network to itself in a
-% loop (a hidden state, or variable), only taking in new data from the original
-% input sequence at each step. In this way, an RNN equipped with convolution is
-% capable of learning from time-varying information while preserving
-% spatio-temporal relations (That is, relationships in the data that exist over
-% space, such as the shape of a person's leg and hip, as well as relationships in
-% the data that exist over time, such as the motion of a person walking, will be
-% preserved in the final activations of the network).
+RNNs are generally trained using a techinque called Backpropagation Through
+Time (BPTT), in which the gradient of a loss function taken at a certain
+instance in time is used to update the model parameters recursively through the
+history of the model, using the chain rule. In this way, RNN models trained
+over long sequences have their parameters updated by the product of many
+Jacobian matrices, which, just like a product of many real numbers, can vanish
+or explode very easily \cite{rnn_training_challenges}. For this reason, along
+with several others having to do with the long-term stability of RNNs, the Long
+Short-Term Memory (LSTM) cell was developed with nonlinear, data-dependent
+controls in the form of several ``gates'' that control input to and output from 
+the cell's state \cite{rnn_and_lstm_fundamentals}.
 
-% The outputs of each node are then used for other purposes, depending on the
-% task, and the result is then backpropagated against a loss function. In machine
-% learning terminology, this is referred to as backpropagation through time
-% (BPTT) \cite{rnn_and_lstm_fundamentals}, since a gradient must be computed in
-% the input sequence's reverse order, i.e., backwards through time, and in the
-% case of an RNN implemented with feedback, this gradient must be computed with
-% respect to the input data at each time step and then added to the weights of
-% the single node in sum.
+These changes take the form of a modified system of equations \cite{rnn_review}: 
 
-\subsection{Generative Models}
-\label{subsec:generative}
+\begin{equation}
+	\begin{split}
+		f_t & = \sigma (W_{fh} h_{t - 1} + W_{fx} x_t + b_f) \\
+		i_t & = \sigma (W_{ih} h_{t - 1} + W_{ix} x_t + b_i) \\
+		\tilde{c}_t & = \tanh (W_{\tilde{c} h} h_{t - 1} + W_{\tilde{c} x} x_t + b_\tilde{c}) \\
+		o_t & = \sigma (W_{oh} h_{t - 1} + W_{ox} x_t + b_o) \\
+		c_t & = f_t \circ c_{t - 1} + i_t \circ \tilde{c}_t \\
+		h_t & = o_t \circ \tanh (c_t)
+	\end{split}
+	\label{eq:lstm_canonical}
+\end{equation}
 
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
-	\end{center}
-	\caption{General GAN Architecture}
-	\label{fig:gan_arch}
-\end{figure}
-
-Generative neural networks (for example, GANs) consist of mostly the same
-architecture as discriminative neural nets, such as the ones which are
-classically used for image classification. While discriminative nets seek to
-learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
-particular class $y$, generative nets seek to learn the conditional probability
-distribution $p(x \mid y)$ of an input data given the output, allowing them to
-make inferences in the form of ``imagined'' data that might belong to the same
-distribution as $x$ \cite{gan_original}. In short, discriminative models would
-look at many Van Gogh paintings and fakes in order to learn to differentiate
-between them, and generative models would look at many Van Gogh paintings in
-order to learn how to paint like Van Gogh.
-
-In practice, this is done by passing a low-dimensional embedding vector from a
-known latent distribution (such as the kind that may come as an activation from
-a discriminative net) through a typical network in reverse, generating an
-upscaled output in the same shape as the targeted learning data.
-
-\section{Video Prediction Models}
-\label{sec:families}
-
-\subsection{Convolutional LSTM}
-\label{subsec:conv_lstm}
+The key differences in the LSTM are the four gates denoted by $f$, $i$,
+$\tilde{c}$, and $o$. Other than these, the cell state $c$ and output $h$ are
+analogous to the original RNN definition. Now, the input and output gates are
+able to ``learn'' how to add information to the cell state or take information
+for inferences, and the forget gate is able to remove information from the cell
+state entirely. To see how this is done, recall that the sigmoid funtion
+$\sigma (z)$ has an output range of $(0, 1)$, meaning that element-wise
+multiplication by embeddings activated by sigmoid can minimize and essentially
+nullify the cell state. In the input gate, this same technique is applied for
+$i$ onto $\tilde{c}$, and in the output gate it is applied by $o$ onto $c$,
+meaning that $i$ decides what from $h_{t - 1}$ is allowed into the cell state
+and $o$ decides what from $c_{t - 1}$ is allowed out of the cell state into the
+inference. A diagram of these connections is shown in Figure
+\ref{fig:lstmcell_arch}.
 
 \begin{figure}[H]
 	\begin{center}
@@ -245,14 +235,72 @@ upscaled output in the same shape as the targeted learning data.
 	\label{fig:lstmcell_arch}
 \end{figure}
 
+In this way, LSTM cells are capable of mitigating some of the drawbacks of RNNs
+such as vanishing and exploding gradients, and they are capable of learning how
+to make good inferences for very different sequences. In other words, they are
+better able to approximate both $y_{t_1}$ and $y_{t_2 \gg t_1}$ using the same
+parameters.
+
+Now that some of the general architectures and methodologies are laid out,
+however, the question still remains of how these models actually predict the
+continuation of a sequence of frames $\boldsymbol{Y}$ with any sort of
+accuracy. In order to do this, one final methodology must be examined, namely
+Sequence to Sequence (Seq2Seq) learning, which will lead to the final
+implementation of a Convolutional LSTM used for experimentation in this
+project.
+
+Seq2Seq learning is only a slight modification to the original usage of RNNs,
+but they represent an elegant solution to a classical shortcoming of most Deep
+Neural Networks (DNNs), which is that, despite their flexibility, they can only
+be applied to problems in which inputs and outputs can fit into fixed,
+discretized, vectors, and therefore must be of a certain length or size.
+Seq2Seq learning solves this problem for video prediction as well as many other
+tasks by using 2 LSTMs: an encoder to read the sequence and learn to create an
+embedding vector, and a decoder, which is passed the embedding vector and
+learns to generate the sequence. A diagram of this procedure is shown in Figure
+\ref{fig:seq2seq_arch}.
+
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=1\textwidth]{figures/seq2seq_arch.png}
 	\end{center}
 	\caption{Seq2Seq Architecture}
-	\label{fig:lstmcell_arch}
+	\label{fig:seq2seq_arch}
 \end{figure}
 
+% \subsection{Generative Models}
+% \label{subsec:generative}
+%
+% \begin{figure}[H]
+% 	\begin{center}
+% 		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
+% 	\end{center}
+% 	\caption{General GAN Architecture}
+% 	\label{fig:gan_arch}
+% \end{figure}
+%
+% Generative neural networks (for example, GANs) consist of mostly the same
+% architecture as discriminative neural nets, such as the ones which are
+% classically used for image classification. While discriminative nets seek to
+% learn the conditional probability $p(y \mid x)$ of an input $x$ belonging to a
+% particular class $y$, generative nets seek to learn the conditional probability
+% distribution $p(x \mid y)$ of an input data given the output, allowing them to
+% make inferences in the form of ``imagined'' data that might belong to the same
+% distribution as $x$ \cite{gan_original}. In short, discriminative models would
+% look at many Van Gogh paintings and fakes in order to learn to differentiate
+% between them, and generative models would look at many Van Gogh paintings in
+% order to learn how to paint like Van Gogh.
+%
+% In practice, this is done by passing a low-dimensional embedding vector from a
+% known latent distribution (such as the kind that may come as an activation from
+% a discriminative net) through a typical network in reverse, generating an
+% upscaled output in the same shape as the targeted learning data.
+
+\section{Video Prediction Models}
+\label{sec:families}
+
+\subsection{Convolutional LSTM}
+\label{subsec:conv_lstm}
 
 \subsection{FutureGAN}
 \label{subsec:futuregan}

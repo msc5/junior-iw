@@ -164,43 +164,99 @@
   bibsource  = {dblp computer science bibliography, https://dblp.org}
 }
 
-@article{lstm_original,
-author     = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
-title      = {Long Short-Term Memory},
-year       = {1997},
-issue_date = {November 15, 1997},
-publisher  = {MIT Press},
-address    = {Cambridge, MA, USA},
-volume     = {9},
-number     = {8},
-issn       = {0899-7667},
-url        = {https://doi.org/10.1162/neco.1997.9.8.1735},
-doi        = {10.1162/neco.1997.9.8.1735},
-abstract   = {Learning to store information over extended time intervals by
-			  recurrent backpropagation takes a very long time, mostly because
-			  of insufficient, decaying error backflow. We briefly review
-			  Hochreiter's (1991) analysis of this problem, then address it by
-			  introducing a novel, efficient, gradient based method called long
-			  short-term memory (LSTM). Truncating the gradient where this does
-			  not do harm, LSTM can learn to bridge minimal time lags in excess
-			  of 1000 discrete-time steps by enforcing constant error flow
-			  through constant error carousels within special units.
-			  Multiplicative gate units learn to open and close access to the
-			  constant error flow. LSTM is local in space and time; its
-			  computational complexity per time step and weight is O. 1. Our
-			  experiments with artificial data involve local, distributed,
-			  real-valued, and noisy pattern representations. In comparisons
-			  with real-time recurrent learning, back propagation through time,
-			  recurrent cascade correlation, Elman nets, and neural sequence
-			  chunking, LSTM leads to many more successful runs, and learns
-			  much faster. LSTM also solves complex, artificial long-time-lag
-			  tasks that have never been solved by previous recurrent network
-			  algorithms.},
-journal    = {Neural Comput.},
-month      = {nov},
-pages      = {1735–1780},
-numpages   = {46}
+@misc{rnn_training_challenges,
+  doi       = {10.48550/ARXIV.1211.5063},
+  url       = {https://arxiv.org/abs/1211.5063},
+  author    = {Pascanu, Razvan and Mikolov, Tomas and Bengio, Yoshua},
+  keywords  = {Machine Learning (cs.LG), FOS: Computer and information
+			   sciences, FOS: Computer and information sciences},
+  title     = {On the difficulty of training Recurrent Neural Networks},
+  publisher = {arXiv},
+  year      = {2012},
+  copyright = {arXiv.org perpetual, non-exclusive license}
 }
+
+@article{rnn_review,
+    author = {Yu, Yong and Si, Xiaosheng and Hu, Changhua and Zhang, Jianxun},
+    title = "{A Review of Recurrent Neural Networks: LSTM Cells and Network Architectures}",
+    journal = {Neural Computation},
+    volume = {31},
+    number = {7},
+    pages = {1235-1270},
+    year = {2019},
+    month = {07},
+	abstract = "{Recurrent neural networks (RNNs) have been widely adopted in
+			 research areas concerned with sequential data, such as text,
+			 audio, and video. However, RNNs consisting of sigma cells or tanh
+			 cells are unable to learn the relevant information of input data
+			 when the input gap is large. By introducing gate functions into
+			 the cell structure, the long short-term memory (LSTM) could handle
+			 the problem of long-term dependencies well. Since its
+			 introduction, almost all the exciting results based on RNNs have
+			 been achieved by the LSTM. The LSTM has become the focus of deep
+			 learning. We review the LSTM cell and its variants to explore the
+			 learning capacity of the LSTM cell. Furthermore, the LSTM networks
+			 are divided into two broad categories: LSTM-dominated networks and
+			 integrated LSTM networks. In addition, their various applications
+			 are discussed. Finally, future research directions are presented
+			 for LSTM networks.}",
+    issn = {0899-7667},
+    doi = {10.1162/neco_a_01199},
+    url = {https://doi.org/10.1162/neco\_a\_01199},
+    eprint = {https://direct.mit.edu/neco/article-pdf/31/7/1235/1053200/neco\_a\_01199.pdf},
+}
+
+@article{lstm_original,
+	author     = {Hochreiter, Sepp and Schmidhuber, J\"{u}rgen},
+	title      = {Long Short-Term Memory},
+	year       = {1997},
+	issue_date = {November 15, 1997},
+	publisher  = {MIT Press},
+	address    = {Cambridge, MA, USA},
+	volume     = {9},
+	number     = {8},
+	issn       = {0899-7667},
+	url        = {https://doi.org/10.1162/neco.1997.9.8.1735},
+	doi        = {10.1162/neco.1997.9.8.1735},
+	abstract   = {Learning to store information over extended time intervals by
+				  recurrent backpropagation takes a very long time, mostly because
+				  of insufficient, decaying error backflow. We briefly review
+				  Hochreiter's (1991) analysis of this problem, then address it by
+				  introducing a novel, efficient, gradient based method called long
+				  short-term memory (LSTM). Truncating the gradient where this does
+				  not do harm, LSTM can learn to bridge minimal time lags in excess
+				  of 1000 discrete-time steps by enforcing constant error flow
+				  through constant error carousels within special units.
+				  Multiplicative gate units learn to open and close access to the
+				  constant error flow. LSTM is local in space and time; its
+				  computational complexity per time step and weight is O. 1. Our
+				  experiments with artificial data involve local, distributed,
+				  real-valued, and noisy pattern representations. In comparisons
+				  with real-time recurrent learning, back propagation through time,
+				  recurrent cascade correlation, Elman nets, and neural sequence
+				  chunking, LSTM leads to many more successful runs, and learns
+				  much faster. LSTM also solves complex, artificial long-time-lag
+				  tasks that have never been solved by previous recurrent network
+				  algorithms.},
+	journal    = {Neural Comput.},
+	month      = {nov},
+	pages      = {1735–1780},
+	numpages   = {46}
+}
+
+@misc{seq2seq_original,
+  doi = {10.48550/ARXIV.1409.3215},
+  url = {https://arxiv.org/abs/1409.3215},
+  author = {Sutskever, Ilya and Vinyals, Oriol and Le, Quoc V.},
+  keywords = {Computation and Language (cs.CL), Machine Learning (cs.LG), FOS:
+			  Computer and information sciences, FOS: Computer and information
+			  sciences},
+  title = {Sequence to Sequence Learning with Neural Networks},
+  publisher = {arXiv},
+  year = {2014},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
 
 @misc{gan_original,
   doi       = {10.48550/ARXIV.1406.2661},
