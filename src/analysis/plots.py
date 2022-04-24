@@ -25,9 +25,6 @@ def plot_seqs(x, y, output):
 
 
 def plot_loss_over_seq(losses):
-    # batch_size, seq_len = y.shape[0], y.shape[1]
-    # losses = [loss_fn(output[:, i], y[:, i]).item()
-    #           for i in range(seq_len)]
     losses = losses.squeeze().detach().cpu()
     fig = plt.figure(figsize=(12, 6))
     plt.grid()

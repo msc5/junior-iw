@@ -13,7 +13,6 @@ from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.tensorboard import SummaryWriter
 
-
 from ..analysis.plots import plot_seqs, plot_to_tensor, plot_loss_over_seq
 
 GLOBAL_METRICS = {
@@ -38,11 +37,7 @@ class Lightning (pl.LightningModule):
 
         self.save_hyperparameters(ignore=['model', 'loaders'])
         self.opts = opts
-
-        # Initialize Model
         self.model = model
-
-        # Initialize DataLoaders
         self.loaders = loaders
         self.total_steps = {k: len(v) for (k, v) in loaders.items()}
 
@@ -150,12 +145,6 @@ class Lightning (pl.LightningModule):
         writer.add_scalar('loss/val', loss, step)
         return {'loss': loss}
 
-    def add_seq_loss(self, output, y):
-        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-            self.seq_losses += self.seq_mse(output, y).sum((0, 2, 3, 4))
-        else:
-            self.seq_losses += self.seq_mse(output, y).sum((0, 2))
-
     def test_step(self, batch, i):
         self.steps['test'] += 1
         inp_len = self.opts['seq_len'] - self.opts['fut_len']
@@ -172,6 +161,12 @@ class Lightning (pl.LightningModule):
         writer.add_image(f'test_{label}_prediction', img_pred, step)
         writer.add_scalar('loss/test', loss, step)
         return {'loss': loss}
+
+    def add_seq_loss(self, output, y):
+        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+            self.seq_losses += self.seq_mse(output, y).sum((0, 2, 3, 4))
+        else:
+            self.seq_losses += self.seq_mse(output, y).sum((0, 2))
 
     def on_test_end(self):
         avg_seq_losses = self.seq_losses / self.steps['test']
