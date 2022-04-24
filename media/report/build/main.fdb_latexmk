@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1650759352 "build/main.aux" "build/main.bbl" "build/main" 1650759353
+["bibtex build/main"] 1650759352 "build/main.aux" "build/main.bbl" "build/main" 1650810318
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1650759353 10615 67650ddd26e440b6db5a4357f9f4b30f "pdflatex"
-  "main.bib" 1650758863 13138 43fb486cf1b15b7b70382df60c274ae0 ""
+  "build/main.aux" 1650810317 10615 67650ddd26e440b6db5a4357f9f4b30f "pdflatex"
+  "main.bib" 1650754492 13138 43fb486cf1b15b7b70382df60c274ae0 ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1650759352 "main.tex" "build/main.pdf" "main" 1650759353
+["pdflatex"] 1650810315 "main.tex" "build/main.pdf" "main" 1650810318
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1647844622 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "/usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1647844622 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -215,17 +215,17 @@
   "/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty" 1647844622 56029 3f7889dab51d620aa43177c391b7b190 ""
   "/usr/share/texmf-dist/tex/latex/xpatch/xpatch.sty" 1647807149 8314 7803f78066c4f9d008405191a4b43073 ""
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1648423700 4278762 af3ac1370db81a450c1118eabf1fe718 ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1648423680 2924513 13359978d7cc29c4d3ba90e3c72181ad ""
-  "build/main.aux" 1650759353 10615 67650ddd26e440b6db5a4357f9f4b30f "pdflatex"
-  "build/main.bbl" 1650759352 3633 f0775d5e14d3c26a208149e263a091ef "bibtex build/main"
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1649261359 4278762 af3ac1370db81a450c1118eabf1fe718 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1649261356 2924509 590e0613683111570d49259a118b5898 ""
+  "build/main.aux" 1650810317 10615 67650ddd26e440b6db5a4357f9f4b30f "pdflatex"
+  "build/main.bbl" 1650752360 3633 f0775d5e14d3c26a208149e263a091ef "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 1650759353 1347 9e303762fe3b8f2b83f1012b06724b1b "pdflatex"
-  "figures/lstmcell_arch.png" 1650758863 33697 a4dc5bf99e2f4a7a459cad50b8e2d788 ""
-  "figures/rnn_arch.png" 1650758863 23267 0e310618073ef4c8a8f12515f1a3fe3a ""
-  "figures/seq2seq_arch.png" 1650646829 30098 1b89be8d94d0904698f9cb2e75c1fca8 ""
-  "images/kth/KTHEpoch2Step56342.png" 1650482297 199331 71fac9fefef89898a7a51755775dafd2 ""
-  "main.tex" 1650759348 18964 c364c4462960d24a12cd8984ac19a4fc ""
+  "build/main.toc" 1650810317 1347 9e303762fe3b8f2b83f1012b06724b1b "pdflatex"
+  "figures/lstmcell_arch.png" 1650744551 33697 a4dc5bf99e2f4a7a459cad50b8e2d788 ""
+  "figures/rnn_arch.png" 1650743447 23267 0e310618073ef4c8a8f12515f1a3fe3a ""
+  "figures/seq2seq_arch.png" 1650642253 30098 1b89be8d94d0904698f9cb2e75c1fca8 ""
+  "images/kth/KTHEpoch2Step56342.png" 1650469209 199331 71fac9fefef89898a7a51755775dafd2 ""
+  "main.tex" 1650754492 18964 c364c4462960d24a12cd8984ac19a4fc ""
   (generated)
   "build/main.aux"
   "build/main.log"

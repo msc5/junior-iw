@@ -10,7 +10,14 @@ KTH_CLASSES = ['boxing', 'handclapping', 'handwaving',
                'jogging', 'running', 'walking']
 
 MODELS = ['ConvLSTM', 'ConvLSTM_REF', 'LSTM']
-DATASETS = ['GeneratedSins', 'GeneratedNoise', 'MovingMNIST', 'KTH', 'BAIR']
+DATASETS = [
+    'GeneratedSins',
+    'GeneratedNoise',
+    'Stocks',
+    'MovingMNIST',
+    'KTH',
+    'BAIR'
+]
 
 OPTS = {
     'model': {
@@ -170,6 +177,11 @@ if __name__ == "__main__":
         from .data.generators import GeneratedNoise
         train_dataset = GeneratedNoise(opts['seq_len'])
         test_dataset = GeneratedNoise(opts['seq_len'])
+        opts['inp_size'] = 1
+    elif opts['dataset'] == 'Stocks':
+        from .data.datasets.stocks.stocks import Stocks
+        train_dataset = Stocks(seq_len=opts['seq_len'])
+        test_dataset = Stocks(seq_len=opts['seq_len'], split='test')
         opts['inp_size'] = 1
     elif opts['dataset'] == 'MovingMNIST':
         from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST
