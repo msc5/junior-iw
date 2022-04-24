@@ -56,7 +56,7 @@ OPTS = {
     },
     'n_test_batches': {
         'description': 'Maximum number of batches for testing loop',
-        'default': 1e13,
+        'default': 50,
         'type': int,
     },
     'val_interval': {

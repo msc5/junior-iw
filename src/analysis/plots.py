@@ -53,22 +53,22 @@ if __name__ == "__main__":
 
     seq_len = 200
 
-    dataset = GeneratedSins(seq_len)
-    # dataset = GeneratedNoise(seq_len)
+    # dataset = GeneratedSins(seq_len)
+    dataset = GeneratedNoise(seq_len)
     dataloader = DataLoader(dataset, batch_size=8)
 
     data = next(iter(dataloader))
     x, y = data[:, :(seq_len // 2)], data[:, (seq_len // 2):]
     print(x.shape, y.shape)
 
-    # fig = plot_seqs(x, y, y)
+    fig = plot_seqs(x, y, y)
     # tensor = plot_to_tensor(fig)
 
-    model = LSTMSeq2Seq(1, 64, 1)
-    output = model(x)
+    # model = LSTMSeq2Seq(1, 64, 1)
+    # output = model(x)
 
-    loss = MSELoss()
-    fig = plot_loss_over_seq(loss, y, output)
+    # loss = MSELoss()
+    # fig = plot_loss_over_seq(loss, y, output)
     # tensor = plot_to_tensor(fig)
 
     plt.show()

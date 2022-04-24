@@ -17,10 +17,12 @@ from ..analysis.plots import plot_seqs, plot_to_tensor, plot_loss_over_seq
 
 GLOBAL_METRICS = {
     'Metrics': {
+        'sequence':
+            ['Multiline', ['sequence/loss']],
         'loss':
-        ['Multiline', ['loss/train', 'loss/val']],
+            ['Multiline', ['loss/train', 'loss/val', 'loss/test']],
         'output_range':
-        ['Multiline', ['output_range/max', 'output_range/min']]
+            ['Multiline', ['output_range/max', 'output_range/min']]
     }
 }
 
@@ -49,7 +51,6 @@ class Lightning (pl.LightningModule):
 
         self.steps = {'train': 0, 'test': 0, 'val': 0}
         self.seq_losses = 0
-        self.seq_mse = nn.MSELoss(reduction='none')
 
     def make_label(self):
         epoch, step = self.current_epoch, self.get_step()
@@ -159,20 +160,19 @@ class Lightning (pl.LightningModule):
             img_pred = self.plot_pred(x, y, output)
         label = self.make_label()
         writer.add_image(f'test_{label}_prediction', img_pred, step)
-        writer.add_scalar('loss/test', loss, step)
+        # writer.add_scalar('loss/test', loss, step)
         return {'loss': loss}
 
     def add_seq_loss(self, output, y):
-        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-            self.seq_losses += self.seq_mse(output, y).sum((0, 2, 3, 4))
-        else:
-            self.seq_losses += self.seq_mse(output, y).sum((0, 2))
+        pred_len = y.shape[1]
+        self.seq_losses += torch.tensor(
+            [self.criterion(output[:, i], y[:, i]) for i in range(pred_len)])
 
     def on_test_end(self):
         avg_seq_losses = self.seq_losses / self.steps['test']
-        img_avg_seq_loss = self.plot_seq_loss(avg_seq_losses)
-        writer, step = self.logger.experiment, self.get_step()
-        writer.add_image('test_avg_seq_loss', img_avg_seq_loss, step)
+        writer = self.logger.experiment
+        for i, loss in enumerate(avg_seq_losses):
+            writer.add_scalar('sequence/loss', loss, i)
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(
