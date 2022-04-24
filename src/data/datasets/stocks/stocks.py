@@ -14,7 +14,13 @@ class Stocks (Dataset):
         self.split = split
         self.path = Path('src/data/datasets/stocks/raw_stocks')
         self.files = self.path.glob('*.pt')
-        self.data = [torch.load(f) for f in self.files]
+
+        def normalize(tensor):
+            tensor = (tensor - tensor.min()) / tensor.max()
+            tensor = (tensor - tensor.std()) / tensor.mean()
+            return tensor + 0.5
+
+        self.data = [normalize(torch.load(f)) for f in self.files]
         self.lengths = [len(d) for d in self.data]
         self.len = sum([l // self.seq_len for l in self.lengths])
         self.slice = self.month = 0
@@ -54,13 +60,12 @@ def make_dataset():
     from alpha_vantage.timeseries import TimeSeries
     ts = TimeSeries(key='A6YNKD8LYDFDEALD', output_format='csv')
 
-    # for month in range():
+    # for month in range(10, 11):
     month = 11
     data, meta_data = ts.get_intraday_extended(
         'GOOGL', interval='1min', slice=f'year2month{month + 1}')
     x = [float(v[4]) for v in data if v[4] != 'close']
     x = torch.tensor(x)
-    x = (x - x.std()) / x.mean()
     print(x)
     print(len(x))
     time.sleep(5)
@@ -71,9 +76,11 @@ if __name__ == "__main__":
 
     from rich import print
 
-    ds = Stocks(seq_len=20, split='test')
-    dl = DataLoader(ds, batch_size=4, drop_last=True)
+    make_dataset()
 
-    print(len(dl))
-    for i, d in enumerate(dl):
-        print(i, d.shape)
+    # ds = Stocks(seq_len=20, split='test')
+    # dl = DataLoader(ds, batch_size=4, drop_last=True)
+    #
+    # print(len(dl))
+    # for i, d in enumerate(dl):
+    #     print(i, d.shape)

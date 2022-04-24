@@ -157,6 +157,7 @@ if __name__ == "__main__":
 
     opts = {k: v if v is not None else OPTS[k]['default']
             for (k, v) in vars(parser.parse_args()).items()}
+    opts['fut_len'] = opts['seq_len'] // 2
 
     print(opts)
 

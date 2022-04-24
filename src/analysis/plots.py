@@ -16,6 +16,7 @@ def plot_seqs(x, y, output):
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
+    plt.ylim(0, 1)
     for n in range(batch_size):
         plt.plot(seq_t, x[n], color='blue')
         plt.plot(fut_t, y[n], color='limegreen')
