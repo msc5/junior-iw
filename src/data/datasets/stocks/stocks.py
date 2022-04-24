@@ -12,7 +12,7 @@ class Stocks (Dataset):
     def __init__(self, seq_len: int = 20, split: str = 'train'):
         self.seq_len = seq_len
         self.split = split
-        self.path = Path('src/data/datasets/stocks/raw')
+        self.path = Path('src/data/datasets/stocks/raw_stocks')
         self.files = self.path.glob('*.pt')
         self.data = [torch.load(f) for f in self.files]
         self.lengths = [len(d) for d in self.data]
