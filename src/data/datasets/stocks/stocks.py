@@ -7,6 +7,7 @@ from pathlib import Path
 from torch.utils.data import Dataset, DataLoader
 
 RAW_PATH = 'src/data/datasets/stocks/raw'
+APIKEY = 'A6YNKD8LYDFDEALD'
 
 
 class Stocks (Dataset):
@@ -55,17 +56,14 @@ def make_dataset(start: int, end: int):
 
     symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL', 'AMZN', 'NVDA', 'FB', 'AMD']
 
-    # key = 'OYZ32AGNO5YR2RSJ'
-    key = 'A6YNKD8LYDFDEALD'
-
-    ts = TimeSeries(key=key, output_format='csv')
+    ts = TimeSeries(key=APIKEY, output_format='csv')
 
     def retry_download(month, symbol, slice):
         print(f'Downloading {symbol} month {month + 1}...')
         data, meta_data = ts.get_intraday_extended(
             symbol=symbol, interval='1min', slice=slice)
-        if meta_data is not None:
-            print(meta_data)
+        data = [d for d in data]
+        if data:
             x = [float(v[4]) for v in data if v[4] != 'close']
             x = torch.tensor(x)
         else:
