@@ -8,7 +8,8 @@ from torch.utils.data import Dataset
 
 from ..analysis.plots import plot_seqs
 
-DEFAULT_LEN = 55000
+# DEFAULT_LEN = 55000
+DEFAULT_LEN = 22000
 
 
 class GeneratedSins (Dataset):
@@ -82,8 +83,18 @@ if __name__ == "__main__":
 
     from torch.utils.data import DataLoader
 
-    sins = GeneratedSins(20)
-    noise = GeneratedNoise(20)
+    sins = GeneratedSins(50)
+    noise = GeneratedNoise(50)
+
+    sins_dl = DataLoader(
+        sins, batch_size=64, drop_last=True, shuffle=True)
+    noise_dl = DataLoader(
+        noise, batch_size=64, drop_last=True, shuffle=True)
+
+    print(len(sins))
+    print(len(noise))
+    print(len(sins_dl))
+    print(len(noise_dl))
 
     # dataset = GeneratedSins(20)
     # dataset = GeneratedNoise(20)

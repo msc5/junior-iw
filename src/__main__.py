@@ -171,20 +171,21 @@ if __name__ == "__main__":
     # Initialize Dataset and DataLoader
     if opts['dataset'] == 'GeneratedSins':
         from .data.generators import GeneratedSins
-        N_train, N_test = 55000, 20000
+        N_train, N_test = 22000, 7000
         train_dataset = GeneratedSins(opts['seq_len'], N_train)
         test_dataset = GeneratedSins(opts['seq_len'], N_test)
         opts['inp_size'] = 1
     elif opts['dataset'] == 'GeneratedNoise':
         from .data.generators import GeneratedNoise
-        N_train, N_test = 55000, 20000
+        N_train, N_test = 22000, 7000
         train_dataset = GeneratedNoise(opts['seq_len'], N_train)
         test_dataset = GeneratedNoise(opts['seq_len'], N_test)
         opts['inp_size'] = 1
     elif opts['dataset'] == 'Stocks':
         from .data.datasets.Stocks.Stocks import Stocks
-        train_dataset = Stocks(seq_len=opts['seq_len'])
+        train_dataset = Stocks(seq_len=opts['seq_len'], split='train')
         test_dataset = Stocks(seq_len=opts['seq_len'], split='test')
+        print(len(train_dataset))
         opts['inp_size'] = 1
     elif opts['dataset'] == 'MovingMNIST':
         from .data.datasets.MovingMNIST.MovingMNIST import MovingMNIST

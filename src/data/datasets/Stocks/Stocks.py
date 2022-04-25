@@ -38,7 +38,6 @@ class Stocks (Dataset):
         prior = sum([l // self.seq_len for l in self.lengths[:file]])
         start = (i - prior) * self.seq_len
         end = start + self.seq_len
-        # print(i, prior, file, start, end, self.lengths[file])
         slice = self.data[file][start:end].unsqueeze(1)
         # Normalize Data
         slice -= slice.min()
@@ -102,12 +101,12 @@ if __name__ == "__main__":
 
     # make_dataset()
 
-    test_ds = Stocks(seq_len=20, split='test')
-    test_dl = DataLoader(
-        test_ds, batch_size=4, drop_last=True, shuffle=True)
-    train_ds = Stocks(seq_len=20, split='train')
+    train_ds = Stocks(seq_len=50, split='train')
     train_dl = DataLoader(
-        train_ds, batch_size=4, drop_last=True, shuffle=True)
+        train_ds, batch_size=64, drop_last=True, shuffle=True)
+    test_ds = Stocks(seq_len=50, split='test')
+    test_dl = DataLoader(
+        test_ds, batch_size=64, drop_last=True, shuffle=True)
 
     print(len(train_ds))
     print(len(test_ds))

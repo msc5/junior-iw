@@ -24,14 +24,19 @@ def plot_seqs(x, y, output):
     _, fut_len = y.shape
     t = np.linspace(0, 1, seq_len + fut_len)
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
+    colors = plt.cm.cool(np.linspace(0, 1, 3))
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
     plt.ylim(0, 1)
     for n in range(batch_size):
-        plt.plot(seq_t, x[n], color='blue')
-        plt.plot(fut_t, y[n], color='limegreen')
-        plt.plot(fut_t, output[n], color='magenta')
+        plt.plot(seq_t, x[n],
+                 color=colors[0], label='Ground Truth Input Sequence')
+        plt.plot(fut_t, y[n],
+                 color=colors[1], label='Ground Truth Label Sequence')
+        plt.plot(fut_t, output[n],
+                 color=colors[2], label='Model Output Sequence')
     plt.title('Sequences and Predictions')
+    plt.legend()
     return fig
 
 
