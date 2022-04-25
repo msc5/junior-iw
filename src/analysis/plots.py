@@ -24,7 +24,7 @@ def plot_seqs(x, y, output):
     _, fut_len = y.shape
     t = np.linspace(0, 1, seq_len + fut_len)
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
-    colors = plt.cm.hsv(np.linspace(0.6, 0.8, 3))
+    colors = plt.cm.hsv(np.linspace(0.7, 0.9, 3))
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
     plt.ylim(0, 1)
@@ -69,15 +69,15 @@ if __name__ == "__main__":
 
     seq_len = 200
 
-    # dataset = GeneratedSins(seq_len)
-    dataset = GeneratedNoise(seq_len)
+    dataset = GeneratedSins(seq_len)
+    # dataset = GeneratedNoise(seq_len)
     dataloader = DataLoader(dataset, batch_size=4)
 
     data = next(iter(dataloader))
     x, y = data[:, :(seq_len // 2)], data[:, (seq_len // 2):]
     print(x.shape, y.shape)
 
-    fig = plot_seqs(x, y, y + torch.rand(y.shape) * 0.01)
+    fig = plot_seqs(x, y, y + torch.rand(y.shape) * 0.05)
     # tensor = plot_to_tensor(fig)
 
     # model = LSTMSeq2Seq(1, 64, 1)
