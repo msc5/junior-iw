@@ -24,19 +24,18 @@ def plot_seqs(x, y, output):
     _, fut_len = y.shape
     t = np.linspace(0, 1, seq_len + fut_len)
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
-    colors = plt.cm.cool(np.linspace(0, 1, 3))
+    colors = plt.cm.hsv(np.linspace(0.6, 0.8, 3))
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
     plt.ylim(0, 1)
     for n in range(batch_size):
-        plt.plot(seq_t, x[n],
-                 color=colors[0], label='Ground Truth Input Sequence')
-        plt.plot(fut_t, y[n],
-                 color=colors[1], label='Ground Truth Label Sequence')
-        plt.plot(fut_t, output[n],
-                 color=colors[2], label='Model Output Sequence')
+        plt.plot(seq_t, x[n], color=colors[0])
+        plt.plot(fut_t, y[n], color=colors[1])
+        plt.plot(fut_t, output[n], color=colors[2])
     plt.title('Sequences and Predictions')
-    plt.legend()
+    plt.legend(['Ground Truth Input Sequences',
+                'Ground Truth Label Sequences',
+                'Model Output Sequences'])
     return fig
 
 
@@ -62,6 +61,7 @@ def plot_to_tensor(fig):
 if __name__ == "__main__":
 
     from torch.utils.data import DataLoader
+    import torch
     from torch.nn import MSELoss
     from ..data.generators import GeneratedSins, GeneratedNoise
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     x, y = data[:, :(seq_len // 2)], data[:, (seq_len // 2):]
     print(x.shape, y.shape)
 
-    fig = plot_seqs(x, y, y)
+    fig = plot_seqs(x, y, y + torch.rand(y.shape) * 0.01)
     # tensor = plot_to_tensor(fig)
 
     # model = LSTMSeq2Seq(1, 64, 1)
