@@ -22,77 +22,71 @@ def extract_data(path: Path, tags: str):
         summary = event_pb2.Event.FromString(event.numpy()).summary.value
         for value in summary:
             values[value.tag] += [value.simple_value]
-    return [values[tag] for tag in tags]
+    return {tag: torch.tensor(values[tag]) for tag in tags}
+
+
+def extract_data_from_files(glob_path, tags):
+    losses = {key: [] for key in tags}
+    labels = []
+    min_length = 1e13
+    for file in sorted(glob.glob(glob_path)):
+        print(file)
+        f = file.split(os.sep)
+        labels += [f'{f[2][5:]} {f[3]} Layers']
+        data = extract_data(file, tags)
+        for t in tags:
+            min_length = min(min_length, len(data[t]))
+            losses[t] += [data[t]]
+    print(min_length)
+    tensors = {key: torch.stack([l[:min_length] for l in loss])
+               for (key, loss) in losses.items()}
+    tensors['labels'] = labels
+    return tensors
 
 
 if __name__ == "__main__":
 
     from rich import print
 
-    splits = ['train', 'test']
-    # datasets = ['Stocks', 'GeneratedSins', 'GeneratedNoise']
-    datasets = ['BAIR', 'KTH', 'MovingMNIST']
-    layers = [3, 2, 1]
+    LOSSES_PATH = 'src/analysis/losses/'
+
+    model = 'LSTM'
 
     test_tags = ['sequence/loss']
-    train_tags = ['loss/train', 'loss/val']
+    train_tags = ['loss/train']
 
-    # # Extract Data
-    # train_losses = []
-    # val_losses = []
-    # seq_losses = []
-    # labels = []
-    # glob_path = 'results/test/ConvLSTM*/*/*tfevents*'
-    # # glob_path = 'results/test/LSTM*/*/*tfevents*'
-    # print([f for f in glob.glob(glob_path)])
-    # for file in glob.glob(glob_path):
-    #     print(file)
-    #     f = file.split(os.sep)
-    #     labels += [f'{f[2][5:]} {f[3]} Layers']
-    #     data = extract_data(file, test_tags)
-    #     seq_losses += data
-    #     # train_losses += [data[0][:54000]]
-    #     # val_losses += [data[1]]
-    #     # print(len(data[0]), len(data[1]))
-    # print([len(x) for x in seq_losses])
-    # # print([len(x) for x in train_losses])
-    # # print([len(x) for x in val_losses])
-    #
-    # X = torch.tensor(seq_losses)
-    # torch.save(X, 'ConvLSTM_seq_losses.pt')
+    train_glob_path = f'results/train/{model}*/*/*tfevents*'
+    test_glob_path = f'results/test/{model}*/*/*tfevents*'
 
-    # X = torch.tensor(train_losses)
-    # torch.save(X, 'ConvLSTM_train_losses.pt')
-    #
-    # Y = torch.tensor(val_losses)
-    # torch.save(Y, 'ConvLSTM_val_losses.pt')
+    # X = extract_data_from_files(test_glob_path, test_tags)
+    # torch.save(X, f'{LOSSES_PATH}/LSTM_seq_losses.pt')
 
-    labels = [f'{dataset} {layer} Layers'
-              for dataset in datasets for layer in range(3, 0, -1)]
-    print(labels)
+    # Y = extract_data_from_files(train_glob_path, train_tags)
+    # torch.save(Y, f'{LOSSES_PATH}/LSTM_train_losses.pt')
 
     # Plot Linear Datasets Train Loss
-    X = torch.load('ConvLSTM_train_losses.pt')
-    colors = plt.cm.winter(np.linspace(0, 1, len(X)))
+    X = torch.load(f'{LOSSES_PATH}{model}_train_losses.pt')
+    print(X)
+    colors = plt.cm.winter(np.linspace(0, 1, len(X['loss/train'])))
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
-    for i, x in enumerate(X):
-        x_smooth = gaussian_filter1d(x[:30000], sigma=12)
+    for i, x in enumerate(X['loss/train']):
+        x_smooth = gaussian_filter1d(x[:30000], sigma=4)
         plt.plot(x_smooth, color=colors[i])
-    plt.legend(labels, ncol=3)
-    plt.title('Smoothed ConvLSTM Training Loss')
+    plt.legend(X['labels'], ncol=3)
+    plt.title(f'Smoothed {model} Training Loss')
     plt.xlabel('Step')
     plt.ylabel('MSE Loss')
     plt.show()
 
     # # Plot Linear Datasets Test Seq Loss
-    # X = torch.load('ConvLSTM_seq_losses.pt')
-    # colors = plt.cm.winter(np.linspace(0, 1, len(X)))
+    # X = torch.load(f'{LOSSES_PATH}/LSTM_seq_losses.pt')
+    # colors = plt.cm.winter(np.linspace(0, 1, len(X['sequence/loss'])))
     # fig = plt.figure(figsize=(12, 6))
     # plt.grid()
-    # for i, x in enumerate(X):
+    # for i, x in enumerate(X['sequence/loss']):
     #     plt.plot(x, color=colors[i])
-    # plt.legend(labels, ncol=3)
+    # plt.legend(X['labels'], ncol=3)
     # plt.title('MSE Loss over Predicted Sequence')
     # plt.xlabel('Predicted Sequence Step')
     # plt.ylabel('MSE Loss')
