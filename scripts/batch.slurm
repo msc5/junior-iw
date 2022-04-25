@@ -15,14 +15,12 @@
 # module load anaconda3/2021.5
 # conda activate torch-env
 
-# for DATASET in GeneratedNoise
-# for DATASET in GeneratedSins GeneratedNoise Stocks
-for DATASET in MovingMNIST
+for DATASET in GeneratedSins GeneratedNoise Stocks
 do
 	for LAYERS in 1 2 3
 	do
-		# bash scripts/train_model.sh ConvLSTM $DATASET $LAYERS
-		bash scripts/test_model.sh ConvLSTM $DATASET $LAYERS
+		bash scripts/train_model.sh LSTM $DATASET $LAYERS
+		bash scripts/test_model.sh LSTM $DATASET $LAYERS
 	done
 done
 

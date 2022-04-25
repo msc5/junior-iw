@@ -8,13 +8,23 @@ from torch.utils.data import Dataset
 
 from ..analysis.plots import plot_seqs
 
+DEFAULT_LEN = 55000
+
 
 class GeneratedSins (Dataset):
 
     def __init__(self, seq_len: int, N: int = None):
-        self.len = N or 5000
-        self.data = self.gen_sins(self.len, seq_len)
-        self.data = torch.from_numpy(self.data).float()
+        self.len = N or DEFAULT_LEN
+        self.seq_len = seq_len
+        path = f'src/data/datasets/GeneratedSins/raw/{self.seq_len}_{self.len}.pt'
+        if os.path.exists(path):
+            print('Loading GeneratedSins...')
+            self.data = torch.load(path)
+        else:
+            print('Making GeneratedSins...')
+            self.data = self.gen_sins(self.len, seq_len)
+            self.data = torch.from_numpy(self.data).float()
+            torch.save(self.data, path)
 
     def __len__(self):
         return self.len
@@ -40,8 +50,16 @@ class GeneratedSins (Dataset):
 class GeneratedNoise (Dataset):
 
     def __init__(self, seq_len: int, N: int = None):
-        self.len = N or 5000
-        self.data = self.gen_noise(self.len, seq_len)
+        self.len = N or DEFAULT_LEN
+        self.seq_len = seq_len
+        path = f'src/data/datasets/GeneratedNoise/raw/{self.seq_len}_{self.len}.pt'
+        if os.path.exists(path):
+            print('Loading GeneratedNoise...')
+            self.data = torch.load(path)
+        else:
+            print('Making GeneratedNoise...')
+            self.data = self.gen_noise(self.len, seq_len)
+            torch.save(self.data, path)
 
     def __len__(self):
         return self.len
@@ -64,9 +82,12 @@ if __name__ == "__main__":
 
     from torch.utils.data import DataLoader
 
-    # dataset = GeneratedSins(20)
-    dataset = GeneratedNoise(20)
-    dataloader = DataLoader(dataset, batch_size=8)
+    sins = GeneratedSins(20)
+    noise = GeneratedNoise(20)
 
-    x = next(iter(dataloader))
-    print(x.shape)
+    # dataset = GeneratedSins(20)
+    # dataset = GeneratedNoise(20)
+    # dataloader = DataLoader(dataset, batch_size=8)
+    #
+    # x = next(iter(dataloader))
+    # print(x.shape)

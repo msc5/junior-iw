@@ -171,16 +171,18 @@ if __name__ == "__main__":
     # Initialize Dataset and DataLoader
     if opts['dataset'] == 'GeneratedSins':
         from .data.generators import GeneratedSins
-        train_dataset = GeneratedSins(opts['seq_len'])
-        test_dataset = GeneratedSins(opts['seq_len'])
+        N_train, N_test = 55000, 20000
+        train_dataset = GeneratedSins(opts['seq_len'], N_train)
+        test_dataset = GeneratedSins(opts['seq_len'], N_test)
         opts['inp_size'] = 1
     elif opts['dataset'] == 'GeneratedNoise':
         from .data.generators import GeneratedNoise
-        train_dataset = GeneratedNoise(opts['seq_len'])
-        test_dataset = GeneratedNoise(opts['seq_len'])
+        N_train, N_test = 55000, 20000
+        train_dataset = GeneratedNoise(opts['seq_len'], N_train)
+        test_dataset = GeneratedNoise(opts['seq_len'], N_test)
         opts['inp_size'] = 1
     elif opts['dataset'] == 'Stocks':
-        from .data.datasets.stocks.stocks import Stocks
+        from .data.datasets.Stocks.Stocks import Stocks
         train_dataset = Stocks(seq_len=opts['seq_len'])
         test_dataset = Stocks(seq_len=opts['seq_len'], split='test')
         opts['inp_size'] = 1

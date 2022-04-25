@@ -6,7 +6,7 @@ from pathlib import Path
 
 from torch.utils.data import Dataset, DataLoader
 
-RAW_PATH = 'src/data/datasets/stocks/raw'
+RAW_PATH = 'src/data/datasets/Stocks/raw'
 APIKEY = 'A6YNKD8LYDFDEALD'
 
 
@@ -46,7 +46,7 @@ class Stocks (Dataset):
         return slice
 
 
-def make_dataset(start: int, end: int):
+def make_dataset():
 
     import csv
     import time
@@ -54,12 +54,20 @@ def make_dataset(start: int, end: int):
     import pandas as pd
     from alpha_vantage.timeseries import TimeSeries
 
-    symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL', 'AMZN', 'NVDA', 'FB', 'AMD']
+    symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL',
+               'AMZN', 'NVDA', 'FB', 'AMD']
+
+    # symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL',
+    #            'AMZN', 'NVDA', 'FB', 'AMD',
+    #            'BABA', 'PYPL', 'CRM', 'ATVI',
+    #            'EA', 'IBM', 'ASML', 'INTC']
 
     ts = TimeSeries(key=APIKEY, output_format='csv')
 
-    def retry_download(month, symbol, slice):
-        print(f'Downloading {symbol} month {month + 1}...')
+    def retry_download(year, month, symbol, slice):
+        print((f'Downloading {symbol:10} '
+               f'year {year} month {month}\n'
+               f'Slice {slice}'))
         data, meta_data = ts.get_intraday_extended(
             symbol=symbol, interval='1min', slice=slice)
         data = [d for d in data]
@@ -68,22 +76,23 @@ def make_dataset(start: int, end: int):
             x = torch.tensor(x)
         else:
             print('Retrying...')
-            time.sleep(5)
-            return retry_download(month, symbol, slice)
+            return retry_download(year, month, symbol, slice)
         print('Download Successful:')
-        print(x)
         print(len(x))
         torch.save(x, path)
+        time.sleep(20)
         return x
 
-    for month in range(start - 1, end + 1):
-        for symbol in symbols:
-            slice = f'year2month{month + 1}'
-            path = f'{RAW_PATH}/{symbol}_stocks_{slice}.pt'
-            if not os.path.exists(path):
-                retry_download(month, symbol, slice)
-            else:
-                print(f'Already Downloaded {symbol:10} month {month + 1}')
+    for year in [1, 2]:
+        for month in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]:
+            for symbol in symbols:
+                slice = f'year{year}month{month}'
+                path = f'{RAW_PATH}/{symbol}_{slice}.pt'
+                if not os.path.exists(path):
+                    retry_download(year, month, symbol, slice)
+                else:
+                    print((f'Already Downloaded {symbol:10} '
+                           f'year {year} month {month}'))
     print('Dataset Downloaded Successfully!')
 
 
@@ -91,18 +100,20 @@ if __name__ == "__main__":
 
     from rich import print
 
-    make_dataset(1, 12)
+    # make_dataset()
 
-    # test_ds = Stocks(seq_len=20, split='test')
-    # test_dl = DataLoader(
-    #     test_ds, batch_size=4, drop_last=True, shuffle=True)
-    # train_ds = Stocks(seq_len=20, split='train')
-    # train_dl = DataLoader(
-    #     train_ds, batch_size=4, drop_last=True, shuffle=True)
-    #
-    # print(len(train_dl))
-    # print(len(test_dl))
-    #
+    test_ds = Stocks(seq_len=20, split='test')
+    test_dl = DataLoader(
+        test_ds, batch_size=4, drop_last=True, shuffle=True)
+    train_ds = Stocks(seq_len=20, split='train')
+    train_dl = DataLoader(
+        train_ds, batch_size=4, drop_last=True, shuffle=True)
+
+    print(len(train_ds))
+    print(len(test_ds))
+    print(len(train_dl))
+    print(len(test_dl))
+
     # for i, d in enumerate(train_dl):
     #     print(i, d.shape)
     # for i, d in enumerate(test_dl):
