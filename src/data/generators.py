@@ -2,6 +2,7 @@
 import os
 import torch
 import numpy as np
+from scipy.ndimage.filters import gaussian_filter1d as gaussian
 
 from torch.utils.data import Dataset
 
@@ -49,27 +50,14 @@ class GeneratedNoise (Dataset):
         return self.data[i % self.len].unsqueeze(1)
 
     def gen_noise(self, batch_size: int, seq_len: int):
-        vertices = 6
-        random = torch.rand(batch_size, vertices + 1)
-        y = torch.zeros(batch_size, seq_len)
-
-        def interp_eval(x):
-            lo = int(x)
-            t = x - lo
-            return self.cerp(random[:, lo], random[:, lo + 1], t)
-
-        for i in range(seq_len):
-            x = i / float(seq_len + 1) * vertices
-            y[:, i] = interp_eval(x)
-
-        return y
-
-    def cerp(self, a, b, x):
-        g = (1 - np.cos(x * np.pi)) / 2
-        return (1 - g) * a + g * b
-
-    def lerp(self, a, b, x):
-        return a * (1 - x) + b * x
+        def make_data():
+            x = gaussian(np.random.rand(seq_len), sigma=1)
+            x = torch.from_numpy(x).float()
+            x -= x.min()
+            x /= x.max()
+            return x
+        data = [make_data() for _ in range(batch_size)]
+        return torch.stack(data)
 
 
 if __name__ == "__main__":

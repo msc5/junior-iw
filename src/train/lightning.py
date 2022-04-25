@@ -170,6 +170,7 @@ class Lightning (pl.LightningModule):
 
     def on_test_end(self):
         avg_seq_losses = self.seq_losses / self.steps['test']
+        print(avg_seq_losses.shape)
         writer = self.logger.experiment
         for i, loss in enumerate(avg_seq_losses):
             writer.add_scalar('sequence/loss', loss, i)

@@ -7,6 +7,16 @@ from PIL import Image
 from torchvision import transforms
 
 
+def plot_loss(losses, steps):
+    def to_numpy(tensor): return tensor.squeeze().detach().cpu()
+    losses, steps = to_numpy(losses), to_numpy(steps)
+    fig = plt.figure(figsize=(12, 6))
+    plt.grid()
+    plt.plot(steps, losses)
+    plt.title('Loss')
+    return fig
+
+
 def plot_seqs(x, y, output):
     def to_numpy(tensor): return tensor.squeeze().detach().cpu()
     x, y, output = [to_numpy(tensor) for tensor in [x, y, output]]
@@ -56,7 +66,7 @@ if __name__ == "__main__":
 
     # dataset = GeneratedSins(seq_len)
     dataset = GeneratedNoise(seq_len)
-    dataloader = DataLoader(dataset, batch_size=8)
+    dataloader = DataLoader(dataset, batch_size=4)
 
     data = next(iter(dataloader))
     x, y = data[:, :(seq_len // 2)], data[:, (seq_len // 2):]

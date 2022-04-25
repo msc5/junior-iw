@@ -2,6 +2,6 @@ MNIST/
 raw/
 **/__pycache__/
 results/
-results_old/
+results_old*
 slurm/
 slurm*

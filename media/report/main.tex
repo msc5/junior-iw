@@ -21,8 +21,10 @@
 \usepackage[english]{babel}
 \usepackage[square, numbers]{natbib}
 \usepackage[nottoc, notlof, notlot]{tocbibind}     % Includes "References" in the table of contents
+\usepackage{caption}
 
 \bibliographystyle{abbrvnat}
+\captionsetup{justification=centering}
 
 \hypersetup{
 	colorlinks=true, 
@@ -32,7 +34,7 @@
 \AtBeginDocument{\renewcommand{\bibname}{References}}
 
 \title{Video Prediction}
-\subtitle{Independent Work Report (MAE 340, Spring 2021)}
+\subtitle{Independent Work Report (MAE 340, Spring 2021) \\ Advisor: Professor Olga Russakovsky}
 \author{Matthew Coleman}
 \date{April 26, 2022}
 
@@ -41,9 +43,11 @@
 \maketitle
 
 \vspace{8cm}
-\Large
-\textit{This project represents my own work, in accordance with the University regulations.} \\
-\hspace*{\fill} \large /s/Matthew Coleman
+\begin{center}
+	\Large \textit{This project represents my own work, \\ in accordance with the University regulations.} \\
+	\vspace{0.2cm}
+	\large /s/Matthew Coleman
+\end{center}
 \normalsize
 
 \newpage
@@ -344,21 +348,21 @@ LSTM model for video prediction, which can be found at this
 % \subsection{SAVP}
 % \label{subsec:savp}
 
-\newpage
-\section{Datasets}
-\label{sec:datasets}
-
-The datasets used in this project are 
-Datasets used in video prediction tasks have a wide range, and often include datasets made for other tasks.
-
-\subsection{MovingMNIST}
-\label{subsec:mmnist}
-
-\subsection{KTH}
-\label{subsec:kth}
-
-\subsection{BAIR}
-\label{subsec:bair}
+% \newpage
+% \section{Datasets}
+% \label{sec:datasets}
+%
+% The datasets used in this project are 
+% Datasets used in video prediction tasks have a wide range, and often include datasets made for other tasks.
+%
+% \subsection{MovingMNIST}
+% \label{subsec:mmnist}
+%
+% \subsection{KTH}
+% \label{subsec:kth}
+%
+% \subsection{BAIR}
+% \label{subsec:bair}
 
 \newpage
 \section{Experiments}
@@ -378,44 +382,190 @@ Datasets used in video prediction tasks have a wide range, and often include dat
 % \end{table}
 
 The main experimental procedure carried out in this report is the training and
-testing of the re-implemented Convolutional LSTM model on the MovingMNIST, KTH,
-and BAIR datasets, however, in order to more gain a more robust understanding
-of LSTM features and limitations, as well as to debug the training mechanisms
-in a much simpler setting, it was useful to first test a Linear LSTM model on
-one-dimensional sequential data before moving fully to video prediction.
+testing of the Convolutional LSTM model on the MovingMNIST, KTH, and BAIR
+datasets, however, in order to more gain a more robust understanding of LSTM
+features and limitations, as well as to debug the training mechanisms in a much
+simpler setting, it was useful to first test a Linear LSTM model on
+one-dimensional sequential data before moving fully to video prediction. Three
+datasets of this type were implemented: a dataset consisting of generated sin
+waves with random frequency and phase offset, a dataset consisting of NASDAQ
+close price data from 8 tech companies, and a dataset consisting of randomly
+generated points connected using a cosine interpolation function. The choice of
+these datasets were intended to each test the model with a varying degree of
+stochasticity, the sin waves being the most deterministic, or predictable, the
+random points being the most stochastic, or random, and the stock price data
+hopefully being somewhere in between.
+
+When researching and implementing a prediction model of any sort, it is
+important to consider that certain sequences are simply impossible to predict,
+and that even if the model was ``perfect'' by human standards, it would still
+fail to perform this task perfectly. The interesting question here is not
+whether the model will be able to achieve a certain accuracy in predicting the
+sequences but rather where or how exactly will it fail? And where it does fail,
+which features of the model's architecture and methodology are to blame?
+
+All these questions lead directly into one of the major concerns in video
+prediction research, which is that the task is inherently hard to judge
+\cite{video_prediction_survey}, particularly that pixel-wise loss functions,
+such as the Mean Squared Error (MSE) function used to train this model, cause
+models to prefer blurry results that average out multiple possibilities for the
+next time step rather than a single, clearer image that could be very wrong
+using pixel-wise metrics. Models trained in this way are not directly learning
+to produce images but merely to appease the loss function, and these results
+may not be as clear or useful to humans.
 
 This Linear LSTM was implemented with nearly the same exact architecture as the
 Convolutional LSTM, however with Linear layers in place of convolutions, and as
-a result, a 2D convolution layer as the final step as opposed to 3D.
-
-% Insert Linear LSTM specifics
+a result, a 2D convolution layer as the final step as opposed to 3D. Each time
+it was trained on sequences of length 50, for a total duration of 10 epochs.
 
 \subsection{Sequence Prediction}
 \label{subsec:experiment_sp}
 
-Two generated datasets of one-dimensional sequences were implemented, one which
-was composed of sin waves with random frequency and phase offset, and another
-which represented random points chosen at several steps within the sequence and
-simply interpolated using a sinusoidal interpolation function. Both datasets
-were normalized to the range $(0, 1)$, with 20 total data points for each
-seqeuence. The model was then given the first 10 points and tasked to predict
-the last 10.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/lstm_train_loss.png}
+	\caption{LSTM Training Loss on GeneratedSins, GeneratedNoise, and Stocks Datasets for Models with Varying Number of Cell Layers}
+	\label{plt:lstm_train_loss}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/linear_seq_loss.png}
+	\caption{LSTM Test Loss over Predicted Sequence Steps for GeneratedSins, GeneratedNoise, and Stocks Datasets for Models with Varying Number of Cell Layers}
+	\label{plt:lstm_seq_loss}
+\end{figure}
 
 \subsubsection{Generated Sinusoids}
 \label{subsubsec:generated_sins}
 
-% Figure \ref{fig:gen_sin_training} shows the model's inferences on a held-out
-% set of the generated sinusoidal data as the model trains over one epoch. 
+This dataset proved, as it reasonably should, to be the most predictable of the
+three datasets. This can be observed in the plot of training losses in Figure
+\ref{plt:lstm_seq_loss}, which shows that GeneratedSins data decreased the most
+over training out of the three, and in the plot of average test losses over the
+predicted sequence in Figure \ref{plt:lstm_train_loss}, which shows that
+GeneratedSins led to the most accurate predictions over longer sequences by
+far. Additionally, Figure \ref{plt:lstm_sins_inference} shows a test inference
+of a 2-layer LSTM model trained on this dataset with the ground truth
+sequence underlaid.  
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/lstm_sins_inference.png}
+	\caption{LSTM Inference on GeneratedSins Dataset, with Ground Truth Input X in Blue, Ground Truth Label Y in Green, and Model Prediction in Purple}
+	\label{plt:lstm_sins_inference}
+\end{figure}
+
+As clean and impressive as these predictions are, however, they are not
+perfect, and still decrease in accuracy as the sequence progresses. While the
+errors are minor, this shortcoming can be blamed directly on the Seq2Seq
+architecture, which feeds each LSTM cell's output directly back into itself as
+an input for the next time step in order to generate the full sequence (See
+Figure \ref{fig:seq2seq_arch}). This means that if any prediction is off by a
+tiny amount, the next prediction will likely share and even increase that
+error. If the error is major such as the FILLIN in Figure \ref{NEEDFIG},
+the prediction and ground truth will likely diverge completely, and this would
+reveal a fundamental ``misunderstanding'' of the LSTM.
+
+\subsubsection{Generated Noise}
+\label{subsubsec:generated_noise}
+
+This dataset, in contrast, was nearly impossible for the model to learn
+satisfactorily. This model's loss plot in Figure \ref{fig:linear_loss} shows
+that the model is able to follow the random sequences for the first few points
+until the next random point is interpolated, however beyond that the model
+predicts nothing but a straight line centered at $y = 0.5$. While this seems
+like a failure of some sort, it is in fact a direct demonstration of the model's
+loss function, Mean Squared Error (MSE), which is a simple function, shown below: 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/lstm_noise_inference.png}
+	\caption{LSTM Inference on GeneratedNoise Dataset, with Ground Truth Input X in Blue, Ground Truth Label Y in Green, and Model Prediction in Purple}
+	\label{plt:lstm_noise_inference}
+\end{figure}
+
+\begin{equation}
+	\text{MSE} = \sum_{i}^n
+	 \label{eq:mseloss}
+\end{equation}
+
+\subsubsection{Stocks}
+\label{subsubsec:stocks}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/lstm_stocks_inference.png}
+	\caption{LSTM Inference on Stocks Dataset, with Ground Truth Input X in Blue, Ground Truth Label Y in Green, and Model Prediction in Purple}
+	\label{plt:lstm_stocks_inference}
+\end{figure}
+
+\newpage
 \subsection{Video Prediction}
 \label{subsec:experiment_vp}
 
 \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/convlstm_train_loss.png}
+	\caption{ConvLSTM Training Loss on MovingMNIST, KTH, and BAIR Datasets for Models with Varying Number of Cell Layers}
+	\label{plt:convlstm_train_loss}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{plots/convlstm_seq_loss.png}
+	\caption{ConvLSTM Test Loss over Predicted Sequence Steps on MovingMNIST, KTH, and BAIR Datasets for Models with Varying Number of Cell Layers}
+	\label{plt:convlstm_seq_loss}
+\end{figure}
+
+\subsubsection{Moving MNIST}
+\label{subsubsec:mmnist}
+
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=1\textwidth]{images/kth/KTHEpoch2Step56342.png}
+		\includegraphics[width=1\textwidth]{images/mmnist/mmnist_inferences_1.png}
 	\end{center}
-	\caption{Convolutional LSTM Inference on KTH dataset}
+	\caption{Convolutional LSTM Inference on MovingMNIST dataset}
+	\label{img:lstm_mmnist_inference_1}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{images/mmnist/mmnist_inferences_2.png}
+	\end{center}
+	\caption{Convolutional LSTM Inference on MovingMNIST dataset}
+	\label{img:lstm_mmnist_inference_2}
+\end{figure}
+
+\subsubsection{KTH}
+\label{subsubsec:kth}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{images/kth/kth_inferences.png}
+	\end{center}
+	\caption{Convolutional LSTM Inference on KTH dataset (Sample 10)}
 	\label{img:lstm_kth_inference}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{images/kth/kth_inferences_2.png}
+	\end{center}
+	\caption{Convolutional LSTM Inference on KTH dataset (Sample 50)}
+	\label{img:lstm_kth_inference}
+\end{figure}
+
+
+\subsubsection{BAIR}
+\label{subsubsec:bair}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{images/bair/bair_inferences.png}
+	\end{center}
+	\caption{Convolutional LSTM Inference on BAIR dataset}
+	\label{img:lstm_bair_inference}
 \end{figure}
 
 \newpage

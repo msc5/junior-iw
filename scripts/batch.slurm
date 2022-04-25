@@ -11,28 +11,25 @@
 #SBATCH --mail-type=all                                # send mail when job begins, ends, or fails
 #SBATCH --mail-user=msc5@princeton.edu
 
-module purge
-module load anaconda3/2021.5
-conda activate torch-env
+# module purge
+# module load anaconda3/2021.5
+# conda activate torch-env
 
-# bash scripts/train_model.sh LSTM GeneratedSins 1
-# bash scripts/test_model.sh LSTM GeneratedSins 1
-# bash scripts/train_model.sh LSTM GeneratedSins 2
-# bash scripts/test_model.sh LSTM GeneratedSins 2
-# bash scripts/train_model.sh LSTM GeneratedSins 3
-# bash scripts/test_model.sh LSTM GeneratedSins 3
+# for DATASET in GeneratedNoise
+# for DATASET in GeneratedSins GeneratedNoise Stocks
+for DATASET in MovingMNIST
+do
+	for LAYERS in 1 2 3
+	do
+		# bash scripts/train_model.sh ConvLSTM $DATASET $LAYERS
+		bash scripts/test_model.sh ConvLSTM $DATASET $LAYERS
+	done
+done
+
+# bash scripts/test_model.sh ConvLSTM KTH 1
+# bash scripts/test_model.sh ConvLSTM KTH 2
+# bash scripts/test_model.sh ConvLSTM KTH 3
 #
-# bash scripts/train_model.sh LSTM GeneratedNoise 1
-# bash scripts/test_model.sh LSTM GeneratedNoise 1
-# bash scripts/train_model.sh LSTM GeneratedNoise 2
-# bash scripts/test_model.sh LSTM GeneratedNoise 2
-# bash scripts/train_model.sh LSTM GeneratedNoise 3
-# bash scripts/test_model.sh LSTM GeneratedNoise 3
-
-bash scripts/test_model.sh ConvLSTM KTH 1
-bash scripts/test_model.sh ConvLSTM KTH 2
-bash scripts/test_model.sh ConvLSTM KTH 3
-
-bash scripts/test_model.sh ConvLSTM BAIR 1
-bash scripts/test_model.sh ConvLSTM BAIR 2
-bash scripts/test_model.sh ConvLSTM BAIR 3
+# bash scripts/test_model.sh ConvLSTM BAIR 1
+# bash scripts/test_model.sh ConvLSTM BAIR 2
+# bash scripts/test_model.sh ConvLSTM BAIR 3

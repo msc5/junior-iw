@@ -6,81 +6,106 @@ from pathlib import Path
 
 from torch.utils.data import Dataset, DataLoader
 
+RAW_PATH = 'src/data/datasets/stocks/raw'
+
 
 class Stocks (Dataset):
 
     def __init__(self, seq_len: int = 20, split: str = 'train'):
         self.seq_len = seq_len
         self.split = split
-        self.path = Path('src/data/datasets/stocks/raw_stocks')
-        self.files = self.path.glob('*.pt')
-
-        def normalize(tensor):
-            tensor = (tensor - tensor.min()) / tensor.max()
-            tensor = (tensor - tensor.std()) / tensor.mean()
-            return tensor + 0.5
-
-        self.data = [normalize(torch.load(f)) for f in self.files]
+        self.path = Path(RAW_PATH)
+        if self.split == 'train':
+            self.files = self.path.glob('[!TSLA]*')
+        elif self.split == 'test':
+            self.files = self.path.glob('TSLA*')
+        self.data = [torch.load(f) for f in self.files]
         self.lengths = [len(d) for d in self.data]
         self.len = sum([l // self.seq_len for l in self.lengths])
-        self.slice = self.month = 0
-        if self.split == 'test':
-            self.month = 11
-            self.len = self.lengths[11] // self.seq_len - 1
+        self.buckets = {}
+        count = 0
+        for i, l in enumerate(self.lengths):
+            for _ in range(l // self.seq_len):
+                self.buckets[count] = i
+                count += 1
 
     def __len__(self):
         return self.len
 
     def __getitem__(self, i: int):
-        if self.split == 'train':
-            if self.slice >= self.lengths[self.month] // self.seq_len:
-                self.month += 1
-                self.slice = 0
-                if self.month >= 10:
-                    raise StopIteration
-            start = self.slice * self.seq_len
-            end = start + self.seq_len
-            self.slice += 1
-            return self.data[self.month][start:end].unsqueeze(1)
-        if self.split == 'test':
-            if self.slice >= self.lengths[self.month] // self.seq_len:
-                raise StopIteration
-            self.slice += 1
-            start = self.slice * self.seq_len
-            end = start + self.seq_len
-            return self.data[self.month][start:end].unsqueeze(1)
+        file = self.buckets[i]
+        prior = sum([l // self.seq_len for l in self.lengths[:file]])
+        start = (i - prior) * self.seq_len
+        end = start + self.seq_len
+        # print(i, prior, file, start, end, self.lengths[file])
+        slice = self.data[file][start:end].unsqueeze(1)
+        # Normalize Data
+        slice -= slice.min()
+        slice /= slice.max()
+        return slice
 
 
-def make_dataset():
+def make_dataset(start: int, end: int):
 
     import csv
     import time
+    import os
     import pandas as pd
-
     from alpha_vantage.timeseries import TimeSeries
-    ts = TimeSeries(key='A6YNKD8LYDFDEALD', output_format='csv')
 
-    # for month in range(10, 11):
-    month = 11
-    data, meta_data = ts.get_intraday_extended(
-        'GOOGL', interval='1min', slice=f'year2month{month + 1}')
-    x = [float(v[4]) for v in data if v[4] != 'close']
-    x = torch.tensor(x)
-    print(x)
-    print(len(x))
-    time.sleep(5)
-    torch.save(x, f'stocks_year2month{month + 1}.pt')
+    symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL', 'AMZN', 'NVDA', 'FB', 'AMD']
+
+    # key = 'OYZ32AGNO5YR2RSJ'
+    key = 'A6YNKD8LYDFDEALD'
+
+    ts = TimeSeries(key=key, output_format='csv')
+
+    def retry_download(month, symbol, slice):
+        print(f'Downloading {symbol} month {month + 1}...')
+        data, meta_data = ts.get_intraday_extended(
+            symbol=symbol, interval='1min', slice=slice)
+        if meta_data is not None:
+            print(meta_data)
+            x = [float(v[4]) for v in data if v[4] != 'close']
+            x = torch.tensor(x)
+        else:
+            print('Retrying...')
+            time.sleep(5)
+            return retry_download(month, symbol, slice)
+        print('Download Successful:')
+        print(x)
+        print(len(x))
+        torch.save(x, path)
+        return x
+
+    for month in range(start - 1, end + 1):
+        for symbol in symbols:
+            slice = f'year2month{month + 1}'
+            path = f'{RAW_PATH}/{symbol}_stocks_{slice}.pt'
+            if not os.path.exists(path):
+                retry_download(month, symbol, slice)
+            else:
+                print(f'Already Downloaded {symbol:10} month {month + 1}')
+    print('Dataset Downloaded Successfully!')
 
 
 if __name__ == "__main__":
 
     from rich import print
 
-    make_dataset()
+    make_dataset(1, 12)
 
-    # ds = Stocks(seq_len=20, split='test')
-    # dl = DataLoader(ds, batch_size=4, drop_last=True)
+    # test_ds = Stocks(seq_len=20, split='test')
+    # test_dl = DataLoader(
+    #     test_ds, batch_size=4, drop_last=True, shuffle=True)
+    # train_ds = Stocks(seq_len=20, split='train')
+    # train_dl = DataLoader(
+    #     train_ds, batch_size=4, drop_last=True, shuffle=True)
     #
-    # print(len(dl))
-    # for i, d in enumerate(dl):
+    # print(len(train_dl))
+    # print(len(test_dl))
+    #
+    # for i, d in enumerate(train_dl):
+    #     print(i, d.shape)
+    # for i, d in enumerate(test_dl):
     #     print(i, d.shape)
