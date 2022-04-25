@@ -3,44 +3,46 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: abbrvnat.bst
 Database file #1: main.bib
-You've used 11 entries,
+Warning--to sort, need author or key in alpha_vantage
+You've used 12 entries,
             2773 wiz_defined-function locations,
-            669 strings with 7001 characters,
-and the built_in function-call counts, 5336 in all, are:
-= -- 460
+            673 strings with 7059 characters,
+and the built_in function-call counts, 5579 in all, are:
+= -- 484
 > -- 391
 < -- 5
-+ -- 131
++ -- 132
 - -- 120
-* -- 445
-:= -- 842
-add.period$ -- 42
-call.type$ -- 11
-change.case$ -- 73
-chr.to.int$ -- 11
-cite$ -- 22
-duplicate$ -- 206
-empty$ -- 378
+* -- 463
+:= -- 862
+add.period$ -- 44
+call.type$ -- 12
+change.case$ -- 76
+chr.to.int$ -- 12
+cite$ -- 26
+duplicate$ -- 221
+empty$ -- 413
 format.name$ -- 137
-if$ -- 1107
+if$ -- 1167
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 5
-newline$ -- 72
+newline$ -- 76
 num.names$ -- 44
-pop$ -- 149
+pop$ -- 162
 preamble$ -- 1
-purify$ -- 62
+purify$ -- 64
 quote$ -- 0
-skip$ -- 199
+skip$ -- 212
 stack$ -- 0
-substring$ -- 77
-swap$ -- 24
+substring$ -- 80
+swap$ -- 26
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 121
-warning$ -- 0
+type$ -- 132
+warning$ -- 1
 while$ -- 36
 width$ -- 0
-write$ -- 162
+write$ -- 172
+(There was 1 warning)
