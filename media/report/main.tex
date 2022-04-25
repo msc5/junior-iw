@@ -456,8 +456,8 @@ split consists of 22000 samples, and the test set consists of 7000.
 
 This dataset was sourced using Alpha Vantage \cite{alpha_vantage}, a free
 online stock price API. Close price data is provided from the past two years
-for the NASDAQ tickers 'GOOGL', 'MSFT', 'TSLA', 'AAPL', 'AMZN', 'NVDA', 'FB',
-and 'AMD'. This data is normalized by subtracting the minimum and dividing by
+for the NASDAQ tickers `GOOGL', `MSFT', `TSLA', `AAPL', `AMZN', `NVDA', `FB',
+and `AMD'. This data is normalized by subtracting the minimum and dividing by
 the maximum for each sequence individually, such that each sequence pulled from
 the dataset lies within $(0, 1)$, and is therefore comparable to the other
 datasets. The train split consists of 22277 samples, and the test set consists
@@ -470,17 +470,16 @@ of 7312 samples.
 	\begin{center}
 		\includegraphics[width=1\textwidth]{plots/lstm_train_loss.png}
 	\end{center}
-	\caption{LSTM Training Loss on GeneratedSins, GeneratedNoise, and Stocks \\
+	\caption{LSTM Training Loss on GeneratedSins, GeneratedNoise, and Stocks
 	Datasets for Models with Varying Number of Cell Layers}
 	\label{plt:lstm_train_loss}
 \end{figure}
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=1\textwidth]{plots/linear_seq_loss.png}
+		\includegraphics[width=1\textwidth]{plots/lstm_seq_loss.png}
 	\end{center}
-	\caption{LSTM Test Loss over Predicted Sequence Steps for GeneratedSins, \\ 
-	GeneratedNoise, and Stocks Datasets for Models \\
+	\caption{LSTM Test Loss over Predicted Sequence Steps for GeneratedSins, GeneratedNoise, and Stocks Datasets for Models 
 	with Varying Number of Cell Layers}
 	\label{plt:lstm_seq_loss}
 \end{figure}

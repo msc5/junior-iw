@@ -24,7 +24,7 @@ def plot_seqs(x, y, output):
     _, fut_len = y.shape
     t = np.linspace(0, 1, seq_len + fut_len)
     seq_t, fut_t = t[:seq_len], t[seq_len:(seq_len + fut_len)]
-    colors = plt.cm.hsv(np.linspace(0.7, 0.9, 3))
+    colors = plt.cm.winter(np.array([0, 0.8, 0.4]))
     fig = plt.figure(figsize=(12, 6))
     plt.grid()
     plt.ylim(0, 1)

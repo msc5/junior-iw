@@ -53,13 +53,13 @@ def make_dataset():
     import pandas as pd
     from alpha_vantage.timeseries import TimeSeries
 
-    symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL',
-               'AMZN', 'NVDA', 'FB', 'AMD']
-
     # symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL',
-    #            'AMZN', 'NVDA', 'FB', 'AMD',
-    #            'BABA', 'PYPL', 'CRM', 'ATVI',
-    #            'EA', 'IBM', 'ASML', 'INTC']
+    #            'AMZN', 'NVDA', 'FB', 'AMD']
+
+    symbols = ['GOOGL', 'MSFT', 'TSLA', 'AAPL',
+               'AMZN', 'NVDA', 'FB', 'AMD',
+               'BABA', 'PYPL', 'CRM', 'ATVI',
+               'EA', 'IBM', 'ASML', 'INTC']
 
     ts = TimeSeries(key=APIKEY, output_format='csv')
 
@@ -99,19 +99,19 @@ if __name__ == "__main__":
 
     from rich import print
 
-    # make_dataset()
+    make_dataset()
 
-    train_ds = Stocks(seq_len=50, split='train')
-    train_dl = DataLoader(
-        train_ds, batch_size=64, drop_last=True, shuffle=True)
-    test_ds = Stocks(seq_len=50, split='test')
-    test_dl = DataLoader(
-        test_ds, batch_size=64, drop_last=True, shuffle=True)
-
-    print(len(train_ds))
-    print(len(test_ds))
-    print(len(train_dl))
-    print(len(test_dl))
+    # train_ds = Stocks(seq_len=50, split='train')
+    # train_dl = DataLoader(
+    #     train_ds, batch_size=64, drop_last=True, shuffle=True)
+    # test_ds = Stocks(seq_len=50, split='test')
+    # test_dl = DataLoader(
+    #     test_ds, batch_size=64, drop_last=True, shuffle=True)
+    #
+    # print(len(train_ds))
+    # print(len(test_ds))
+    # print(len(train_dl))
+    # print(len(test_dl))
 
     # for i, d in enumerate(train_dl):
     #     print(i, d.shape)

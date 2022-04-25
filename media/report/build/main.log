@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.4.6)  25 APR 2022 14:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  25 APR 2022 17:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -909,74 +909,74 @@ File: plots/lstm_train_loss.png Graphic file (type png)
 <use plots/lstm_train_loss.png>
 Package pdftex.def Info: plots/lstm_train_loss.png  used on input line 471.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
-<plots/linear_seq_loss.png, id=140, 867.24pt x 433.62pt>
-File: plots/linear_seq_loss.png Graphic file (type png)
-<use plots/linear_seq_loss.png>
-Package pdftex.def Info: plots/linear_seq_loss.png  used on input line 480.
+<plots/lstm_seq_loss.png, id=140, 867.24pt x 433.62pt>
+File: plots/lstm_seq_loss.png Graphic file (type png)
+<use plots/lstm_seq_loss.png>
+Package pdftex.def Info: plots/lstm_seq_loss.png  used on input line 480.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
  [9 <./plots/lstm_train_loss.png>]
 <plots/lstm_sins_inference.png, id=152, 1204.5pt x 602.25pt>
 File: plots/lstm_sins_inference.png Graphic file (type png)
 <use plots/lstm_sins_inference.png>
-Package pdftex.def Info: plots/lstm_sins_inference.png  used on input line 503.
+Package pdftex.def Info: plots/lstm_sins_inference.png  used on input line 502.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
- [10 <./plots/linear_seq_loss.png>]
+ [10 <./plots/lstm_seq_loss.png>]
 
-LaTeX Warning: Reference `NEEDFIG' on page 11 undefined on input line 515.
+LaTeX Warning: Reference `NEEDFIG' on page 11 undefined on input line 514.
 
 
-LaTeX Warning: Reference `fig:linear_loss' on page 11 undefined on input line 523.
+LaTeX Warning: Reference `fig:linear_loss' on page 11 undefined on input line 522.
 
 <plots/lstm_noise_inference.png, id=161, 1204.5pt x 602.25pt>
 File: plots/lstm_noise_inference.png Graphic file (type png)
 <use plots/lstm_noise_inference.png>
-Package pdftex.def Info: plots/lstm_noise_inference.png  used on input line 537.
+Package pdftex.def Info: plots/lstm_noise_inference.png  used on input line 536.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
 [11 <./plots/lstm_sins_inference.png>]
 <plots/lstm_stocks_inference.png, id=170, 1204.5pt x 602.25pt>
 File: plots/lstm_stocks_inference.png Graphic file (type png)
 <use plots/lstm_stocks_inference.png>
-Package pdftex.def Info: plots/lstm_stocks_inference.png  used on input line 547.
+Package pdftex.def Info: plots/lstm_stocks_inference.png  used on input line 546.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
  [12 <./plots/lstm_noise_inference.png> <./plots/lstm_stocks_inference.png>]
 <plots/convlstm_train_loss.png, id=179, 867.24pt x 433.62pt>
 File: plots/convlstm_train_loss.png Graphic file (type png)
 <use plots/convlstm_train_loss.png>
-Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 558.
+Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 557.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
 <plots/convlstm_seq_loss.png, id=180, 867.24pt x 433.62pt>
 File: plots/convlstm_seq_loss.png Graphic file (type png)
 <use plots/convlstm_seq_loss.png>
-Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 565.
+Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 564.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
 <images/mmnist/mmnist_inferences_1.png, id=181, 800.9925pt x 696.6025pt>
 File: images/mmnist/mmnist_inferences_1.png Graphic file (type png)
 <use images/mmnist/mmnist_inferences_1.png>
-Package pdftex.def Info: images/mmnist/mmnist_inferences_1.png  used on input line 575.
+Package pdftex.def Info: images/mmnist/mmnist_inferences_1.png  used on input line 574.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
  [13 <./plots/convlstm_train_loss.png> <./plots/convlstm_seq_loss.png>]
 <images/mmnist/mmnist_inferences_2.png, id=191, 800.9925pt x 696.6025pt>
 File: images/mmnist/mmnist_inferences_2.png Graphic file (type png)
 <use images/mmnist/mmnist_inferences_2.png>
-Package pdftex.def Info: images/mmnist/mmnist_inferences_2.png  used on input line 583.
+Package pdftex.def Info: images/mmnist/mmnist_inferences_2.png  used on input line 582.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
  [14 <./images/mmnist/mmnist_inferences_1.png>]
 <images/kth/kth_inferences.png, id=198, 801.99625pt x 827.09pt>
 File: images/kth/kth_inferences.png Graphic file (type png)
 <use images/kth/kth_inferences.png>
-Package pdftex.def Info: images/kth/kth_inferences.png  used on input line 594.
+Package pdftex.def Info: images/kth/kth_inferences.png  used on input line 593.
 (pdftex.def)             Requested size: 418.25372pt x 431.3513pt.
  [15 <./images/mmnist/mmnist_inferences_2.png>]
 <images/kth/kth_inferences_2.png, id=205, 800.9925pt x 696.6025pt>
 File: images/kth/kth_inferences_2.png Graphic file (type png)
 <use images/kth/kth_inferences_2.png>
-Package pdftex.def Info: images/kth/kth_inferences_2.png  used on input line 602.
+Package pdftex.def Info: images/kth/kth_inferences_2.png  used on input line 601.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
  [16 <./images/kth/kth_inferences.png>]
 <images/bair/bair_inferences.png, id=212, 800.9925pt x 696.6025pt>
 File: images/bair/bair_inferences.png Graphic file (type png)
 <use images/bair/bair_inferences.png>
-Package pdftex.def Info: images/bair/bair_inferences.png  used on input line 614.
+Package pdftex.def Info: images/bair/bair_inferences.png  used on input line 613.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
  [17 <./images/kth/kth_inferences_2.png>] [18 <./images/bair/bair_inferences.png>] [19] (build/main.bbl) [20] (build/main.aux)
 
@@ -990,14 +990,14 @@ Package rerunfilecheck Info: File `main.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  33398 strings out of 478276
- 671830 string characters out of 5853014
+ 671816 string characters out of 5853013
  1205815 words of memory out of 5000000
  51001 multiletter control sequences out of 15000+600000
  479615 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,17n,106p,10599b,811s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/main.pdf (20 pages, 1964558 bytes).
+Output written on build/main.pdf (20 pages, 1934407 bytes).
 PDF statistics:
  394 PDF objects out of 1000 (max. 8388607)
  308 compressed objects within 4 object streams

@@ -64,30 +64,30 @@ if __name__ == "__main__":
     # Y = extract_data_from_files(train_glob_path, train_tags)
     # torch.save(Y, f'{LOSSES_PATH}/LSTM_train_losses.pt')
 
-    # Plot Linear Datasets Train Loss
-    X = torch.load(f'{LOSSES_PATH}{model}_train_losses.pt')
-    print(X)
-    colors = plt.cm.winter(np.linspace(0, 1, len(X['loss/train'])))
-    fig = plt.figure(figsize=(12, 6))
-    plt.grid()
-    for i, x in enumerate(X['loss/train']):
-        x_smooth = gaussian_filter1d(x[:30000], sigma=4)
-        plt.plot(x_smooth, color=colors[i])
-    plt.legend(X['labels'], ncol=3)
-    plt.title(f'Smoothed {model} Training Loss')
-    plt.xlabel('Step')
-    plt.ylabel('MSE Loss')
-    plt.show()
-
-    # # Plot Linear Datasets Test Seq Loss
-    # X = torch.load(f'{LOSSES_PATH}/LSTM_seq_losses.pt')
-    # colors = plt.cm.winter(np.linspace(0, 1, len(X['sequence/loss'])))
+    # # Plot Linear Datasets Train Loss
+    # X = torch.load(f'{LOSSES_PATH}{model}_train_losses.pt')
+    # print(X)
+    # colors = plt.cm.winter(np.linspace(0, 1, len(X['loss/train'])))
     # fig = plt.figure(figsize=(12, 6))
     # plt.grid()
-    # for i, x in enumerate(X['sequence/loss']):
-    #     plt.plot(x, color=colors[i])
+    # for i, x in enumerate(X['loss/train']):
+    #     x_smooth = gaussian_filter1d(x[:30000], sigma=5)
+    #     plt.plot(x_smooth, color=colors[i])
     # plt.legend(X['labels'], ncol=3)
-    # plt.title('MSE Loss over Predicted Sequence')
-    # plt.xlabel('Predicted Sequence Step')
+    # plt.title(f'Smoothed {model} Training Loss')
+    # plt.xlabel('Step')
     # plt.ylabel('MSE Loss')
     # plt.show()
+
+    # Plot Linear Datasets Test Seq Loss
+    X = torch.load(f'{LOSSES_PATH}/LSTM_seq_losses.pt')
+    colors = plt.cm.winter(np.linspace(0, 1, len(X['sequence/loss'])))
+    fig = plt.figure(figsize=(12, 6))
+    plt.grid()
+    for i, x in enumerate(X['sequence/loss']):
+        plt.plot(x, color=colors[i])
+    plt.legend(X['labels'], ncol=3)
+    plt.title('MSE Loss over Predicted Sequence')
+    plt.xlabel('Predicted Sequence Step')
+    plt.ylabel('MSE Loss')
+    plt.show()

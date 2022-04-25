@@ -1,4 +1,4 @@
-PWD /home/msc5/code/junior-iw/media/report
+PWD /home/msc5/Code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -1301,11 +1301,11 @@ INPUT ./plots/lstm_train_loss.png
 INPUT plots/lstm_train_loss.png
 INPUT ./plots/lstm_train_loss.png
 INPUT ./plots/lstm_train_loss.png
-INPUT ./plots/linear_seq_loss.png
-INPUT ./plots/linear_seq_loss.png
-INPUT plots/linear_seq_loss.png
-INPUT ./plots/linear_seq_loss.png
-INPUT ./plots/linear_seq_loss.png
+INPUT ./plots/lstm_seq_loss.png
+INPUT ./plots/lstm_seq_loss.png
+INPUT plots/lstm_seq_loss.png
+INPUT ./plots/lstm_seq_loss.png
+INPUT ./plots/lstm_seq_loss.png
 INPUT ./plots/lstm_sins_inference.png
 INPUT ./plots/lstm_sins_inference.png
 INPUT plots/lstm_sins_inference.png
