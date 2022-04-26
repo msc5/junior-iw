@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1651013167 "build/main.aux" "build/main.bbl" "build/main" 1651013267
+["bibtex build/main"] 1651013487 "build/main.aux" "build/main.bbl" "build/main" 1651013491
   "/usr/share/texmf-dist/bibtex/bst/natbib/abbrvnat.bst" 1647844622 26532 66bed5cc59495faaa3f9ae9af9fa5e42 ""
-  "build/main.aux" 1651013266 29274 c589af05bf1b78e0e1cdaf8bb24d136c "pdflatex"
+  "build/main.aux" 1651013491 29274 a6828de1343eb367faf18eb06486f898 "pdflatex"
   "main.bib" 1651009388 17857 380bfd05a29433f9071ca8ba29a2e1b2 ""
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1651013263 "main.tex" "build/main.pdf" "main" 1651013267
+["pdflatex"] 1651013487 "main.tex" "build/main.pdf" "main" 1651013491
   "/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1647844622 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/share/texmf-dist/fonts/map/fontname/texfonts.map" 1647844622 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1647844622 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -232,10 +232,10 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1647844622 39911 2da6c67557ec033436fe5418a70a8a61 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1648423700 4278762 af3ac1370db81a450c1118eabf1fe718 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1648423680 2924513 13359978d7cc29c4d3ba90e3c72181ad ""
-  "build/main.aux" 1651013266 29274 c589af05bf1b78e0e1cdaf8bb24d136c "pdflatex"
-  "build/main.bbl" 1651013167 6875 c57cf1510bab83c62aeb70114a892da5 "bibtex build/main"
+  "build/main.aux" 1651013491 29274 a6828de1343eb367faf18eb06486f898 "pdflatex"
+  "build/main.bbl" 1651013487 6875 c57cf1510bab83c62aeb70114a892da5 "bibtex build/main"
   "build/main.out" 0 -1 0 "pdflatex"
-  "build/main.toc" 1651013266 2922 6947acf9c40bdc633de025284e081f72 "pdflatex"
+  "build/main.toc" 1651013491 2922 6947acf9c40bdc633de025284e081f72 "pdflatex"
   "figures/gan_arch.png" 1650418262 30763 b7857177ec4e06bfc163f7b243a84f13 ""
   "figures/lstmcell_arch.png" 1650758863 33697 a4dc5bf99e2f4a7a459cad50b8e2d788 ""
   "figures/rnn_arch.png" 1650758863 23267 0e310618073ef4c8a8f12515f1a3fe3a ""
@@ -267,7 +267,7 @@
   "inferences/stocks/app_1layer_s29.png" 1651013193 122941 cf5f6cbdf8b6b1c44075180537858209 ""
   "inferences/stocks/app_2layer_s30.png" 1651013210 121625 17be4812ccda602288d878c8cf1a5e8a ""
   "inferences/stocks/app_3layer_s31.png" 1651013233 134810 641f08a6fbc616ba9673b1835879a605 ""
-  "main.tex" 1651013264 54551 179e6e3bef5960d545b26050716bdc92 ""
+  "main.tex" 1651013484 54763 c7a941ededc2d255afbfdccf34c66db3 ""
   "plots/convlstm_seq_loss.png" 1650875463 73661 698d5c4e9d4c7f0328a02c84d487fcce ""
   "plots/convlstm_train_loss.png" 1650942057 104366 ee3aca3f5d445c807852242ab43d115c ""
   "plots/lstm_seq_loss.png" 1650923035 88133 511ed447b2fd0eda82d3ba4a5a9592dc ""

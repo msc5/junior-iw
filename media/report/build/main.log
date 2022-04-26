@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  26 APR 2022 18:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  26 APR 2022 18:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1123,50 +1123,50 @@ Package pdftex.def Info: inferences/stocks/app_3layer_s31.png  used on input lin
 <inferences/mmnist/app_1layer_s1.png, id=441, 1326.9575pt x 200.75pt>
 File: inferences/mmnist/app_1layer_s1.png Graphic file (type png)
 <use inferences/mmnist/app_1layer_s1.png>
-Package pdftex.def Info: inferences/mmnist/app_1layer_s1.png  used on input line 1116.
+Package pdftex.def Info: inferences/mmnist/app_1layer_s1.png  used on input line 1120.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
 <inferences/mmnist/app_2layer_s2.png, id=442, 1326.9575pt x 200.75pt>
 File: inferences/mmnist/app_2layer_s2.png Graphic file (type png)
 <use inferences/mmnist/app_2layer_s2.png>
-Package pdftex.def Info: inferences/mmnist/app_2layer_s2.png  used on input line 1116.
+Package pdftex.def Info: inferences/mmnist/app_2layer_s2.png  used on input line 1120.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
 <inferences/mmnist/app_3layer_s8.png, id=443, 1326.9575pt x 200.75pt>
 File: inferences/mmnist/app_3layer_s8.png Graphic file (type png)
 <use inferences/mmnist/app_3layer_s8.png>
-Package pdftex.def Info: inferences/mmnist/app_3layer_s8.png  used on input line 1116.
+Package pdftex.def Info: inferences/mmnist/app_3layer_s8.png  used on input line 1120.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
 <inferences/kth/app_1layer_s7.png, id=444, 1326.9575pt x 200.75pt>
 File: inferences/kth/app_1layer_s7.png Graphic file (type png)
 <use inferences/kth/app_1layer_s7.png>
-Package pdftex.def Info: inferences/kth/app_1layer_s7.png  used on input line 1127.
+Package pdftex.def Info: inferences/kth/app_1layer_s7.png  used on input line 1131.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
 <inferences/kth/app_2layer_s12.png, id=445, 1326.9575pt x 200.75pt>
 File: inferences/kth/app_2layer_s12.png Graphic file (type png)
 <use inferences/kth/app_2layer_s12.png>
-Package pdftex.def Info: inferences/kth/app_2layer_s12.png  used on input line 1127.
+Package pdftex.def Info: inferences/kth/app_2layer_s12.png  used on input line 1131.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
 <inferences/kth/app_3layer_s14.png, id=446, 1326.9575pt x 200.75pt>
 File: inferences/kth/app_3layer_s14.png Graphic file (type png)
 <use inferences/kth/app_3layer_s14.png>
-Package pdftex.def Info: inferences/kth/app_3layer_s14.png  used on input line 1127.
+Package pdftex.def Info: inferences/kth/app_3layer_s14.png  used on input line 1131.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
- [32 <./inferences/mmnist/app_1layer_s1.png (PNG copy)> <./inferences/mmnist/app_2layer_s2.png (PNG copy)> <./inferences/mmnist/app_3layer_s8.png (PNG copy)> <./inferences/kth/app_1layer_s7.png (PNG copy)> <./inferences/kth/app_2layer_s12.png (PNG copy)>]
-<inferences/bair/app_1layer_s22.png, id=456, 1326.9575pt x 200.75pt>
+ [32 <./inferences/mmnist/app_1layer_s1.png (PNG copy)> <./inferences/mmnist/app_2layer_s2.png (PNG copy)> <./inferences/mmnist/app_3layer_s8.png (PNG copy)> <./inferences/kth/app_1layer_s7.png (PNG copy)>]
+<inferences/bair/app_1layer_s22.png, id=455, 1326.9575pt x 200.75pt>
 File: inferences/bair/app_1layer_s22.png Graphic file (type png)
 <use inferences/bair/app_1layer_s22.png>
-Package pdftex.def Info: inferences/bair/app_1layer_s22.png  used on input line 1138.
+Package pdftex.def Info: inferences/bair/app_1layer_s22.png  used on input line 1142.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
-<inferences/bair/app_2layer_s32.png, id=457, 1326.9575pt x 200.75pt>
+<inferences/bair/app_2layer_s32.png, id=456, 1326.9575pt x 200.75pt>
 File: inferences/bair/app_2layer_s32.png Graphic file (type png)
 <use inferences/bair/app_2layer_s32.png>
-Package pdftex.def Info: inferences/bair/app_2layer_s32.png  used on input line 1138.
+Package pdftex.def Info: inferences/bair/app_2layer_s32.png  used on input line 1142.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
-<inferences/bair/app_3layer_s36.png, id=458, 1326.9575pt x 200.75pt>
+<inferences/bair/app_3layer_s36.png, id=457, 1326.9575pt x 200.75pt>
 File: inferences/bair/app_3layer_s36.png Graphic file (type png)
 <use inferences/bair/app_3layer_s36.png>
-Package pdftex.def Info: inferences/bair/app_3layer_s36.png  used on input line 1138.
+Package pdftex.def Info: inferences/bair/app_3layer_s36.png  used on input line 1142.
 (pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
- [33 <./inferences/kth/app_3layer_s14.png (PNG copy)> <./inferences/bair/app_1layer_s22.png (PNG copy)> <./inferences/bair/app_2layer_s32.png (PNG copy)> <./inferences/bair/app_3layer_s36.png (PNG copy)>] (build/main.aux)
+ [33 <./inferences/kth/app_2layer_s12.png (PNG copy)> <./inferences/kth/app_3layer_s14.png (PNG copy)> <./inferences/bair/app_1layer_s22.png (PNG copy)> <./inferences/bair/app_2layer_s32.png (PNG copy)> <./inferences/bair/app_3layer_s36.png (PNG copy)>] (build/main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
@@ -1179,7 +1179,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  108i,17n,106p,10599b,928s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on build/main.pdf (33 pages, 5203530 bytes).
+Output written on build/main.pdf (33 pages, 5203744 bytes).
 PDF statistics:
  676 PDF objects out of 1000 (max. 8388607)
  538 compressed objects within 6 object streams
