@@ -50,7 +50,7 @@ class Lightning (pl.LightningModule):
             self.criterion = torch.nn.CrossEntropyLoss()
 
         self.steps = {'train': 0, 'test': 0, 'val': 0}
-        self.seq_losses = 0
+        self.seq_losses = self.avg_losses = 0
 
     def make_label(self):
         epoch, step = self.current_epoch, self.get_step()
@@ -153,15 +153,19 @@ class Lightning (pl.LightningModule):
         output = self.forward(x)
         loss = self.criterion(output.squeeze(), y.squeeze())
         self.add_seq_loss(output, y)
-        writer, step = self.logger.experiment, self.get_step()
-        if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
-            img_pred = self.make_image(x, y, output)
-        else:
-            img_pred = self.plot_pred(x, y, output)
-        label = self.make_label()
-        writer.add_image(f'test_{label}_prediction', img_pred, step)
-        # writer.add_scalar('loss/test', loss, step)
+        self.add_avg_loss(loss)
+        if not self.opts['no_images']:
+            writer, step = self.logger.experiment, self.get_step()
+            if self.opts['dataset'] in {'MovingMNIST', 'KTH', 'BAIR'}:
+                img_pred = self.make_image(x, y, output)
+            else:
+                img_pred = self.plot_pred(x, y, output)
+            label = self.make_label()
+            writer.add_image(f'test_{label}_prediction', img_pred, step)
         return {'loss': loss}
+
+    def add_avg_loss(self, loss):
+        self.avg_losses += loss
 
     def add_seq_loss(self, output, y):
         pred_len = y.shape[1]
@@ -169,11 +173,12 @@ class Lightning (pl.LightningModule):
             [self.criterion(output[:, i], y[:, i]) for i in range(pred_len)])
 
     def on_test_end(self):
+        avg_loss = self.avg_losses / self.steps['test']
         avg_seq_losses = self.seq_losses / self.steps['test']
-        print(avg_seq_losses.shape)
         writer = self.logger.experiment
         for i, loss in enumerate(avg_seq_losses):
             writer.add_scalar('sequence/loss', loss, i)
+        writer.add_scalar('loss/test', avg_loss)
 
     def configure_optimizers(self):
         optimizer = torch.optim.Adam(

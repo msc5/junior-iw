@@ -90,8 +90,9 @@ def make_dataset():
                 if not os.path.exists(path):
                     retry_download(year, month, symbol, slice)
                 else:
-                    print((f'Already Downloaded {symbol:10} '
-                           f'year {year} month {month}'))
+                    pass
+                    # print((f'Already Downloaded {symbol:10} '
+                    #        f'year {year} month {month}'))
     print('Dataset Downloaded Successfully!')
 
 
@@ -101,17 +102,20 @@ if __name__ == "__main__":
 
     make_dataset()
 
-    # train_ds = Stocks(seq_len=50, split='train')
-    # train_dl = DataLoader(
-    #     train_ds, batch_size=64, drop_last=True, shuffle=True)
-    # test_ds = Stocks(seq_len=50, split='test')
-    # test_dl = DataLoader(
-    #     test_ds, batch_size=64, drop_last=True, shuffle=True)
-    #
-    # print(len(train_ds))
-    # print(len(test_ds))
-    # print(len(train_dl))
-    # print(len(test_dl))
+    # seq_len, batch_size = 50, 256
+    seq_len, batch_size = 100, 256
+
+    train_ds = Stocks(seq_len=seq_len, split='train')
+    train_dl = DataLoader(
+        train_ds, batch_size=batch_size, drop_last=True, shuffle=True)
+    test_ds = Stocks(seq_len=seq_len, split='test')
+    test_dl = DataLoader(
+        test_ds, batch_size=batch_size, drop_last=True, shuffle=True)
+
+    print(len(train_ds))
+    print(len(test_ds))
+    print(len(train_dl))
+    print(len(test_dl))
 
     # for i, d in enumerate(train_dl):
     #     print(i, d.shape)

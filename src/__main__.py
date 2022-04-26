@@ -117,6 +117,11 @@ OPTS = {
         'description': 'Number of digits to use in the MovingMNIST dataset',
         'default': 2,
         'type': int,
+    },
+    'no_images': {
+        'description': 'Set this value True to negate the creation of any images',
+        'default': False,
+        'type': bool,
     }
 }
 
@@ -169,15 +174,14 @@ if __name__ == "__main__":
     print('-' * n_columns)
 
     # Initialize Dataset and DataLoader
+    N_train, N_test = 26000, 3500
     if opts['dataset'] == 'GeneratedSins':
         from .data.generators import GeneratedSins
-        N_train, N_test = 22000, 7000
         train_dataset = GeneratedSins(opts['seq_len'], N_train)
         test_dataset = GeneratedSins(opts['seq_len'], N_test)
         opts['inp_size'] = 1
     elif opts['dataset'] == 'GeneratedNoise':
         from .data.generators import GeneratedNoise
-        N_train, N_test = 22000, 7000
         train_dataset = GeneratedNoise(opts['seq_len'], N_train)
         test_dataset = GeneratedNoise(opts['seq_len'], N_test)
         opts['inp_size'] = 1
@@ -255,7 +259,7 @@ if __name__ == "__main__":
     if opts['command'] == 'test':
         # Reload model for testing
         model = lightning.load_from_checkpoint(
-            opts['checkpoint_path'], model=model, loaders=loaders)
+            opts['checkpoint_path'], model=model, loaders=loaders, opts=opts)
         lightning.model = model
 
     # Initiate Training or Testing
