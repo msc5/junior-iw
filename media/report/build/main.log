@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  26 APR 2022 00:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.4.6)  26 APR 2022 13:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -751,6 +751,9 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 Package hyperref Info: Option `colorlinks' set `true' on input line 38.
  (build/main.aux
 
+LaTeX Warning: Label `sec:details' multiply defined.
+
+
 LaTeX Warning: Label `inf:lstm_kth_inference' multiply defined.
 
 )
@@ -901,113 +904,117 @@ Overfull \hbox (0.79599pt too wide) in paragraph at lines 153--159
 \OT1/cmr/m/n/10.95 Formally, a Re-cur-rent Neu-ral Net-work (RNN) is the end-result of a math-e-mat-i-cal anal-y-sis
  []
 
-<figures/rnn_arch.png, id=87, 1017.8025pt x 473.77pt>
+<figures/rnn_arch.png, id=91, 1017.8025pt x 473.77pt>
 File: figures/rnn_arch.png Graphic file (type png)
 <use figures/rnn_arch.png>
 Package pdftex.def Info: figures/rnn_arch.png  used on input line 193.
 (pdftex.def)             Requested size: 418.25372pt x 194.68793pt.
 [4] [5 <./figures/rnn_arch.png>]
-<figures/lstmcell_arch.png, id=111, 900.36375pt x 564.1075pt>
+<figures/lstmcell_arch.png, id=115, 900.36375pt x 564.1075pt>
 File: figures/lstmcell_arch.png Graphic file (type png)
 <use figures/lstmcell_arch.png>
 Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 248.
 (pdftex.def)             Requested size: 418.25372pt x 262.04904pt.
  [6 <./figures/lstmcell_arch.png>]
-<figures/seq2seq_arch.png, id=121, 1056.94875pt x 470.75874pt>
+<figures/seq2seq_arch.png, id=125, 1056.94875pt x 470.75874pt>
 File: figures/seq2seq_arch.png Graphic file (type png)
 <use figures/seq2seq_arch.png>
 Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 284.
 (pdftex.def)             Requested size: 418.25372pt x 186.28886pt.
- [7 <./figures/seq2seq_arch.png>] [8]
-Overfull \hbox (2.28767pt too wide) in paragraph at lines 460--468
+ [7 <./figures/seq2seq_arch.png>] [8] [9]
+Overfull \hbox (2.28767pt too wide) in paragraph at lines 467--475
 \OT1/cmr/m/n/10.95 by sub-tract-ing the min-i-mum and di-vid-ing by the max-i-mum for each se-quence in-di-vid-u-ally,
  []
 
-<plots/lstm_train_loss.png, id=142, 867.24pt x 433.62pt>
+<plots/lstm_train_loss.png, id=150, 867.24pt x 433.62pt>
 File: plots/lstm_train_loss.png Graphic file (type png)
 <use plots/lstm_train_loss.png>
-Package pdftex.def Info: plots/lstm_train_loss.png  used on input line 481.
+Package pdftex.def Info: plots/lstm_train_loss.png  used on input line 488.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
-<plots/lstm_seq_loss.png, id=143, 867.24pt x 433.62pt>
+<plots/lstm_seq_loss.png, id=151, 867.24pt x 433.62pt>
 File: plots/lstm_seq_loss.png Graphic file (type png)
 <use plots/lstm_seq_loss.png>
-Package pdftex.def Info: plots/lstm_seq_loss.png  used on input line 490.
+Package pdftex.def Info: plots/lstm_seq_loss.png  used on input line 497.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
 
-Underfull \hbox (badness 4084) in paragraph at lines 493--493
+Underfull \hbox (badness 4084) in paragraph at lines 500--500
 [][][]|\OT1/cmr/m/n/10.95 LSTM Test Loss over Pre-dicted Se-quence Steps for Gen-er-at-edSins,
  []
 
-[9 <./plots/lstm_train_loss.png>]
-<inferences/sins/3layer_s11.png, id=158, 1204.5pt x 602.25pt>
+[10 <./plots/lstm_train_loss.png>]
+<inferences/sins/3layer_s11.png, id=166, 1204.5pt x 602.25pt>
 File: inferences/sins/3layer_s11.png Graphic file (type png)
 <use inferences/sins/3layer_s11.png>
-Package pdftex.def Info: inferences/sins/3layer_s11.png  used on input line 528.
+Package pdftex.def Info: inferences/sins/3layer_s11.png  used on input line 535.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
- [10 <./plots/lstm_seq_loss.png>]
+ [11 <./plots/lstm_seq_loss.png>]
+Overfull \hbox (4.40666pt too wide) in paragraph at lines 567--580
+\OT1/cmr/m/n/10.95 ev-i-denced by the train-ing loss plot shown in Fig-ure [][]4[][] which is es-sen-tially flat. Ad-di-tion-ally,
+ []
 
-LaTeX Warning: Reference `fig:linear_loss' on page 11 undefined on input line 551.
+[12 <./inferences/sins/3layer_s11.png>]
+Overfull \hbox (0.34106pt too wide) in paragraph at lines 597--604
+[]\OT1/cmr/m/n/10.95 The is-sue with this loss func-tion is that it as-sumes that the un-der-ly-ing data dis-tri-bu-tion
+ []
 
-<inferences/noise/3layer_s13.png, id=168, 1204.5pt x 602.25pt>
+<inferences/noise/3layer_s13.png, id=186, 1204.5pt x 602.25pt>
 File: inferences/noise/3layer_s13.png Graphic file (type png)
 <use inferences/noise/3layer_s13.png>
-Package pdftex.def Info: inferences/noise/3layer_s13.png  used on input line 565.
+Package pdftex.def Info: inferences/noise/3layer_s13.png  used on input line 607.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
-[11 <./inferences/sins/3layer_s11.png>]
-<inferences/stocks/3layer_s31.png, id=175, 1204.5pt x 602.25pt>
+[13 <./inferences/noise/3layer_s13.png>]
+<inferences/stocks/3layer_s31.png, id=198, 1204.5pt x 602.25pt>
 File: inferences/stocks/3layer_s31.png Graphic file (type png)
 <use inferences/stocks/3layer_s31.png>
-Package pdftex.def Info: inferences/stocks/3layer_s31.png  used on input line 575.
+Package pdftex.def Info: inferences/stocks/3layer_s31.png  used on input line 643.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
- [12 <./inferences/noise/3layer_s13.png> <./inferences/stocks/3layer_s31.png>]
-<plots/convlstm_train_loss.png, id=184, 867.24pt x 433.62pt>
+ [14 <./inferences/stocks/3layer_s31.png>] [15]
+<plots/convlstm_train_loss.png, id=209, 867.24pt x 433.62pt>
 File: plots/convlstm_train_loss.png Graphic file (type png)
 <use plots/convlstm_train_loss.png>
-Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 586.
+Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 666.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
-<plots/convlstm_seq_loss.png, id=185, 867.24pt x 433.62pt>
+<plots/convlstm_seq_loss.png, id=210, 867.24pt x 433.62pt>
 File: plots/convlstm_seq_loss.png Graphic file (type png)
 <use plots/convlstm_seq_loss.png>
-Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 593.
+Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 673.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
- [13 <./plots/convlstm_train_loss.png> <./plots/convlstm_seq_loss.png>]
-<inferences/mmnist/mmnist_inferences_1.png, id=195, 800.9925pt x 696.6025pt>
+ [16 <./plots/convlstm_train_loss.png> <./plots/convlstm_seq_loss.png>]
+<inferences/mmnist/mmnist_inferences_1.png, id=227, 800.9925pt x 696.6025pt>
 File: inferences/mmnist/mmnist_inferences_1.png Graphic file (type png)
 <use inferences/mmnist/mmnist_inferences_1.png>
-Package pdftex.def Info: inferences/mmnist/mmnist_inferences_1.png  used on input line 626.
+Package pdftex.def Info: inferences/mmnist/mmnist_inferences_1.png  used on input line 730.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
-<inferences/mmnist/mmnist_inferences_2.png, id=196, 800.9925pt x 696.6025pt>
+ [17]
+<inferences/mmnist/mmnist_inferences_2.png, id=236, 800.9925pt x 696.6025pt>
 File: inferences/mmnist/mmnist_inferences_2.png Graphic file (type png)
 <use inferences/mmnist/mmnist_inferences_2.png>
-Package pdftex.def Info: inferences/mmnist/mmnist_inferences_2.png  used on input line 634.
+Package pdftex.def Info: inferences/mmnist/mmnist_inferences_2.png  used on input line 748.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [14 <./inferences/mmnist/mmnist_inferences_1.png>]
-<inferences/kth/kth_inferences.png, id=204, 801.99625pt x 827.09pt>
+ [18 <./inferences/mmnist/mmnist_inferences_1.png>]
+<inferences/kth/kth_inferences.png, id=245, 801.99625pt x 827.09pt>
 File: inferences/kth/kth_inferences.png Graphic file (type png)
 <use inferences/kth/kth_inferences.png>
-Package pdftex.def Info: inferences/kth/kth_inferences.png  used on input line 645.
+Package pdftex.def Info: inferences/kth/kth_inferences.png  used on input line 764.
 (pdftex.def)             Requested size: 418.25372pt x 431.3513pt.
- [15 <./inferences/mmnist/mmnist_inferences_2.png>]
-<inferences/kth/kth_inferences_2.png, id=211, 800.9925pt x 696.6025pt>
+ [19 <./inferences/mmnist/mmnist_inferences_2.png>]
+<inferences/kth/kth_inferences_2.png, id=252, 800.9925pt x 696.6025pt>
 File: inferences/kth/kth_inferences_2.png Graphic file (type png)
 <use inferences/kth/kth_inferences_2.png>
-Package pdftex.def Info: inferences/kth/kth_inferences_2.png  used on input line 653.
+Package pdftex.def Info: inferences/kth/kth_inferences_2.png  used on input line 772.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [16 <./inferences/kth/kth_inferences.png>]
-<inferences/bair/bair_inferences.png, id=218, 800.9925pt x 696.6025pt>
+ [20 <./inferences/kth/kth_inferences.png>]
+<inferences/bair/bair_inferences.png, id=259, 800.9925pt x 696.6025pt>
 File: inferences/bair/bair_inferences.png Graphic file (type png)
 <use inferences/bair/bair_inferences.png>
-Package pdftex.def Info: inferences/bair/bair_inferences.png  used on input line 665.
+Package pdftex.def Info: inferences/bair/bair_inferences.png  used on input line 784.
 (pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [17 <./inferences/kth/kth_inferences_2.png>] [18 <./inferences/bair/bair_inferences.png>] [19] (build/main.bbl
-Underfull \hbox (badness 3168) in paragraph at lines 49--57
+ [21 <./inferences/kth/kth_inferences_2.png>] [22 <./inferences/bair/bair_inferences.png>] [23] (build/main.bbl
+Underfull \hbox (badness 3168) in paragraph at lines 56--64
 []\OT1/cmr/m/n/10.95 S. Oprea, P. Martinez-Gonzalez, A. Garcia-Garcia, J. A. Castro-Vargas,
  []
 
-) [20] (build/main.aux)
-
-LaTeX Warning: There were undefined references.
-
+) [24] (build/main.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -1015,18 +1022,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 33497 strings out of 478276
- 674072 string characters out of 5853013
- 1206786 words of memory out of 5000000
- 51087 multiletter control sequences out of 15000+600000
+ 33510 strings out of 478276
+ 674219 string characters out of 5853014
+ 1206787 words of memory out of 5000000
+ 51093 multiletter control sequences out of 15000+600000
  479615 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,17n,106p,10599b,811s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/main.pdf (20 pages, 1983808 bytes).
+Output written on build/main.pdf (24 pages, 1994103 bytes).
 PDF statistics:
- 400 PDF objects out of 1000 (max. 8388607)
- 314 compressed objects within 4 object streams
- 75 named destinations out of 1000 (max. 500000)
- 248 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 446 PDF objects out of 1000 (max. 8388607)
+ 356 compressed objects within 4 object streams
+ 82 named destinations out of 1000 (max. 500000)
+ 264 words of extra memory for PDF output out of 10000 (max. 10000000)
 

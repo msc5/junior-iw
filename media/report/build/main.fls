@@ -1,4 +1,4 @@
-PWD /home/msc5/Code/junior-iw/media/report
+PWD /home/msc5/code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -1338,6 +1338,7 @@ INPUT ./inferences/sins/3layer_s11.png
 INPUT inferences/sins/3layer_s11.png
 INPUT ./inferences/sins/3layer_s11.png
 INPUT ./inferences/sins/3layer_s11.png
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT ./inferences/noise/3layer_s13.png
 INPUT ./inferences/noise/3layer_s13.png
 INPUT inferences/noise/3layer_s13.png
@@ -1387,7 +1388,6 @@ INPUT build/main.bbl
 INPUT build/main.bbl
 INPUT build/main.bbl
 INPUT build/main.bbl
-INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti10.tfm
 INPUT build/main.aux
 INPUT build/main.out
 INPUT build/main.out

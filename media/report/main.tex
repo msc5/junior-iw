@@ -370,6 +370,13 @@ LSTM model for video prediction, which can be found at this
 % \subsection{BAIR}
 % \label{subsec:bair}
 
+\newpage 
+\section{Implementation and Training Details}
+\label{sec:details}
+
+\section{Datasets}
+\label{sec:details}
+
 \newpage
 \section{Experiments}
 \label{sec:experiments}
@@ -518,10 +525,10 @@ GeneratedSins data generally decreased the most over training out of the three,
 and in the plot of average test losses over the predicted sequence in Figure
 \ref{plt:lstm_train_loss}, which shows that GeneratedSins led to the most
 accurate predictions over longer sequences by far. Additionally, Table
-\ref{tab:lstm_avg_loss} shows that the average test loss was two powers of 10
-lower than both other datasets. A Test inference of a 2-layer LSTM model
-trained on this dataset with the ground truth sequence underlaid is shown in
-Figure \ref{inf:lstm_sins_inference}. 
+\ref{tab:lstm_avg_loss} shows that the average test loss from this dataset was
+only \num{e-2} times the average losses of the others. A Test inference of a
+2-layer LSTM model trained on this dataset with the ground truth sequence
+underlaid is shown in Figure \ref{inf:lstm_sins_inference}. 
 
 \begin{figure}[H]
 	\centering
@@ -536,30 +543,65 @@ errors are minor in this demonstration, the shortcoming reveals a pretty major
 property of the Seq2Seq architecture (and all sequence prediction
 architectures, not just Seq2Seq), which is that in general, predictions will
 tend to decrease in accuracy as they become longer. In most situations, this is
-because stochasticity at each step 
+because real data is at least some part stochastic, meaning that, as time goes
+on, a sequence can have many possible outcomes, and the state of the sequences
+at any far-off point in time is a composition of all the previous random events
+that take place. In this situation, however, a feature of the Seq2Seq modeling
+is most likely the culprit (excluding possible training and implementation
+errors), since there is \textit{no} inherent stochasticity of a sin wave, that
+is, it is not a random process at all and once it is established at any point
+in time it will continue in that way forever. 
 
-In this example, when the
-model feeds each LSTM cell's output directly back into itself as an input for
-the next time step in order to generate the full sequence (See Figure
-\ref{fig:seq2seq_arch}), if any prediction is off by a tiny amount, the next
-prediction will likely share and even increase that error. 
+In this situation, when the model feeds each LSTM cell's output directly back
+into itself as an input for the next time step in order to generate the full
+sequence (See Figure \ref{fig:seq2seq_arch}), if any prediction is off by a
+tiny amount, then the next prediction will likely share and even increase that
+error. While it is likely that this is the phenomenon causing the majority of
+the error in this situation, the small initial errors are most likely due to
+incomplete convergence of the model, since the training and test set should
+theoretically approach the same distribution as more samples are drawn\dots
 
 \subsubsection{GeneratedNoise Experiment}
 \label{subsubsec:generated_noise}
 
 This dataset, in contrast, was nearly impossible for the model to learn
-satisfactorily. This model's loss plot in Figure \ref{fig:linear_loss} shows
-that the model is able to follow the random sequences for the first few points
-until the next random point is interpolated, however beyond that the model
-predicts nothing but a straight line centered at $y = 0.5$. While this seems
-like a failure of some sort, it is in fact a direct demonstration of the model's
-loss function, Mean Squared Error (MSE), which is a simple function, shown below: 
+satisfactorily, as evidenced by the training loss plot shown in Figure
+\ref{plt:lstm_train_loss} which is essentially flat. Additionally, over the
+test sequences on average in Figure \ref{plt:lstm_seq_loss}, the model
+increases most rapidly in error as the prediction increases in duration. While
+this result is somewhat expected for this dataset, it is still concerning that
+the model is capable of predicting any amount of a random signal for any
+duration. The answer to this question lies in the details of the dataset
+implementation, specifically that the points are not purely random; they become
+slightly cross-correlated after being smoothed by the gaussian filter, due to
+the convolution action which sums neighboring points. A batch of test
+inferences showcasing this phenomenon is shown in Figure
+\ref{inf:lstm_noise_inference}.
+
+As for the model implementation and architecture, one important aspect of the
+results on this dataset stands out, which is that the model predicts nothing
+but a flat line centered at 0.5 after these initial predictions. This may seem
+like an uninteresting result, but what it shows is fundamentally the same issue
+that will cause blurry predictions in actual video predictions, and this is one
+of the current challenges discussed in video prediction research
+\cite{video_prediction_survey}.
+
+To analyze the issue here, it is necessary to closely evaluate the loss
+function used in training this model:
 
 \begin{equation}
 	\text{MSE} = \frac{1}{n} \sum_{i = 1}^n ( Y_i - \hat{Y}_i )^2
 	 \label{eq:mseloss}
 \end{equation}
 
+The issue with this loss function is that it assumes that the underlying data
+distribution is Gaussian. Here, it is nearly the case that $X, Y \sim U(0, 1)$,
+and the expected value of the uniform distribution $\mu = \frac{1}{2} (1 - 0) =
+0.5$ will minimize the MSE loss, even if $\mu$ itself has very low probability.
+This feature of pixel-wise loss functions has negative side-effects for video
+prediction, since the mean prediction does not usually yield very realistic
+frames, and these types of predictions are not as directly useful to humans.
+ 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{inferences/noise/3layer_s13.png}
@@ -567,8 +609,34 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 	\label{inf:lstm_noise_inference}
 \end{figure}
 
+% The methods used to limit this negative effect are to use adversarial training,
+% more complex loss functions, or modeling the prediction using probability \cite{}.
+
 \subsubsection{Stocks Experiment}
 \label{subsubsec:stocks}
+
+Prior to performing this experiment, it was difficult to hypothesize how the
+LSTM model would perform on the stock price dataset, partly because the author
+knows very little about finance in general, but also because if it could be
+done reliably, then it would not be hard to make a lot of money very easily!
+However, from the previous experimentation with the GeneratedNoise dataset, it
+was reasonable that stock data points should be more cross-correlated between
+neighboring points, since stock prices should have some sort of momentum, that
+is, if they are rising they should be slightly more likely to continue to rise,
+and vice versa. 
+
+In practice, the results of testing the model on this dataset showed some
+interesting phenomenon and differences when compared to GeneratedNoise.
+Firstly, the model does not just predict the mean for every sequence with this
+dataset, instead, it attempts to fit each line individually, as can be seen in
+Figure \ref{inf:lstm_stocks_inference}. In addition, the average test loss over
+this dataset shown in Figure \ref{plt:lstm_seq_loss} reveals that the
+prediction error does not decrease as quickly as with GeneratedNoise, and the
+training loss plot shown in Figure \ref{plt:lstm_train_loss} shows that the
+overall decrease in loss over the stocks dataset was greater than for
+GeneratedNoise. These results are therefore very interesting, as they show that
+the model does learn something from the stocks sequences, even though they are,
+at first glance, just as random and unpredictable as the random noise.
 
 \begin{figure}[H]
 	\centering
@@ -577,10 +645,22 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 	\label{inf:lstm_stocks_inference}
 \end{figure}
 
+While some of the predictions from this dataset are impressive, however, and
+seem to almost approximate the trajectory of the stock price, a good amount of
+them are also mostly wrong, and even seem to diverge from the ground truth
+label completely. From a qualitative perspective, these predictions do not seem
+accurate enough to make any serious decisions off of, however, it would be very
+interesting to test the performance of this model in making trading decisions
+as a future experiment.
+
 \newpage
 \subsection{Video Prediction}
 \label{subsec:experiment_vp}
 
+Now on to the real meat of this project, which is to use a variation of the
+previously-used model equipped with convolution in order to predict the
+continuation of video sequences. 
+ 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{plots/convlstm_train_loss.png}
@@ -595,6 +675,13 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 	\label{plt:convlstm_seq_loss}
 \end{figure}
 
+As before, this model's training loss over the three video datasets
+MovingMNIST, KTH, and BAIR are shown in Figure \ref{plt:convlstm_train_loss},
+and the average test loss plotted over the prediction sequence steps for each
+dataset and number of cell layers is shown in Figure
+\ref{plt:convlstm_seq_loss}. Additionally, the average test loss is shown in
+Table \ref{tab:convlstm_avg_loss}.
+
 \begin{table}[H]
 	\caption{ConvLSTM Average Test Losses For Each Dataset and Number of Layers}
 	\label{tab:convlstm_avg_loss}
@@ -608,18 +695,35 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 	\end{center}
 \end{table}
 
-% STM_BAIR 1 Layers              \num{1.249e-02}
-% STM_BAIR 2 Layers              \num{1.278e-02}
-% STM_BAIR 3 Layers              \num{1.274e-02}
-% STM_KTH 1 Layers               \num{1.233e-03}
-% STM_KTH 2 Layers               \num{1.239e-03}
-% STM_KTH 3 Layers               \num{1.163e-03}
-% STM_MovingMNIST 1 Layers       \num{2.910e-02}
-% STM_MovingMNIST 2 Layers       \num{2.876e-02}
-% STM_MovingMNIST 3 Layers       \num{3.019e-02}
-
 \subsubsection{Moving MNIST}
 \label{subsubsec:mmnist}
+
+The model's inferences on the MovingMNIST were annoyingly mixed, with some
+results being quite clear, such as the one shown in
+\ref{inf:lstm_mmnist_inference_1}, and others being much more muddled and
+blurry, such as the one shown in \ref{inf:lstm_mmnist_inference_2}. Since the
+MovingMNIST dataset has elements of predictability (for example, digits bounce
+off the walls in a predictable way and move at a constant velocity) the
+expectation was that this dataset would be easy for the ConvLSTM model to
+learn, however, the training loss plot in Figure \ref{plt:convlstm_train_loss}
+and the average test sequence loss in Figure \ref{plt:convlstm_seq_loss} show
+that this dataset was the most difficult of the three. 
+
+As to why this is the case, it could be a combination of several factors: poor
+bias learning, occlusion, or model depth and training time limitations. 
+
+For the first reason, it is important to look at the ways in which MovingMNIST
+is unique to the other datasets, for example, it is extremely bimodal, and
+pixel intensity values densely cluster around 1 and 0, or white and black, as
+they appear in images. Although the LSTM architecture (\ref{fig:lstmcell_arch})
+includes a bias term in its weights, the bias needed here is not a simple
+pixelwise correction, it is a correction term needed for each frame as the
+digits bounce around. While a bias term such as the one included in the vanilla
+LSTM cell implementation is capable of correcting the image predictions to be
+mostly black, for example, it is not capable of learning that the pixels in
+each digit as they bounce around should be white, since the bias terms are
+constant over the entire prediction. Thus, the model struggles to produce such
+black-and-white predictions.
 
 \begin{figure}[H]
 	\begin{center}
@@ -628,6 +732,16 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 	\caption{Convolutional LSTM Inference on MovingMNIST dataset}
 	\label{inf:lstm_mmnist_inference_1}
 \end{figure}
+
+While the second reason doesn't account for the high training loss directly,
+since occlusion is only present in about half of the sequences and even then
+isn't a major factor in most cases, it does increase the underlying complexity
+of the dataset to some degree. This, combined with the third reason, could also
+be major contributors to the poor prediction accuracy in this case, since the
+model was only able to train over 10 epochs due to time and computing power
+constraints. Additionally, the dataset is generated on the fly from the MNIST
+digits dataset \cite{mnist_digits}, so it would probably help to train a deeper
+model along with many more generated sequences.
 
 \begin{figure}[H]
 	\begin{center}
@@ -639,6 +753,11 @@ loss function, Mean Squared Error (MSE), which is a simple function, shown below
 
 \subsubsection{KTH}
 \label{subsubsec:kth}
+
+The ConvLSTM model trained and tested best on the KTH dataset out of the three,
+as the loss plots in Figures \ref{plt:convlstm_train_loss} and
+\ref{plt:convlstm_seq_loss} confirm, and this success led to some of the most
+impressive and satisfying predictions in this project.
 
 \begin{figure}[H]
 	\begin{center}
