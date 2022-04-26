@@ -59,3 +59,10 @@ class BAIR (object):
     def __getitem__(self, index):
         self.set_seed(index)
         return self.get_seq()
+
+
+if __name__ == "__main__":
+    from torch.utils.data import DataLoader
+    train_dataset = BAIR('src/data/datasets/BAIR/raw', train=True)
+    train_dataloader = DataLoader(train_dataloader, batch_size=4)
+    print(len(train_dataset, train_dataloader))

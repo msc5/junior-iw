@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.4.6)  26 APR 2022 13:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/Arch Linux) (preloaded format=pdflatex 2022.3.27)  26 APR 2022 18:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -745,42 +745,50 @@ Package: listings 2020/03/24 1.8d (Carsten Heinz)
 Package: hyphenat 2009/09/02 v2.3c hyphenation utilities
 \langwohyphens=\language88
 LaTeX Info: Redefining \_ on input line 43.
+) (/usr/share/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+\c@KVtest=\count342
+\sf@farskip=\skip81
+\sf@captopadj=\dimen304
+\sf@capskip=\skip82
+\sf@nearskip=\skip83
+\c@subfigure=\count343
+\c@subfigure@save=\count344
+\c@lofdepth=\count345
+\c@subtable=\count346
+\c@subtable@save=\count347
+\c@lotdepth=\count348
+\sf@top=\skip84
+\sf@bottom=\skip85
 ) (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 38.
- (build/main.aux
-
-LaTeX Warning: Label `sec:details' multiply defined.
-
-
-LaTeX Warning: Label `inf:lstm_kth_inference' multiply defined.
-
-)
+Package hyperref Info: Option `colorlinks' set `true' on input line 40.
+ (build/main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-Package scrbase Info: activating english \contentsname on input line 47.
-Package scrbase Info: activating english \listfigurename on input line 47.
-Package scrbase Info: activating english \listtablename on input line 47.
-Package tocbasic Info: usage of `tocbibind' detected on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+Package scrbase Info: activating english \contentsname on input line 49.
+Package scrbase Info: activating english \listfigurename on input line 49.
+Package scrbase Info: activating english \listtablename on input line 49.
+Package tocbasic Info: usage of `tocbibind' detected on input line 49.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -818,16 +826,16 @@ Package tocbasic Info: usage of `tocbibind' detected on input line 47.
 
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count342
-\scratchdimen=\dimen304
+\scratchcounter=\count349
+\scratchdimen=\dimen305
 \scratchbox=\box82
-\nofMPsegments=\count343
-\nofMParguments=\count344
+\nofMPsegments=\count350
+\nofMParguments=\count351
 \everyMPshowfont=\toks51
-\MPscratchCnt=\count345
-\MPscratchDim=\dimen305
-\MPnumerator=\count346
-\makeMPintoPDFobject=\count347
+\MPscratchCnt=\count352
+\MPscratchDim=\dimen306
+\MPnumerator=\count353
+\makeMPintoPDFobject=\count354
 \everyMPtoPDFconversion=\toks52
 ) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -843,8 +851,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 )) (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
 File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 47.
-Package hyperref Info: Link coloring ON on input line 47.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 49.
+Package hyperref Info: Link coloring ON on input line 49.
  (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texmf-dist/tex/latex/refcount/refcount.sty
@@ -852,11 +860,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/usr/share/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count348
+\c@section@level=\count355
 )
-LaTeX Info: Redefining \ref on input line 47.
-LaTeX Info: Redefining \pageref on input line 47.
-LaTeX Info: Redefining \nameref on input line 47.
+LaTeX Info: Redefining \ref on input line 49.
+LaTeX Info: Redefining \pageref on input line 49.
+LaTeX Info: Redefining \nameref on input line 49.
  (build/main.out) (build/main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -868,17 +876,18 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 47.
+(scrartcl)           before \begin{document} on input line 49.
  (/usr/share/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
  (/usr/share/texmf-dist/tex/latex/bookmark/bkm-pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count349
+\BKM@id=\count356
 ))
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count350
+\c@lstlisting=\count357
  [1
 
 
@@ -895,145 +904,285 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 \openout5 = `main.toc'.
 
  [2] [3]
-Overfull \hbox (15.09299pt too wide) in paragraph at lines 140--149
+Overfull \hbox (15.09299pt too wide) in paragraph at lines 142--151
 []\OT1/cmr/m/n/10.95 For ex-am-ple, RNNs and gen-er-a-tive net-works are each suc-cess-ful and well-tested paradigms
  []
 
 
-Overfull \hbox (0.79599pt too wide) in paragraph at lines 153--159
+Overfull \hbox (0.79599pt too wide) in paragraph at lines 155--161
 \OT1/cmr/m/n/10.95 Formally, a Re-cur-rent Neu-ral Net-work (RNN) is the end-result of a math-e-mat-i-cal anal-y-sis
  []
 
-<figures/rnn_arch.png, id=91, 1017.8025pt x 473.77pt>
+<figures/rnn_arch.png, id=115, 1017.8025pt x 473.77pt>
 File: figures/rnn_arch.png Graphic file (type png)
 <use figures/rnn_arch.png>
-Package pdftex.def Info: figures/rnn_arch.png  used on input line 193.
+Package pdftex.def Info: figures/rnn_arch.png  used on input line 195.
 (pdftex.def)             Requested size: 418.25372pt x 194.68793pt.
 [4] [5 <./figures/rnn_arch.png>]
-<figures/lstmcell_arch.png, id=115, 900.36375pt x 564.1075pt>
+<figures/lstmcell_arch.png, id=139, 900.36375pt x 564.1075pt>
 File: figures/lstmcell_arch.png Graphic file (type png)
 <use figures/lstmcell_arch.png>
-Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 248.
+Package pdftex.def Info: figures/lstmcell_arch.png  used on input line 250.
 (pdftex.def)             Requested size: 418.25372pt x 262.04904pt.
  [6 <./figures/lstmcell_arch.png>]
-<figures/seq2seq_arch.png, id=125, 1056.94875pt x 470.75874pt>
+<figures/seq2seq_arch.png, id=149, 1056.94875pt x 470.75874pt>
 File: figures/seq2seq_arch.png Graphic file (type png)
 <use figures/seq2seq_arch.png>
-Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 284.
+Package pdftex.def Info: figures/seq2seq_arch.png  used on input line 286.
 (pdftex.def)             Requested size: 418.25372pt x 186.28886pt.
- [7 <./figures/seq2seq_arch.png>] [8] [9]
-Overfull \hbox (2.28767pt too wide) in paragraph at lines 467--475
+ [7 <./figures/seq2seq_arch.png>] [8]
+Overfull \hbox (2.28767pt too wide) in paragraph at lines 458--466
 \OT1/cmr/m/n/10.95 by sub-tract-ing the min-i-mum and di-vid-ing by the max-i-mum for each se-quence in-di-vid-u-ally,
  []
 
-<plots/lstm_train_loss.png, id=150, 867.24pt x 433.62pt>
+[9]
+<plots/lstm_train_loss.png, id=193, 867.24pt x 433.62pt>
 File: plots/lstm_train_loss.png Graphic file (type png)
 <use plots/lstm_train_loss.png>
-Package pdftex.def Info: plots/lstm_train_loss.png  used on input line 488.
+Package pdftex.def Info: plots/lstm_train_loss.png  used on input line 543.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
-<plots/lstm_seq_loss.png, id=151, 867.24pt x 433.62pt>
+<plots/lstm_seq_loss.png, id=194, 867.24pt x 433.62pt>
 File: plots/lstm_seq_loss.png Graphic file (type png)
 <use plots/lstm_seq_loss.png>
-Package pdftex.def Info: plots/lstm_seq_loss.png  used on input line 497.
+Package pdftex.def Info: plots/lstm_seq_loss.png  used on input line 552.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
 
-Underfull \hbox (badness 4084) in paragraph at lines 500--500
+Underfull \hbox (badness 4084) in paragraph at lines 555--555
 [][][]|\OT1/cmr/m/n/10.95 LSTM Test Loss over Pre-dicted Se-quence Steps for Gen-er-at-edSins,
  []
 
 [10 <./plots/lstm_train_loss.png>]
-<inferences/sins/3layer_s11.png, id=166, 1204.5pt x 602.25pt>
+<inferences/sins/3layer_s11.png, id=208, 1204.5pt x 602.25pt>
 File: inferences/sins/3layer_s11.png Graphic file (type png)
 <use inferences/sins/3layer_s11.png>
-Package pdftex.def Info: inferences/sins/3layer_s11.png  used on input line 535.
+Package pdftex.def Info: inferences/sins/3layer_s11.png  used on input line 592.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
  [11 <./plots/lstm_seq_loss.png>]
-Overfull \hbox (4.40666pt too wide) in paragraph at lines 567--580
+Overfull \hbox (4.40666pt too wide) in paragraph at lines 624--637
 \OT1/cmr/m/n/10.95 ev-i-denced by the train-ing loss plot shown in Fig-ure [][]4[][] which is es-sen-tially flat. Ad-di-tion-ally,
  []
 
 [12 <./inferences/sins/3layer_s11.png>]
-Overfull \hbox (0.34106pt too wide) in paragraph at lines 597--604
+Overfull \hbox (0.34106pt too wide) in paragraph at lines 654--661
 []\OT1/cmr/m/n/10.95 The is-sue with this loss func-tion is that it as-sumes that the un-der-ly-ing data dis-tri-bu-tion
  []
 
-<inferences/noise/3layer_s13.png, id=186, 1204.5pt x 602.25pt>
+<inferences/noise/3layer_s13.png, id=227, 1204.5pt x 602.25pt>
 File: inferences/noise/3layer_s13.png Graphic file (type png)
 <use inferences/noise/3layer_s13.png>
-Package pdftex.def Info: inferences/noise/3layer_s13.png  used on input line 607.
+Package pdftex.def Info: inferences/noise/3layer_s13.png  used on input line 664.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
 [13 <./inferences/noise/3layer_s13.png>]
-<inferences/stocks/3layer_s31.png, id=198, 1204.5pt x 602.25pt>
+<inferences/stocks/3layer_s31.png, id=239, 1204.5pt x 602.25pt>
 File: inferences/stocks/3layer_s31.png Graphic file (type png)
 <use inferences/stocks/3layer_s31.png>
-Package pdftex.def Info: inferences/stocks/3layer_s31.png  used on input line 643.
+Package pdftex.def Info: inferences/stocks/3layer_s31.png  used on input line 699.
 (pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
- [14 <./inferences/stocks/3layer_s31.png>] [15]
-<plots/convlstm_train_loss.png, id=209, 867.24pt x 433.62pt>
+ [14 <./inferences/stocks/3layer_s31.png>]
+<plots/convlstm_train_loss.png, id=246, 867.24pt x 433.62pt>
 File: plots/convlstm_train_loss.png Graphic file (type png)
 <use plots/convlstm_train_loss.png>
-Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 666.
+Package pdftex.def Info: plots/convlstm_train_loss.png  used on input line 722.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
-<plots/convlstm_seq_loss.png, id=210, 867.24pt x 433.62pt>
+<plots/convlstm_seq_loss.png, id=247, 867.24pt x 433.62pt>
 File: plots/convlstm_seq_loss.png Graphic file (type png)
 <use plots/convlstm_seq_loss.png>
-Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 673.
+Package pdftex.def Info: plots/convlstm_seq_loss.png  used on input line 729.
 (pdftex.def)             Requested size: 418.25372pt x 209.1277pt.
- [16 <./plots/convlstm_train_loss.png> <./plots/convlstm_seq_loss.png>]
-<inferences/mmnist/mmnist_inferences_1.png, id=227, 800.9925pt x 696.6025pt>
+ [15 <./plots/convlstm_train_loss.png> <./plots/convlstm_seq_loss.png>]
+<inferences/mmnist/mmnist_inferences_1.png, id=265, 833.1125pt x 558.085pt>
 File: inferences/mmnist/mmnist_inferences_1.png Graphic file (type png)
 <use inferences/mmnist/mmnist_inferences_1.png>
-Package pdftex.def Info: inferences/mmnist/mmnist_inferences_1.png  used on input line 730.
-(pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [17]
-<inferences/mmnist/mmnist_inferences_2.png, id=236, 800.9925pt x 696.6025pt>
-File: inferences/mmnist/mmnist_inferences_2.png Graphic file (type png)
-<use inferences/mmnist/mmnist_inferences_2.png>
-Package pdftex.def Info: inferences/mmnist/mmnist_inferences_2.png  used on input line 748.
-(pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [18 <./inferences/mmnist/mmnist_inferences_1.png>]
-<inferences/kth/kth_inferences.png, id=245, 801.99625pt x 827.09pt>
+Package pdftex.def Info: inferences/mmnist/mmnist_inferences_1.png  used on input line 789.
+(pdftex.def)             Requested size: 418.25372pt x 280.18292pt.
+ [16]
+<inferences/mmnist/mmnist_inferences_3.png, id=274, 833.1125pt x 558.085pt>
+File: inferences/mmnist/mmnist_inferences_3.png Graphic file (type png)
+<use inferences/mmnist/mmnist_inferences_3.png>
+Package pdftex.def Info: inferences/mmnist/mmnist_inferences_3.png  used on input line 810.
+(pdftex.def)             Requested size: 418.25372pt x 280.18292pt.
+ [17 <./inferences/mmnist/mmnist_inferences_1.png>]
+<inferences/kth/kth_inferences.png, id=285, 801.99625pt x 827.09pt>
 File: inferences/kth/kth_inferences.png Graphic file (type png)
 <use inferences/kth/kth_inferences.png>
-Package pdftex.def Info: inferences/kth/kth_inferences.png  used on input line 764.
+Package pdftex.def Info: inferences/kth/kth_inferences.png  used on input line 844.
 (pdftex.def)             Requested size: 418.25372pt x 431.3513pt.
- [19 <./inferences/mmnist/mmnist_inferences_2.png>]
-<inferences/kth/kth_inferences_2.png, id=252, 800.9925pt x 696.6025pt>
+ [18 <./inferences/mmnist/mmnist_inferences_3.png>]
+<inferences/kth/kth_inferences_2.png, id=296, 832.10875pt x 534.99875pt>
 File: inferences/kth/kth_inferences_2.png Graphic file (type png)
 <use inferences/kth/kth_inferences_2.png>
-Package pdftex.def Info: inferences/kth/kth_inferences_2.png  used on input line 772.
-(pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [20 <./inferences/kth/kth_inferences.png>]
-<inferences/bair/bair_inferences.png, id=259, 800.9925pt x 696.6025pt>
+Package pdftex.def Info: inferences/kth/kth_inferences_2.png  used on input line 863.
+(pdftex.def)             Requested size: 418.25372pt x 268.91098pt.
+ [19 <./inferences/kth/kth_inferences.png>]
+Overfull \hbox (3.22041pt too wide) in paragraph at lines 893--906
+\OT1/cmr/m/n/10.95 is to bet-ter con-trol robotic move-ment. While most of this re-port dis-cusses video pre-dic-tion
+ []
+
+[20 <./inferences/kth/kth_inferences_2.png>]
+<inferences/bair/bair_inferences.png, id=317, 833.1125pt x 558.085pt>
 File: inferences/bair/bair_inferences.png Graphic file (type png)
 <use inferences/bair/bair_inferences.png>
-Package pdftex.def Info: inferences/bair/bair_inferences.png  used on input line 784.
-(pdftex.def)             Requested size: 418.25372pt x 363.74474pt.
- [21 <./inferences/kth/kth_inferences_2.png>] [22 <./inferences/bair/bair_inferences.png>] [23] (build/main.bbl
-Underfull \hbox (badness 3168) in paragraph at lines 56--64
+Package pdftex.def Info: inferences/bair/bair_inferences.png  used on input line 918.
+(pdftex.def)             Requested size: 418.25372pt x 280.18292pt.
+ [21 <./inferences/bair/bair_inferences.png>]
+<inferences/bair/bair_inferences_2.png, id=328, 833.1125pt x 558.085pt>
+File: inferences/bair/bair_inferences_2.png Graphic file (type png)
+<use inferences/bair/bair_inferences_2.png>
+Package pdftex.def Info: inferences/bair/bair_inferences_2.png  used on input line 946.
+(pdftex.def)             Requested size: 418.25372pt x 280.18292pt.
+ [22 <./inferences/bair/bair_inferences_2.png>]
+Overfull \hbox (16.3908pt too wide) in paragraph at lines 964--975
+\OT1/cmr/m/n/10.95 neu-ral net, such as the one which might be used for im-age clas-si-fi-ca-tion. While dis-crim-i-na-tive
+ []
+
+
+Overfull \hbox (30.22841pt too wide) in paragraph at lines 976--979
+[]\OT1/cmr/m/n/10.95 In prac-tice, GANs train a gen-er-a-tor $\OML/cmm/m/it/10.95 G$ \OT1/cmr/m/n/10.95 and dis-crim-i-na-tor $\OML/cmm/m/it/10.95 D$ \OT1/cmr/m/n/10.95 us-ing end-to-end back-prop-a-ga-tion
+ []
+
+<figures/gan_arch.png, id=337, 885.3075pt x 440.64626pt>
+File: figures/gan_arch.png Graphic file (type png)
+<use figures/gan_arch.png>
+Package pdftex.def Info: figures/gan_arch.png  used on input line 988.
+(pdftex.def)             Requested size: 418.25372pt x 208.17955pt.
+[23 <./figures/gan_arch.png>] [24] (build/main.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 51--55
+[]\OT1/cmr/m/n/10.95 W. Fal-con.  Py-torch light-ning.  \OT1/cmr/m/it/10.95 GitHub. Note:
+ []
+
+
+Underfull \hbox (badness 3168) in paragraph at lines 87--95
 []\OT1/cmr/m/n/10.95 S. Oprea, P. Martinez-Gonzalez, A. Garcia-Garcia, J. A. Castro-Vargas,
  []
 
-) [24] (build/main.aux)
+[25]
+Underfull \hbox (badness 2653) in paragraph at lines 105--116
+\OT1/cmr/m/it/10.95 Ad-vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems 32\OT1/cmr/m/n/10.95 , pages 8024--8035.
+ []
 
-LaTeX Warning: There were multiply-defined labels.
 
+Underfull \hbox (badness 2990) in paragraph at lines 105--116
+\OT1/cmr/m/n/10.95 Cur-ran As-so-ciates, Inc., 2019.  URL [][]$\OT1/cmtt/m/n/10.95 http : / / papers . neurips . cc / paper /
+ []
+
+
+Overfull \hbox (22.66016pt too wide) in paragraph at lines 105--116
+\OT1/cmtt/m/n/10.95 9015-[]pytorch-[]an-[]imperative-[]style-[]high-[]performance-[]deep-[]learning-[]library .
+ []
+
+) [26]
+<inferences/sins/app_1layer_s29.png, id=392, 1204.5pt x 602.25pt>
+File: inferences/sins/app_1layer_s29.png Graphic file (type png)
+<use inferences/sins/app_1layer_s29.png>
+Package pdftex.def Info: inferences/sins/app_1layer_s29.png  used on input line 1079.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+<inferences/sins/app_2layer_s30.png, id=393, 1204.5pt x 602.25pt>
+File: inferences/sins/app_2layer_s30.png Graphic file (type png)
+<use inferences/sins/app_2layer_s30.png>
+Package pdftex.def Info: inferences/sins/app_2layer_s30.png  used on input line 1079.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+<inferences/sins/app_3layer_s33.png, id=394, 1204.5pt x 602.25pt>
+File: inferences/sins/app_3layer_s33.png Graphic file (type png)
+<use inferences/sins/app_3layer_s33.png>
+Package pdftex.def Info: inferences/sins/app_3layer_s33.png  used on input line 1079.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+ [27 <./inferences/sins/app_1layer_s29.png> <./inferences/sins/app_2layer_s30.png>]
+<inferences/noise/app_1layer_s29.png, id=404, 1204.5pt x 602.25pt>
+File: inferences/noise/app_1layer_s29.png Graphic file (type png)
+<use inferences/noise/app_1layer_s29.png>
+Package pdftex.def Info: inferences/noise/app_1layer_s29.png  used on input line 1090.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+<inferences/noise/app_2layer_s30.png, id=405, 1204.5pt x 602.25pt>
+File: inferences/noise/app_2layer_s30.png Graphic file (type png)
+<use inferences/noise/app_2layer_s30.png>
+Package pdftex.def Info: inferences/noise/app_2layer_s30.png  used on input line 1090.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+<inferences/noise/app_3layer_s32.png, id=406, 1204.5pt x 602.25pt>
+File: inferences/noise/app_3layer_s32.png Graphic file (type png)
+<use inferences/noise/app_3layer_s32.png>
+Package pdftex.def Info: inferences/noise/app_3layer_s32.png  used on input line 1090.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+ [28 <./inferences/sins/app_3layer_s33.png> <./inferences/noise/app_1layer_s29.png>]
+<inferences/stocks/app_1layer_s29.png, id=415, 1204.5pt x 602.25pt>
+File: inferences/stocks/app_1layer_s29.png Graphic file (type png)
+<use inferences/stocks/app_1layer_s29.png>
+Package pdftex.def Info: inferences/stocks/app_1layer_s29.png  used on input line 1101.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+<inferences/stocks/app_2layer_s30.png, id=416, 1204.5pt x 602.25pt>
+File: inferences/stocks/app_2layer_s30.png Graphic file (type png)
+<use inferences/stocks/app_2layer_s30.png>
+Package pdftex.def Info: inferences/stocks/app_2layer_s30.png  used on input line 1101.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+ [29 <./inferences/noise/app_2layer_s30.png> <./inferences/noise/app_3layer_s32.png>]
+<inferences/stocks/app_3layer_s31.png, id=425, 1204.5pt x 602.25pt>
+File: inferences/stocks/app_3layer_s31.png Graphic file (type png)
+<use inferences/stocks/app_3layer_s31.png>
+Package pdftex.def Info: inferences/stocks/app_3layer_s31.png  used on input line 1101.
+(pdftex.def)             Requested size: 418.25372pt x 209.12733pt.
+ [30 <./inferences/stocks/app_1layer_s29.png> <./inferences/stocks/app_2layer_s30.png>] [31 <./inferences/stocks/app_3layer_s31.png>]
+<inferences/mmnist/app_1layer_s1.png, id=441, 1326.9575pt x 200.75pt>
+File: inferences/mmnist/app_1layer_s1.png Graphic file (type png)
+<use inferences/mmnist/app_1layer_s1.png>
+Package pdftex.def Info: inferences/mmnist/app_1layer_s1.png  used on input line 1116.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/mmnist/app_2layer_s2.png, id=442, 1326.9575pt x 200.75pt>
+File: inferences/mmnist/app_2layer_s2.png Graphic file (type png)
+<use inferences/mmnist/app_2layer_s2.png>
+Package pdftex.def Info: inferences/mmnist/app_2layer_s2.png  used on input line 1116.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/mmnist/app_3layer_s8.png, id=443, 1326.9575pt x 200.75pt>
+File: inferences/mmnist/app_3layer_s8.png Graphic file (type png)
+<use inferences/mmnist/app_3layer_s8.png>
+Package pdftex.def Info: inferences/mmnist/app_3layer_s8.png  used on input line 1116.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/kth/app_1layer_s7.png, id=444, 1326.9575pt x 200.75pt>
+File: inferences/kth/app_1layer_s7.png Graphic file (type png)
+<use inferences/kth/app_1layer_s7.png>
+Package pdftex.def Info: inferences/kth/app_1layer_s7.png  used on input line 1127.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/kth/app_2layer_s12.png, id=445, 1326.9575pt x 200.75pt>
+File: inferences/kth/app_2layer_s12.png Graphic file (type png)
+<use inferences/kth/app_2layer_s12.png>
+Package pdftex.def Info: inferences/kth/app_2layer_s12.png  used on input line 1127.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/kth/app_3layer_s14.png, id=446, 1326.9575pt x 200.75pt>
+File: inferences/kth/app_3layer_s14.png Graphic file (type png)
+<use inferences/kth/app_3layer_s14.png>
+Package pdftex.def Info: inferences/kth/app_3layer_s14.png  used on input line 1127.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+ [32 <./inferences/mmnist/app_1layer_s1.png (PNG copy)> <./inferences/mmnist/app_2layer_s2.png (PNG copy)> <./inferences/mmnist/app_3layer_s8.png (PNG copy)> <./inferences/kth/app_1layer_s7.png (PNG copy)> <./inferences/kth/app_2layer_s12.png (PNG copy)>]
+<inferences/bair/app_1layer_s22.png, id=456, 1326.9575pt x 200.75pt>
+File: inferences/bair/app_1layer_s22.png Graphic file (type png)
+<use inferences/bair/app_1layer_s22.png>
+Package pdftex.def Info: inferences/bair/app_1layer_s22.png  used on input line 1138.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/bair/app_2layer_s32.png, id=457, 1326.9575pt x 200.75pt>
+File: inferences/bair/app_2layer_s32.png Graphic file (type png)
+<use inferences/bair/app_2layer_s32.png>
+Package pdftex.def Info: inferences/bair/app_2layer_s32.png  used on input line 1138.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+<inferences/bair/app_3layer_s36.png, id=458, 1326.9575pt x 200.75pt>
+File: inferences/bair/app_3layer_s36.png Graphic file (type png)
+<use inferences/bair/app_3layer_s36.png>
+Package pdftex.def Info: inferences/bair/app_3layer_s36.png  used on input line 1138.
+(pdftex.def)             Requested size: 418.25372pt x 63.2764pt.
+ [33 <./inferences/kth/app_3layer_s14.png (PNG copy)> <./inferences/bair/app_1layer_s22.png (PNG copy)> <./inferences/bair/app_2layer_s32.png (PNG copy)> <./inferences/bair/app_3layer_s36.png (PNG copy)>] (build/main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 33510 strings out of 478276
- 674219 string characters out of 5853014
- 1206787 words of memory out of 5000000
- 51093 multiletter control sequences out of 15000+600000
- 479615 words of font info for 65 fonts, out of 8000000 for 9000
+ 33919 strings out of 478276
+ 683912 string characters out of 5853013
+ 1211084 words of memory out of 5000000
+ 51431 multiletter control sequences out of 15000+600000
+ 479956 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,17n,106p,10599b,811s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on build/main.pdf (24 pages, 1994103 bytes).
+ 108i,17n,106p,10599b,928s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on build/main.pdf (33 pages, 5203530 bytes).
 PDF statistics:
- 446 PDF objects out of 1000 (max. 8388607)
- 356 compressed objects within 4 object streams
- 82 named destinations out of 1000 (max. 500000)
- 264 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 676 PDF objects out of 1000 (max. 8388607)
+ 538 compressed objects within 6 object streams
+ 132 named destinations out of 1000 (max. 500000)
+ 460 words of extra memory for PDF output out of 10000 (max. 10000000)
 
