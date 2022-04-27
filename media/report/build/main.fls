@@ -1,4 +1,4 @@
-PWD /home/msc5/code/junior-iw/media/report
+PWD /home/msc5/Code/junior-iw/media/report
 INPUT /usr/share/texmf-dist/web2c/texmf.cnf
 INPUT /var/lib/texmf/web2c/pdftex/pdflatex.fmt
 INPUT main.tex
@@ -1406,6 +1406,11 @@ INPUT ./figures/gan_arch.png
 INPUT figures/gan_arch.png
 INPUT ./figures/gan_arch.png
 INPUT ./figures/gan_arch.png
+INPUT ./figures/futuregan_arch.png
+INPUT ./figures/futuregan_arch.png
+INPUT figures/futuregan_arch.png
+INPUT ./figures/futuregan_arch.png
+INPUT ./figures/futuregan_arch.png
 INPUT build/main.bbl
 INPUT build/main.bbl
 INPUT build/main.bbl
@@ -1514,7 +1519,6 @@ INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
-INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb

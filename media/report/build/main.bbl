@@ -1,4 +1,4 @@
-\begin{thebibliography}{21}
+\begin{thebibliography}{23}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -65,10 +65,25 @@ I.~J. Goodfellow, J.~Pouget-Abadie, M.~Mirza, B.~Xu, D.~Warde-Farley, S.~Ozair,
 \newblock Generative adversarial networks, 2014.
 \newblock URL \url{https://arxiv.org/abs/1406.2661}.
 
+\bibitem[Hochreiter and Schmidhuber(1997)]{lstm_original}
+S.~Hochreiter and J.~Schmidhuber.
+\newblock Long short-term memory.
+\newblock \emph{Neural Comput.}, 9\penalty0 (8):\penalty0 1735–1780, nov
+  1997.
+\newblock ISSN 0899-7667.
+\newblock \doi{10.1162/neco.1997.9.8.1735}.
+\newblock URL \url{https://doi.org/10.1162/neco.1997.9.8.1735}.
+
 \bibitem[Hu et~al.(2020)Hu, Cotter, Mohan, Gurau, and Kendall]{eg_self_driving}
 A.~Hu, F.~Cotter, N.~Mohan, C.~Gurau, and A.~Kendall.
 \newblock Probabilistic future prediction for video scene understanding, 2020.
 \newblock URL \url{https://arxiv.org/abs/2003.06409}.
+
+\bibitem[Ioffe and Szegedy(2015)]{batchnorm}
+S.~Ioffe and C.~Szegedy.
+\newblock Batch normalization: Accelerating deep network training by reducing
+  internal covariate shift, 2015.
+\newblock URL \url{https://arxiv.org/abs/1502.03167}.
 
 \bibitem[Lee et~al.(2018)Lee, Zhang, Ebert, Abbeel, Finn, and Levine]{savp}
 A.~X. Lee, R.~Zhang, F.~Ebert, P.~Abbeel, C.~Finn, and S.~Levine.

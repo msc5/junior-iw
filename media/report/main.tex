@@ -409,6 +409,7 @@ sequence datasets. The input sequence length and predicted sequence lengths for
 the video and sequence datasets were 10 and 10 frames, and 25 and 25 points,
 respectively.
 
+\newpage
 \section{Datasets}
 \label{sec:datasets}
 
@@ -988,26 +989,27 @@ look at many Van Gogh paintings and fakes in order to learn to differentiate
 between them, and generative models would look at many Van Gogh paintings in
 order to learn how to paint like Van Gogh. 
 
-In practice, GANs train a generator $G (\boldsymbol{z}, \theta_g)$ which learns
-a mapping from an input noise distribution $\boldsymbol{z}$ to the targeted
-data distribution $\boldsymbol{x}$, and a discriminator $D (\boldsymbol{x},
-\theta_d)$, which learns to discriminate between real training samples and
-generated samples from $G$. The value function $V(G, D)$, describes the minimax
-game played between $G$ and $D$: 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
+	\end{center}
+	\caption{FutureGAN Architecture}
+	\label{fig:gan_arch}
+\end{figure}
+
+In practice, GANs train a generator $G (\boldsymbol{z}, \theta_g)$ which seeks
+to learn a mapping from an input noise distribution $p_{\boldsymbol{z}}
+(\boldsymbol{z})$ to the targeted data distribution $p_g$ over data
+$\boldsymbol{x}$, and a discriminator $D (\boldsymbol{x}, \theta_d)$, which
+learns to discriminate between real training samples and generated samples from
+$G$. The value function $V(G, D)$, describes the minimax game played between
+$G$ and $D$: 
 
 \begin{equation}
 	\min_G \max_D V(G, D) = E_{\boldsymbol{x} \sim p_{data} (x)} [ \log (D(x)) ] 
 	+ E_{\boldsymbol{z} \sim p_z (\boldsymbol{z})} [ log(1 - D(G(x))) ] 
 	\label{eq:gan_value_function}
 \end{equation}
-
-\begin{figure}[H]
-	\begin{center}
-		\includegraphics[width=1\textwidth]{figures/gan_arch.png}
-	\end{center}
-	\caption{General GAN Architecture}
-	\label{fig:gan_arch}
-\end{figure}
 
 The result is a model which is capable of not only generating very good
 predictions to minimize pixel-wise loss functions, but also of generating more
@@ -1017,6 +1019,26 @@ models which are much more successful than the ConvLSTM model used in this
 project use GANs, and so the most clear path for future work in this field is
 to implement and test a GAN model and compare its results with the ConvLSTM.
 
+For additional enrichment on the exciting topic of GANs, and as a window into
+how the previously described architecture is implemented in practice, a figure
+taken from the FutureGAN implementation is shown in Figure
+\ref{fig:futuregan_arch}.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=1\textwidth]{figures/futuregan_arch.png}
+	\end{center}
+	\caption{General GAN Architecture}
+	\label{fig:futuregan_arch}
+\end{figure}
+
+Note the $G$ and $D$ symbols denoting the model generator and discriminator,
+and interestingly, how this model grows in prediction resolution and model
+parameters as it trains. FutureGAN was originally singled out as a potential
+avenue for future work in this project, but it was discontinued due to time
+constraints.
+
+\newpage
 \section{Conclusion}
 \label{sec:conclusion}
 

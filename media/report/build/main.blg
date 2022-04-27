@@ -4,45 +4,45 @@ The top-level auxiliary file: main.aux
 The style file: abbrvnat.bst
 Database file #1: main.bib
 Warning--to sort, need author or key in alpha_vantage
-You've used 21 entries,
+You've used 23 entries,
             2773 wiz_defined-function locations,
-            726 strings with 9389 characters,
-and the built_in function-call counts, 11237 in all, are:
-= -- 943
-> -- 902
-< -- 11
-+ -- 303
-- -- 282
-* -- 969
-:= -- 1759
-add.period$ -- 75
-call.type$ -- 21
-change.case$ -- 155
-chr.to.int$ -- 21
-cite$ -- 44
-duplicate$ -- 410
-empty$ -- 760
-format.name$ -- 310
-if$ -- 2328
+            743 strings with 9788 characters,
+and the built_in function-call counts, 12121 in all, are:
+= -- 1028
+> -- 944
+< -- 13
++ -- 317
+- -- 294
+* -- 1039
+:= -- 1893
+add.period$ -- 84
+call.type$ -- 23
+change.case$ -- 165
+chr.to.int$ -- 23
+cite$ -- 48
+duplicate$ -- 445
+empty$ -- 836
+format.name$ -- 328
+if$ -- 2517
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 10
-newline$ -- 124
-num.names$ -- 82
-pop$ -- 330
+missing$ -- 11
+newline$ -- 137
+num.names$ -- 90
+pop$ -- 348
 preamble$ -- 1
-purify$ -- 134
+purify$ -- 142
 quote$ -- 0
-skip$ -- 405
+skip$ -- 437
 stack$ -- 0
-substring$ -- 201
-swap$ -- 55
+substring$ -- 238
+swap$ -- 58
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 231
+type$ -- 253
 warning$ -- 1
-while$ -- 71
+while$ -- 78
 width$ -- 0
-write$ -- 293
+write$ -- 324
 (There was 1 warning)
