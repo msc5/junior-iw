@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 
 from torchvision.utils import make_grid
 from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint, RichProgressBar
+from pytorch_lightning.callbacks.progress.rich_progress import RichProgressBarTheme
 from torch.utils.tensorboard import SummaryWriter
 
 from ..analysis.plots import plot_seqs, plot_to_tensor, plot_loss_over_seq
@@ -87,12 +88,23 @@ class Lightning (pl.LightningModule):
         logger.experiment.add_custom_scalars(GLOBAL_METRICS)
         checkpoint = ModelCheckpoint(
             every_n_train_steps=(self.total_steps['train'] // 2))
+        progress_theme = RichProgressBarTheme(
+            description="green_yellow",
+            progress_bar="green1",
+            progress_bar_finished="green1",
+            progress_bar_pulse="#6206E0",
+            batch_progress="green_yellow",
+            time="grey82",
+            processing_speed="grey82",
+            metrics="grey82",
+        )
+        progress_bar = RichProgressBar(leave=True, theme=progress_theme)
         trainer = pl.Trainer(
             logger=logger,
             accelerator=self.opts['device'],
             devices=1,
             max_epochs=self.opts['max_epochs'],
-            callbacks=[checkpoint],
+            callbacks=[checkpoint, progress_bar],
             limit_val_batches=self.opts['n_val_batches'],
             val_check_interval=self.opts['val_interval'])
         trainer.fit(self, ckpt_path=self.opts['checkpoint_path'])
