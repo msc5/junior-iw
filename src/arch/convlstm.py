@@ -34,6 +34,7 @@ class ConvLSTMGate (nn.Module):
         h, c = hidden
         combined = self.layer(torch.cat([x, h], dim=1))
         gates = torch.split(combined, self.out_chan, dim=1)
+        gates = self.norm(gates)
         i, f, g, o = [self.acts[j](G) for j, G in enumerate(gates)]
         return i, f, g, o
 
